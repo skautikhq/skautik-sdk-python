@@ -16,6 +16,9 @@
 
 __version__ = "1.0.0"
 
+# The hand-designed client. See skautikhq/skautik-sdk.
+from skautik.client import Skautik
+
 # Define package exports
 __all__ = [
     "AccountAndStatusApi",
