@@ -19,11 +19,10 @@ from pydantic import Field, StrictInt, StrictStr, field_validator
 from typing import Optional
 from typing_extensions import Annotated
 from skautik.models.create_webhook_request import CreateWebhookRequest
-from skautik.models.delivery_page import DeliveryPage
+from skautik.models.delivery_list import DeliveryList
 from skautik.models.envelope import Envelope
-from skautik.models.problem import Problem
 from skautik.models.update_webhook_request import UpdateWebhookRequest
-from skautik.models.webhook_page import WebhookPage
+from skautik.models.webhook_list import WebhookList
 from skautik.models.webhook_response import WebhookResponse
 
 from skautik.api_client import ApiClient, RequestSerialized
@@ -60,7 +59,7 @@ class WebhooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Problem:
+    ) -> Envelope:
         """Create a webhook
 
         Register an HTTPS endpoint for a set of events.  The response includes a signing secret, shown once. Store it immediately: every delivery is signed with it, and a handler that does not verify the signature will accept forged calls from anyone who learns the URL.  Requires the `webhooks:manage` scope.
@@ -98,7 +97,7 @@ class WebhooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Problem",
+            '201': "Envelope",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -132,7 +131,7 @@ class WebhooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Problem]:
+    ) -> ApiResponse[Envelope]:
         """Create a webhook
 
         Register an HTTPS endpoint for a set of events.  The response includes a signing secret, shown once. Store it immediately: every delivery is signed with it, and a handler that does not verify the signature will accept forged calls from anyone who learns the URL.  Requires the `webhooks:manage` scope.
@@ -170,7 +169,7 @@ class WebhooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Problem",
+            '201': "Envelope",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -242,7 +241,7 @@ class WebhooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Problem",
+            '201': "Envelope",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -292,6 +291,7 @@ class WebhooksApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
+                    'application/json', 
                     'application/problem+json'
                 ]
             )
@@ -904,7 +904,7 @@ class WebhooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DeliveryPage:
+    ) -> DeliveryList:
         """List deliveries
 
         Recent attempts, their response codes, and retry state.  Retained for 30 days. The place to look when a handler silently stopped working.  Requires the `webhooks:manage` scope.
@@ -948,7 +948,7 @@ class WebhooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeliveryPage",
+            '200': "DeliveryList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -984,7 +984,7 @@ class WebhooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DeliveryPage]:
+    ) -> ApiResponse[DeliveryList]:
         """List deliveries
 
         Recent attempts, their response codes, and retry state.  Retained for 30 days. The place to look when a handler silently stopped working.  Requires the `webhooks:manage` scope.
@@ -1028,7 +1028,7 @@ class WebhooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeliveryPage",
+            '200': "DeliveryList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1108,7 +1108,7 @@ class WebhooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeliveryPage",
+            '200': "DeliveryList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1474,7 +1474,7 @@ class WebhooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> WebhookPage:
+    ) -> WebhookList:
         """List webhooks
 
         Every endpoint your organisation has registered.  The signing secret is never included. It is shown once when the endpoint is created, and an endpoint list that returned it would hand it to everyone who can read this call.  Requires the `webhooks:manage` scope.
@@ -1509,7 +1509,7 @@ class WebhooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WebhookPage",
+            '200': "WebhookList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1542,7 +1542,7 @@ class WebhooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[WebhookPage]:
+    ) -> ApiResponse[WebhookList]:
         """List webhooks
 
         Every endpoint your organisation has registered.  The signing secret is never included. It is shown once when the endpoint is created, and an endpoint list that returned it would hand it to everyone who can read this call.  Requires the `webhooks:manage` scope.
@@ -1577,7 +1577,7 @@ class WebhooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WebhookPage",
+            '200': "WebhookList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1645,7 +1645,7 @@ class WebhooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WebhookPage",
+            '200': "WebhookList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",

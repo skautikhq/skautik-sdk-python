@@ -20,10 +20,10 @@ from typing import List, Optional, Tuple, Union
 from typing_extensions import Annotated
 from skautik.models.create_property_request import CreatePropertyRequest
 from skautik.models.envelope import Envelope
-from skautik.models.image_page import ImagePage
+from skautik.models.image_list import ImageList
 from skautik.models.image_response import ImageResponse
-from skautik.models.price_observation_page import PriceObservationPage
-from skautik.models.problem import Problem
+from skautik.models.price_observation_list import PriceObservationList
+from skautik.models.property_list import PropertyList
 from skautik.models.property_page import PropertyPage
 from skautik.models.property_response import PropertyResponse
 from skautik.models.search_properties_request import SearchPropertiesRequest
@@ -63,7 +63,7 @@ class PropertiesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Problem:
+    ) -> PropertyResponse:
         """Create a property
 
         Publish a record from your own inventory.  Send an Idempotency-Key so a retried request cannot create a duplicate listing. Records created this way belong to your organisation and are the only ones your key may modify.  Requires the `properties:write` scope.
@@ -104,7 +104,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Problem",
+            '201': "PropertyResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -140,7 +140,7 @@ class PropertiesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Problem]:
+    ) -> ApiResponse[PropertyResponse]:
         """Create a property
 
         Publish a record from your own inventory.  Send an Idempotency-Key so a retried request cannot create a duplicate listing. Records created this way belong to your organisation and are the only ones your key may modify.  Requires the `properties:write` scope.
@@ -181,7 +181,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Problem",
+            '201': "PropertyResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -258,7 +258,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Problem",
+            '201': "PropertyResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -312,6 +312,7 @@ class PropertiesApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
+                    'application/json', 
                     'application/problem+json'
                 ]
             )
@@ -369,7 +370,7 @@ class PropertiesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Problem:
+    ) -> None:
         """Withdraw a property
 
         Take one of your records off the market.  Withdrawal is not deletion. The record moves to withdrawn, disappears from search, and keeps its price history so past analysis stays intelligible. A record owned by an import source is refused, because the next run would bring it straight back: withdraw it at the source instead.  Requires the `properties:write` scope.
@@ -407,7 +408,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '204': "Problem",
+            '204': None,
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -442,7 +443,7 @@ class PropertiesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Problem]:
+    ) -> ApiResponse[None]:
         """Withdraw a property
 
         Take one of your records off the market.  Withdrawal is not deletion. The record moves to withdrawn, disappears from search, and keeps its price history so past analysis stays intelligible. A record owned by an import source is refused, because the next run would bring it straight back: withdraw it at the source instead.  Requires the `properties:write` scope.
@@ -480,7 +481,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '204': "Problem",
+            '204': None,
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -553,7 +554,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '204': "Problem",
+            '204': None,
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1755,7 +1756,7 @@ class PropertiesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ImagePage:
+    ) -> ImageList:
         """List images
 
         Image records for a property, in display order.  Requires the `properties:read` scope.
@@ -1793,7 +1794,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ImagePage",
+            '200': "ImageList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1827,7 +1828,7 @@ class PropertiesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ImagePage]:
+    ) -> ApiResponse[ImageList]:
         """List images
 
         Image records for a property, in display order.  Requires the `properties:read` scope.
@@ -1865,7 +1866,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ImagePage",
+            '200': "ImageList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1937,7 +1938,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ImagePage",
+            '200': "ImageList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -2032,7 +2033,7 @@ class PropertiesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PriceObservationPage:
+    ) -> PriceObservationList:
         """Price history
 
         Every asking price we observed while tracking the listing.  These are advertised prices, not transacted ones. A property may well have sold for something quite different from its final asking price.  Requires the `properties:read` scope.
@@ -2070,7 +2071,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PriceObservationPage",
+            '200': "PriceObservationList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -2104,7 +2105,7 @@ class PropertiesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PriceObservationPage]:
+    ) -> ApiResponse[PriceObservationList]:
         """Price history
 
         Every asking price we observed while tracking the listing.  These are advertised prices, not transacted ones. A property may well have sold for something quite different from its final asking price.  Requires the `properties:read` scope.
@@ -2142,7 +2143,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PriceObservationPage",
+            '200': "PriceObservationList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -2214,7 +2215,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PriceObservationPage",
+            '200': "PriceObservationList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -2600,7 +2601,7 @@ class PropertiesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PropertyPage:
+    ) -> PropertyList:
         """Similar properties
 
         Comparable records, for context or valuation support.  Similarity blends location, size, type, and condition. It is a convenience, not an appraisal, and comparables thin out quickly in low-supply areas.  Requires the `properties:read` scope.  Availability: Growth and above.
@@ -2641,7 +2642,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PropertyPage",
+            '200': "PropertyList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -2676,7 +2677,7 @@ class PropertiesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PropertyPage]:
+    ) -> ApiResponse[PropertyList]:
         """Similar properties
 
         Comparable records, for context or valuation support.  Similarity blends location, size, type, and condition. It is a convenience, not an appraisal, and comparables thin out quickly in low-supply areas.  Requires the `properties:read` scope.  Availability: Growth and above.
@@ -2717,7 +2718,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PropertyPage",
+            '200': "PropertyList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -2793,7 +2794,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PropertyPage",
+            '200': "PropertyList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",

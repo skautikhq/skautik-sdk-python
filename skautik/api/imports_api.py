@@ -20,10 +20,10 @@ from typing import Optional, Tuple, Union
 from typing_extensions import Annotated
 from skautik.models.create_import_source_request import CreateImportSourceRequest
 from skautik.models.envelope import Envelope
-from skautik.models.import_page import ImportPage
-from skautik.models.import_record_page import ImportRecordPage
+from skautik.models.import_list import ImportList
+from skautik.models.import_record_list import ImportRecordList
 from skautik.models.import_response import ImportResponse
-from skautik.models.import_source_page import ImportSourcePage
+from skautik.models.import_source_list import ImportSourceList
 from skautik.models.import_source_response import ImportSourceResponse
 
 from skautik.api_client import ApiClient, RequestSerialized
@@ -123,7 +123,7 @@ class ImportsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "ImportResponse",
-            '202': "Problem",
+            '202': None,
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -221,7 +221,7 @@ class ImportsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "ImportResponse",
-            '202': "Problem",
+            '202': None,
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -319,7 +319,7 @@ class ImportsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "ImportResponse",
-            '202': "Problem",
+            '202': None,
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1829,7 +1829,7 @@ class ImportsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ImportRecordPage:
+    ) -> ImportRecordList:
         """List import records
 
         Per-record outcome, including why any failed.  Filter to failed to get the working list for a fix. Each entry names the source identifier and the line or element it came from, so a problem can be found in your export rather than guessed at.  Requires the `imports:write` scope.
@@ -1870,7 +1870,7 @@ class ImportsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ImportRecordPage",
+            '200': "ImportRecordList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1905,7 +1905,7 @@ class ImportsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ImportRecordPage]:
+    ) -> ApiResponse[ImportRecordList]:
         """List import records
 
         Per-record outcome, including why any failed.  Filter to failed to get the working list for a fix. Each entry names the source identifier and the line or element it came from, so a problem can be found in your export rather than guessed at.  Requires the `imports:write` scope.
@@ -1946,7 +1946,7 @@ class ImportsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ImportRecordPage",
+            '200': "ImportRecordList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -2022,7 +2022,7 @@ class ImportsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ImportRecordPage",
+            '200': "ImportRecordList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -2121,7 +2121,7 @@ class ImportsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ImportSourcePage:
+    ) -> ImportSourceList:
         """List import sources
 
         Every standing connector your organisation has configured.  Credentials are never returned. A fetched source often holds the login for your own server in its URL, so the URL comes back with the password removed.  Requires the `imports:write` scope.
@@ -2156,7 +2156,7 @@ class ImportsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ImportSourcePage",
+            '200': "ImportSourceList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -2189,7 +2189,7 @@ class ImportsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ImportSourcePage]:
+    ) -> ApiResponse[ImportSourceList]:
         """List import sources
 
         Every standing connector your organisation has configured.  Credentials are never returned. A fetched source often holds the login for your own server in its URL, so the URL comes back with the password removed.  Requires the `imports:write` scope.
@@ -2224,7 +2224,7 @@ class ImportsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ImportSourcePage",
+            '200': "ImportSourceList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -2292,7 +2292,7 @@ class ImportsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ImportSourcePage",
+            '200': "ImportSourceList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -2385,7 +2385,7 @@ class ImportsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ImportPage:
+    ) -> ImportList:
         """List imports
 
         Import history for your organisation.  Requires the `imports:write` scope.
@@ -2426,7 +2426,7 @@ class ImportsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ImportPage",
+            '200': "ImportList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -2461,7 +2461,7 @@ class ImportsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ImportPage]:
+    ) -> ApiResponse[ImportList]:
         """List imports
 
         Import history for your organisation.  Requires the `imports:write` scope.
@@ -2502,7 +2502,7 @@ class ImportsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ImportPage",
+            '200': "ImportList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -2578,7 +2578,7 @@ class ImportsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ImportPage",
+            '200': "ImportList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",

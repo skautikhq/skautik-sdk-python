@@ -16,7 +16,6 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 from skautik.models.envelope import Envelope
-from skautik.models.problem import Problem
 
 from skautik.api_client import ApiClient, RequestSerialized
 from skautik.api_response import ApiResponse
@@ -299,7 +298,7 @@ class AccountAndStatusApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Problem:
+    ) -> Envelope:
         """Key introspection
 
         Which organisation a key belongs to, its plan, and its remaining quota.  Useful in a health check: it proves a key is valid without spending a meaningful request, and it reports both limits without waiting to be refused by either. Read burst_per_second and pace yourself, rather than discovering the burst limit through a 429.  Requires the `properties:read` scope.
@@ -334,7 +333,7 @@ class AccountAndStatusApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Problem",
+            '200': "Envelope",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -367,7 +366,7 @@ class AccountAndStatusApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Problem]:
+    ) -> ApiResponse[Envelope]:
         """Key introspection
 
         Which organisation a key belongs to, its plan, and its remaining quota.  Useful in a health check: it proves a key is valid without spending a meaningful request, and it reports both limits without waiting to be refused by either. Read burst_per_second and pace yourself, rather than discovering the burst limit through a 429.  Requires the `properties:read` scope.
@@ -402,7 +401,7 @@ class AccountAndStatusApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Problem",
+            '200': "Envelope",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -470,7 +469,7 @@ class AccountAndStatusApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Problem",
+            '200': "Envelope",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -517,6 +516,7 @@ class AccountAndStatusApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
+                    'application/json', 
                     'application/problem+json'
                 ]
             )

@@ -19,7 +19,7 @@ from pydantic import Field, StrictStr
 from typing_extensions import Annotated
 from skautik.models.create_generation_request import CreateGenerationRequest
 from skautik.models.envelope import Envelope
-from skautik.models.generation_page import GenerationPage
+from skautik.models.generation_list import GenerationList
 from skautik.models.generation_response import GenerationResponse
 
 from skautik.api_client import ApiClient, RequestSerialized
@@ -884,7 +884,7 @@ class ImageGenerationsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GenerationPage:
+    ) -> GenerationList:
         """List generations
 
         Recent requests for your organisation, newest first.  Requires the `images:write` scope.
@@ -919,7 +919,7 @@ class ImageGenerationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GenerationPage",
+            '200': "GenerationList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -952,7 +952,7 @@ class ImageGenerationsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GenerationPage]:
+    ) -> ApiResponse[GenerationList]:
         """List generations
 
         Recent requests for your organisation, newest first.  Requires the `images:write` scope.
@@ -987,7 +987,7 @@ class ImageGenerationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GenerationPage",
+            '200': "GenerationList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1055,7 +1055,7 @@ class ImageGenerationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GenerationPage",
+            '200': "GenerationList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",

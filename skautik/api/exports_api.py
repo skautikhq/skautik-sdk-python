@@ -18,7 +18,7 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing_extensions import Annotated
 from skautik.models.create_export_request import CreateExportRequest
-from skautik.models.export_page import ExportPage
+from skautik.models.export_list import ExportList
 from skautik.models.export_response import ExportResponse
 
 from skautik.api_client import ApiClient, RequestSerialized
@@ -621,7 +621,7 @@ class ExportsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ExportPage:
+    ) -> ExportList:
         """List exports
 
         Recent exports for your organisation, newest first.  Statuses only. Download links are not included here: minting one per row would sign a URL for every export you have ever made on a call you probably wanted statuses from. Fetch the export itself for a link.  Requires the `exports:create` scope.
@@ -656,7 +656,7 @@ class ExportsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ExportPage",
+            '200': "ExportList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -689,7 +689,7 @@ class ExportsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ExportPage]:
+    ) -> ApiResponse[ExportList]:
         """List exports
 
         Recent exports for your organisation, newest first.  Statuses only. Download links are not included here: minting one per row would sign a URL for every export you have ever made on a call you probably wanted statuses from. Fetch the export itself for a link.  Requires the `exports:create` scope.
@@ -724,7 +724,7 @@ class ExportsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ExportPage",
+            '200': "ExportList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -792,7 +792,7 @@ class ExportsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ExportPage",
+            '200': "ExportList",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",

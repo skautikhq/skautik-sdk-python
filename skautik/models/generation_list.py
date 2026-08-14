@@ -18,20 +18,18 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict, List, Optional
-from skautik.models.city import City
-from skautik.models.page_meta import PageMeta
+from typing import Any, ClassVar, Dict, List
+from skautik.models.generation import Generation
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class CityPage(BaseModel):
+class GenerationList(BaseModel):
     """
-    A page of City records, with the cursor for the next one.
+    Every Generation record.
     """ # noqa: E501
-    data: List[City]
-    meta: Optional[PageMeta] = None
-    __properties: ClassVar[List[str]] = ["data", "meta"]
+    data: List[Generation]
+    __properties: ClassVar[List[str]] = ["data"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -51,7 +49,7 @@ class CityPage(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of CityPage from a JSON string"""
+        """Create an instance of GenerationList from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -79,14 +77,11 @@ class CityPage(BaseModel):
                 if _item_data:
                     _items.append(_item_data.to_dict())
             _dict['data'] = _items
-        # override the default output from pydantic by calling `to_dict()` of meta
-        if self.meta:
-            _dict['meta'] = self.meta.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of CityPage from a dict"""
+        """Create an instance of GenerationList from a dict"""
         if obj is None:
             return None
 
@@ -94,8 +89,7 @@ class CityPage(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "data": [City.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None,
-            "meta": PageMeta.from_dict(obj["meta"]) if obj.get("meta") is not None else None
+            "data": [Generation.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None
         })
         return _obj
 
