@@ -20,7 +20,12 @@ from typing import List, Optional, Tuple, Union
 from typing_extensions import Annotated
 from skautik.models.create_property_request import CreatePropertyRequest
 from skautik.models.envelope import Envelope
+from skautik.models.image_page import ImagePage
+from skautik.models.image_response import ImageResponse
+from skautik.models.price_observation_page import PriceObservationPage
 from skautik.models.problem import Problem
+from skautik.models.property_page import PropertyPage
+from skautik.models.property_response import PropertyResponse
 from skautik.models.search_properties_request import SearchPropertiesRequest
 
 from skautik.api_client import ApiClient, RequestSerialized
@@ -935,7 +940,7 @@ class PropertiesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> PropertyResponse:
         """Retrieve a property
 
         One property with its full attribute set.  Requires the `properties:read` scope.
@@ -976,7 +981,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "PropertyResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1011,7 +1016,7 @@ class PropertiesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[PropertyResponse]:
         """Retrieve a property
 
         One property with its full attribute set.  Requires the `properties:read` scope.
@@ -1052,7 +1057,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "PropertyResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1128,7 +1133,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "PropertyResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1243,7 +1248,7 @@ class PropertiesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> PropertyPage:
         """List properties
 
         Page through the catalogue with filters.  The workhorse read endpoint. Filters combine with AND. Anything omitted is unconstrained, so an unfiltered call returns the whole catalogue in cursor order.  Requires the `properties:read` scope.
@@ -1323,7 +1328,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "PropertyPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1371,7 +1376,7 @@ class PropertiesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[PropertyPage]:
         """List properties
 
         Page through the catalogue with filters.  The workhorse read endpoint. Filters combine with AND. Anything omitted is unconstrained, so an unfiltered call returns the whole catalogue in cursor order.  Requires the `properties:read` scope.
@@ -1451,7 +1456,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "PropertyPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1579,7 +1584,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "PropertyPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1750,7 +1755,7 @@ class PropertiesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> ImagePage:
         """List images
 
         Image records for a property, in display order.  Requires the `properties:read` scope.
@@ -1788,7 +1793,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "ImagePage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1822,7 +1827,7 @@ class PropertiesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[ImagePage]:
         """List images
 
         Image records for a property, in display order.  Requires the `properties:read` scope.
@@ -1860,7 +1865,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "ImagePage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1932,7 +1937,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "ImagePage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1982,6 +1987,7 @@ class PropertiesApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
+                    'application/json', 
                     'application/problem+json'
                 ]
             )
@@ -2026,7 +2032,7 @@ class PropertiesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> PriceObservationPage:
         """Price history
 
         Every asking price we observed while tracking the listing.  These are advertised prices, not transacted ones. A property may well have sold for something quite different from its final asking price.  Requires the `properties:read` scope.
@@ -2064,7 +2070,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "PriceObservationPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -2098,7 +2104,7 @@ class PropertiesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[PriceObservationPage]:
         """Price history
 
         Every asking price we observed while tracking the listing.  These are advertised prices, not transacted ones. A property may well have sold for something quite different from its final asking price.  Requires the `properties:read` scope.
@@ -2136,7 +2142,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "PriceObservationPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -2208,7 +2214,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "PriceObservationPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -2594,7 +2600,7 @@ class PropertiesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PropertyPage:
         """Similar properties
 
         Comparable records, for context or valuation support.  Similarity blends location, size, type, and condition. It is a convenience, not an appraisal, and comparables thin out quickly in low-supply areas.  Requires the `properties:read` scope.  Availability: Growth and above.
@@ -2635,7 +2641,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "PropertyPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -2670,7 +2676,7 @@ class PropertiesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PropertyPage]:
         """Similar properties
 
         Comparable records, for context or valuation support.  Similarity blends location, size, type, and condition. It is a convenience, not an appraisal, and comparables thin out quickly in low-supply areas.  Requires the `properties:read` scope.  Availability: Growth and above.
@@ -2711,7 +2717,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "PropertyPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -2787,7 +2793,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "PropertyPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -2842,6 +2848,7 @@ class PropertiesApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
+                    'application/json', 
                     'application/problem+json'
                 ]
             )
@@ -2887,7 +2894,7 @@ class PropertiesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PropertyResponse:
         """Update a property
 
         Change fields on a record you published.  A partial update: send only what changes. Send If-Match with the ETag from your last read to avoid overwriting a concurrent edit. A record owned by an import source is refused here, because the next run would revert whatever you wrote: change it in the system that feeds the import instead.  Requires the `properties:write` scope.
@@ -2928,7 +2935,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "PropertyResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -2965,7 +2972,7 @@ class PropertiesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PropertyResponse]:
         """Update a property
 
         Change fields on a record you published.  A partial update: send only what changes. Send If-Match with the ETag from your last read to avoid overwriting a concurrent edit. A record owned by an import source is refused here, because the next run would revert whatever you wrote: change it in the system that feeds the import instead.  Requires the `properties:write` scope.
@@ -3006,7 +3013,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "PropertyResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -3084,7 +3091,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "PropertyResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -3139,6 +3146,7 @@ class PropertiesApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
+                    'application/json', 
                     'application/problem+json'
                 ]
             )
@@ -3185,7 +3193,7 @@ class PropertiesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> ImageResponse:
         """Upload an image
 
         Attach an image to a record you published.  Multipart upload. JPEG, PNG, or WebP up to 12 MB. Upload only images you hold the rights to: property photography is usually licensed to an agent rather than owned outright.  Requires the `images:write` scope.
@@ -3229,7 +3237,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': None,
+            '201': "ImageResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -3267,7 +3275,7 @@ class PropertiesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[ImageResponse]:
         """Upload an image
 
         Attach an image to a record you published.  Multipart upload. JPEG, PNG, or WebP up to 12 MB. Upload only images you hold the rights to: property photography is usually licensed to an agent rather than owned outright.  Requires the `images:write` scope.
@@ -3311,7 +3319,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': None,
+            '201': "ImageResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -3393,7 +3401,7 @@ class PropertiesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': None,
+            '201': "ImageResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -3451,6 +3459,7 @@ class PropertiesApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
+                    'application/json', 
                     'application/problem+json'
                 ]
             )

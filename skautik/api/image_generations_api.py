@@ -19,6 +19,8 @@ from pydantic import Field, StrictStr
 from typing_extensions import Annotated
 from skautik.models.create_generation_request import CreateGenerationRequest
 from skautik.models.envelope import Envelope
+from skautik.models.generation_page import GenerationPage
+from skautik.models.generation_response import GenerationResponse
 
 from skautik.api_client import ApiClient, RequestSerialized
 from skautik.api_response import ApiResponse
@@ -54,7 +56,7 @@ class ImageGenerationsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> GenerationResponse:
         """Request a generation
 
         Queue a transformation of one of your property images.  Returns immediately with a queued generation. Poll the retrieve endpoint, or subscribe to a webhook, rather than holding the request open. The source image must already belong to one of your properties: there is no way to submit an arbitrary URL, which is deliberate.  Requires the `images:write` scope.
@@ -92,7 +94,7 @@ class ImageGenerationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Envelope",
+            '201': "GenerationResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -126,7 +128,7 @@ class ImageGenerationsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[GenerationResponse]:
         """Request a generation
 
         Queue a transformation of one of your property images.  Returns immediately with a queued generation. Poll the retrieve endpoint, or subscribe to a webhook, rather than holding the request open. The source image must already belong to one of your properties: there is no way to submit an arbitrary URL, which is deliberate.  Requires the `images:write` scope.
@@ -164,7 +166,7 @@ class ImageGenerationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Envelope",
+            '201': "GenerationResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -236,7 +238,7 @@ class ImageGenerationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Envelope",
+            '201': "GenerationResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -344,7 +346,7 @@ class ImageGenerationsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> GenerationResponse:
         """Retrieve a generation
 
         Status, and the image once it is ready.  Moves through queued, running, and then completed or failed. A failed generation carries the reason, including when the model declined rather than errored: those are different problems and only one is worth retrying.  Requires the `images:write` scope.
@@ -382,7 +384,7 @@ class ImageGenerationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "GenerationResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -416,7 +418,7 @@ class ImageGenerationsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[GenerationResponse]:
         """Retrieve a generation
 
         Status, and the image once it is ready.  Moves through queued, running, and then completed or failed. A failed generation carries the reason, including when the model declined rather than errored: those are different problems and only one is worth retrying.  Requires the `images:write` scope.
@@ -454,7 +456,7 @@ class ImageGenerationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "GenerationResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -526,7 +528,7 @@ class ImageGenerationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "GenerationResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -882,7 +884,7 @@ class ImageGenerationsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GenerationPage:
         """List generations
 
         Recent requests for your organisation, newest first.  Requires the `images:write` scope.
@@ -917,7 +919,7 @@ class ImageGenerationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "GenerationPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -950,7 +952,7 @@ class ImageGenerationsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GenerationPage]:
         """List generations
 
         Recent requests for your organisation, newest first.  Requires the `images:write` scope.
@@ -985,7 +987,7 @@ class ImageGenerationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "GenerationPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1053,7 +1055,7 @@ class ImageGenerationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "GenerationPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1100,6 +1102,7 @@ class ImageGenerationsApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
+                    'application/json', 
                     'application/problem+json'
                 ]
             )

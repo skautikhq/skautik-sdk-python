@@ -18,7 +18,8 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr, field_validator
 from typing import Optional
 from typing_extensions import Annotated
-from skautik.models.envelope import Envelope
+from skautik.models.inquiry_page import InquiryPage
+from skautik.models.inquiry_response import InquiryResponse
 from skautik.models.update_inquiry_request import UpdateInquiryRequest
 
 from skautik.api_client import ApiClient, RequestSerialized
@@ -55,7 +56,7 @@ class InquiriesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> InquiryResponse:
         """Retrieve an inquiry
 
         One enquiry in full.  An enquiry about a property your organisation does not own answers exactly as a missing one does, so the API cannot be used to probe for records you cannot read.  Requires the `inquiries:read` scope.
@@ -93,7 +94,7 @@ class InquiriesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "InquiryResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -127,7 +128,7 @@ class InquiriesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[InquiryResponse]:
         """Retrieve an inquiry
 
         One enquiry in full.  An enquiry about a property your organisation does not own answers exactly as a missing one does, so the API cannot be used to probe for records you cannot read.  Requires the `inquiries:read` scope.
@@ -165,7 +166,7 @@ class InquiriesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "InquiryResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -237,7 +238,7 @@ class InquiriesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "InquiryResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -287,6 +288,7 @@ class InquiriesApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
+                    'application/json', 
                     'application/problem+json'
                 ]
             )
@@ -334,7 +336,7 @@ class InquiriesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> InquiryPage:
         """List inquiries
 
         Enquiries about your properties, newest first.  Cursor paginated like every other collection. Filter by property or by status to build a work queue rather than paging the lot.  Requires the `inquiries:read` scope.
@@ -381,7 +383,7 @@ class InquiriesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "InquiryPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -418,7 +420,7 @@ class InquiriesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[InquiryPage]:
         """List inquiries
 
         Enquiries about your properties, newest first.  Cursor paginated like every other collection. Filter by property or by status to build a work queue rather than paging the lot.  Requires the `inquiries:read` scope.
@@ -465,7 +467,7 @@ class InquiriesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "InquiryPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -549,7 +551,7 @@ class InquiriesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "InquiryPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -938,7 +940,7 @@ class InquiriesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> InquiryResponse:
         """Set the status
 
         Move an enquiry through your workflow.  Setting replied records when it happened, and that record survives a later move to closed: the fact that somebody was answered is not undone by filing the conversation away.  Requires the `inquiries:read` scope.
@@ -979,7 +981,7 @@ class InquiriesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "InquiryResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1014,7 +1016,7 @@ class InquiriesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[InquiryResponse]:
         """Set the status
 
         Move an enquiry through your workflow.  Setting replied records when it happened, and that record survives a later move to closed: the fact that somebody was answered is not undone by filing the conversation away.  Requires the `inquiries:read` scope.
@@ -1055,7 +1057,7 @@ class InquiriesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "InquiryResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1131,7 +1133,7 @@ class InquiriesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "InquiryResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1184,6 +1186,7 @@ class InquiriesApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
+                    'application/json', 
                     'application/problem+json'
                 ]
             )

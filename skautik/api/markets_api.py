@@ -18,7 +18,10 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr, field_validator
 from typing import List, Optional
 from typing_extensions import Annotated
-from skautik.models.envelope import Envelope
+from skautik.models.city_page import CityPage
+from skautik.models.district_page import DistrictPage
+from skautik.models.market_response import MarketResponse
+from skautik.models.series_response import SeriesResponse
 
 from skautik.api_client import ApiClient, RequestSerialized
 from skautik.api_response import ApiResponse
@@ -345,7 +348,7 @@ class MarketsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> MarketResponse:
         """Retrieve a market
 
         One market with supply and price distribution.  Requires the `markets:read` scope.
@@ -383,7 +386,7 @@ class MarketsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "MarketResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -417,7 +420,7 @@ class MarketsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[MarketResponse]:
         """Retrieve a market
 
         One market with supply and price distribution.  Requires the `markets:read` scope.
@@ -455,7 +458,7 @@ class MarketsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "MarketResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -527,7 +530,7 @@ class MarketsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "MarketResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -622,7 +625,7 @@ class MarketsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> DistrictPage:
         """List districts
 
         Subdivisions of a market, for building your own filters.  Requires the `markets:read` scope.
@@ -660,7 +663,7 @@ class MarketsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "DistrictPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -694,7 +697,7 @@ class MarketsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[DistrictPage]:
         """List districts
 
         Subdivisions of a market, for building your own filters.  Requires the `markets:read` scope.
@@ -732,7 +735,7 @@ class MarketsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "DistrictPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -804,7 +807,7 @@ class MarketsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "DistrictPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -854,6 +857,7 @@ class MarketsApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
+                    'application/json', 
                     'application/problem+json'
                 ]
             )
@@ -900,7 +904,7 @@ class MarketsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> CityPage:
         """List markets
 
         Every market with coverage, and how deep that coverage runs.  Call this before hardcoding a market identifier. Coverage expands, and a market absent here has no systematic inventory yet rather than no property.  Requires the `markets:read` scope.
@@ -944,7 +948,7 @@ class MarketsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "CityPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -980,7 +984,7 @@ class MarketsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[CityPage]:
         """List markets
 
         Every market with coverage, and how deep that coverage runs.  Call this before hardcoding a market identifier. Coverage expands, and a market absent here has no systematic inventory yet rather than no property.  Requires the `markets:read` scope.
@@ -1024,7 +1028,7 @@ class MarketsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "CityPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1104,7 +1108,7 @@ class MarketsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "CityPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1215,7 +1219,7 @@ class MarketsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> SeriesResponse:
         """Market statistics
 
         Supply and price series over time, by property type.  Computed from the catalogue we hold, which means these describe asking behaviour rather than transacted prices. They are not appraisals and must not be used for lending decisions.  Requires the `markets:read` scope.
@@ -1265,7 +1269,7 @@ class MarketsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "SeriesResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1303,7 +1307,7 @@ class MarketsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[SeriesResponse]:
         """Market statistics
 
         Supply and price series over time, by property type.  Computed from the catalogue we hold, which means these describe asking behaviour rather than transacted prices. They are not appraisals and must not be used for lending decisions.  Requires the `markets:read` scope.
@@ -1353,7 +1357,7 @@ class MarketsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "SeriesResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1441,7 +1445,7 @@ class MarketsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "SeriesResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",

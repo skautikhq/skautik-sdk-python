@@ -19,9 +19,12 @@ from pydantic import Field, StrictInt, StrictStr, field_validator
 from typing import Optional
 from typing_extensions import Annotated
 from skautik.models.create_webhook_request import CreateWebhookRequest
+from skautik.models.delivery_page import DeliveryPage
 from skautik.models.envelope import Envelope
 from skautik.models.problem import Problem
 from skautik.models.update_webhook_request import UpdateWebhookRequest
+from skautik.models.webhook_page import WebhookPage
+from skautik.models.webhook_response import WebhookResponse
 
 from skautik.api_client import ApiClient, RequestSerialized
 from skautik.api_response import ApiResponse
@@ -622,7 +625,7 @@ class WebhooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> WebhookResponse:
         """Retrieve a webhook
 
         One endpoint with its recent delivery health.  Requires the `webhooks:manage` scope.
@@ -660,7 +663,7 @@ class WebhooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "WebhookResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -694,7 +697,7 @@ class WebhooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[WebhookResponse]:
         """Retrieve a webhook
 
         One endpoint with its recent delivery health.  Requires the `webhooks:manage` scope.
@@ -732,7 +735,7 @@ class WebhooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "WebhookResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -804,7 +807,7 @@ class WebhooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "WebhookResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -854,6 +857,7 @@ class WebhooksApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
+                    'application/json', 
                     'application/problem+json'
                 ]
             )
@@ -900,7 +904,7 @@ class WebhooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> DeliveryPage:
         """List deliveries
 
         Recent attempts, their response codes, and retry state.  Retained for 30 days. The place to look when a handler silently stopped working.  Requires the `webhooks:manage` scope.
@@ -944,7 +948,7 @@ class WebhooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "DeliveryPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -980,7 +984,7 @@ class WebhooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[DeliveryPage]:
         """List deliveries
 
         Recent attempts, their response codes, and retry state.  Retained for 30 days. The place to look when a handler silently stopped working.  Requires the `webhooks:manage` scope.
@@ -1024,7 +1028,7 @@ class WebhooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "DeliveryPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1104,7 +1108,7 @@ class WebhooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "DeliveryPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1164,6 +1168,7 @@ class WebhooksApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
+                    'application/json', 
                     'application/problem+json'
                 ]
             )
@@ -1469,7 +1474,7 @@ class WebhooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> WebhookPage:
         """List webhooks
 
         Every endpoint your organisation has registered.  The signing secret is never included. It is shown once when the endpoint is created, and an endpoint list that returned it would hand it to everyone who can read this call.  Requires the `webhooks:manage` scope.
@@ -1504,7 +1509,7 @@ class WebhooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "WebhookPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1537,7 +1542,7 @@ class WebhooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[WebhookPage]:
         """List webhooks
 
         Every endpoint your organisation has registered.  The signing secret is never included. It is shown once when the endpoint is created, and an endpoint list that returned it would hand it to everyone who can read this call.  Requires the `webhooks:manage` scope.
@@ -1572,7 +1577,7 @@ class WebhooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "WebhookPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -1640,7 +1645,7 @@ class WebhooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "WebhookPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -2286,7 +2291,7 @@ class WebhooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> WebhookResponse:
         """Update a webhook
 
         Change the URL, the events, or whether it is active.  A partial update: anything you omit is left alone. Setting active to false stops deliveries without losing the registration, which is what to reach for while you are fixing a handler.  Requires the `webhooks:manage` scope.
@@ -2327,7 +2332,7 @@ class WebhooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "WebhookResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -2362,7 +2367,7 @@ class WebhooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[WebhookResponse]:
         """Update a webhook
 
         Change the URL, the events, or whether it is active.  A partial update: anything you omit is left alone. Setting active to false stops deliveries without losing the registration, which is what to reach for while you are fixing a handler.  Requires the `webhooks:manage` scope.
@@ -2403,7 +2408,7 @@ class WebhooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "WebhookResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -2479,7 +2484,7 @@ class WebhooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "WebhookResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -2532,6 +2537,7 @@ class WebhooksApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
+                    'application/json', 
                     'application/problem+json'
                 ]
             )

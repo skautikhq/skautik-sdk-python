@@ -18,7 +18,8 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing_extensions import Annotated
 from skautik.models.create_export_request import CreateExportRequest
-from skautik.models.envelope import Envelope
+from skautik.models.export_page import ExportPage
+from skautik.models.export_response import ExportResponse
 
 from skautik.api_client import ApiClient, RequestSerialized
 from skautik.api_response import ApiResponse
@@ -54,7 +55,7 @@ class ExportsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> ExportResponse:
         """Request an export
 
         Queue a bulk extract of the catalogue.  Accepts the same filters as the list endpoint. Returns immediately with a pending export; subscribe to export.completed rather than polling. Note that a narrowed field set may not round trip: feeding an export back into an import needs the columns an import requires, external_id and type among them, so omit fields for analysis rather than for a re-import.  Requires the `exports:create` scope.
@@ -92,7 +93,7 @@ class ExportsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Envelope",
+            '201': "ExportResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -126,7 +127,7 @@ class ExportsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[ExportResponse]:
         """Request an export
 
         Queue a bulk extract of the catalogue.  Accepts the same filters as the list endpoint. Returns immediately with a pending export; subscribe to export.completed rather than polling. Note that a narrowed field set may not round trip: feeding an export back into an import needs the columns an import requires, external_id and type among them, so omit fields for analysis rather than for a re-import.  Requires the `exports:create` scope.
@@ -164,7 +165,7 @@ class ExportsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Envelope",
+            '201': "ExportResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -236,7 +237,7 @@ class ExportsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Envelope",
+            '201': "ExportResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -344,7 +345,7 @@ class ExportsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> ExportResponse:
         """Retrieve an export
 
         Status, and the download URL once it is ready.  Download URLs are signed and expire one hour after issue, and are minted per request rather than stored, so ask again if one lapses. The file itself is kept for seven days; after that the export still appears in your history with no link, because the object has been swept.  Requires the `exports:create` scope.
@@ -382,7 +383,7 @@ class ExportsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "ExportResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -416,7 +417,7 @@ class ExportsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[ExportResponse]:
         """Retrieve an export
 
         Status, and the download URL once it is ready.  Download URLs are signed and expire one hour after issue, and are minted per request rather than stored, so ask again if one lapses. The file itself is kept for seven days; after that the export still appears in your history with no link, because the object has been swept.  Requires the `exports:create` scope.
@@ -454,7 +455,7 @@ class ExportsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "ExportResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -526,7 +527,7 @@ class ExportsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
+            '200': "ExportResponse",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -620,7 +621,7 @@ class ExportsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> ExportPage:
         """List exports
 
         Recent exports for your organisation, newest first.  Statuses only. Download links are not included here: minting one per row would sign a URL for every export you have ever made on a call you probably wanted statuses from. Fetch the export itself for a link.  Requires the `exports:create` scope.
@@ -655,7 +656,7 @@ class ExportsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "ExportPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -688,7 +689,7 @@ class ExportsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[ExportPage]:
         """List exports
 
         Recent exports for your organisation, newest first.  Statuses only. Download links are not included here: minting one per row would sign a URL for every export you have ever made on a call you probably wanted statuses from. Fetch the export itself for a link.  Requires the `exports:create` scope.
@@ -723,7 +724,7 @@ class ExportsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "ExportPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -791,7 +792,7 @@ class ExportsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "ExportPage",
             '401': "Problem",
             '403': "Problem",
             '404': "Problem",
@@ -838,6 +839,7 @@ class ExportsApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
+                    'application/json', 
                     'application/problem+json'
                 ]
             )
