@@ -44,8 +44,8 @@ class MarketsApi:
     @validate_call
     def get_district(
         self,
-        market_id: Annotated[StrictStr, Field(description="Market identifier.")],
-        district_id: Annotated[StrictStr, Field(description="District identifier.")],
+        city: Annotated[StrictStr, Field(description="Market identifier.")],
+        district: Annotated[StrictStr, Field(description="District identifier.")],
         period: Annotated[Optional[StrictStr], Field(description="Month to report, as YYYY-MM. Defaults to the most recent computed.")] = None,
         property_type: Annotated[Optional[StrictStr], Field(description="Restrict the figures to one kind of property.")] = None,
         _request_timeout: Union[
@@ -65,10 +65,10 @@ class MarketsApi:
 
         District-level supply, price distribution, and amenity context.  Requires the `markets:read` scope.  Availability: Growth and above.
 
-        :param market_id: Market identifier. (required)
-        :type market_id: str
-        :param district_id: District identifier. (required)
-        :type district_id: str
+        :param city: Market identifier. (required)
+        :type city: str
+        :param district: District identifier. (required)
+        :type district: str
         :param period: Month to report, as YYYY-MM. Defaults to the most recent computed.
         :type period: str
         :param property_type: Restrict the figures to one kind of property.
@@ -96,8 +96,8 @@ class MarketsApi:
         """ # noqa: E501
 
         _param = self._get_district_serialize(
-            market_id=market_id,
-            district_id=district_id,
+            city=city,
+            district=district,
             period=period,
             property_type=property_type,
             _request_auth=_request_auth,
@@ -128,8 +128,8 @@ class MarketsApi:
     @validate_call
     def get_district_with_http_info(
         self,
-        market_id: Annotated[StrictStr, Field(description="Market identifier.")],
-        district_id: Annotated[StrictStr, Field(description="District identifier.")],
+        city: Annotated[StrictStr, Field(description="Market identifier.")],
+        district: Annotated[StrictStr, Field(description="District identifier.")],
         period: Annotated[Optional[StrictStr], Field(description="Month to report, as YYYY-MM. Defaults to the most recent computed.")] = None,
         property_type: Annotated[Optional[StrictStr], Field(description="Restrict the figures to one kind of property.")] = None,
         _request_timeout: Union[
@@ -149,10 +149,10 @@ class MarketsApi:
 
         District-level supply, price distribution, and amenity context.  Requires the `markets:read` scope.  Availability: Growth and above.
 
-        :param market_id: Market identifier. (required)
-        :type market_id: str
-        :param district_id: District identifier. (required)
-        :type district_id: str
+        :param city: Market identifier. (required)
+        :type city: str
+        :param district: District identifier. (required)
+        :type district: str
         :param period: Month to report, as YYYY-MM. Defaults to the most recent computed.
         :type period: str
         :param property_type: Restrict the figures to one kind of property.
@@ -180,8 +180,8 @@ class MarketsApi:
         """ # noqa: E501
 
         _param = self._get_district_serialize(
-            market_id=market_id,
-            district_id=district_id,
+            city=city,
+            district=district,
             period=period,
             property_type=property_type,
             _request_auth=_request_auth,
@@ -212,8 +212,8 @@ class MarketsApi:
     @validate_call
     def get_district_without_preload_content(
         self,
-        market_id: Annotated[StrictStr, Field(description="Market identifier.")],
-        district_id: Annotated[StrictStr, Field(description="District identifier.")],
+        city: Annotated[StrictStr, Field(description="Market identifier.")],
+        district: Annotated[StrictStr, Field(description="District identifier.")],
         period: Annotated[Optional[StrictStr], Field(description="Month to report, as YYYY-MM. Defaults to the most recent computed.")] = None,
         property_type: Annotated[Optional[StrictStr], Field(description="Restrict the figures to one kind of property.")] = None,
         _request_timeout: Union[
@@ -233,10 +233,10 @@ class MarketsApi:
 
         District-level supply, price distribution, and amenity context.  Requires the `markets:read` scope.  Availability: Growth and above.
 
-        :param market_id: Market identifier. (required)
-        :type market_id: str
-        :param district_id: District identifier. (required)
-        :type district_id: str
+        :param city: Market identifier. (required)
+        :type city: str
+        :param district: District identifier. (required)
+        :type district: str
         :param period: Month to report, as YYYY-MM. Defaults to the most recent computed.
         :type period: str
         :param property_type: Restrict the figures to one kind of property.
@@ -264,8 +264,8 @@ class MarketsApi:
         """ # noqa: E501
 
         _param = self._get_district_serialize(
-            market_id=market_id,
-            district_id=district_id,
+            city=city,
+            district=district,
             period=period,
             property_type=property_type,
             _request_auth=_request_auth,
@@ -291,8 +291,8 @@ class MarketsApi:
 
     def _get_district_serialize(
         self,
-        market_id,
-        district_id,
+        city,
+        district,
         period,
         property_type,
         _request_auth,
@@ -316,10 +316,10 @@ class MarketsApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if market_id is not None:
-            _path_params['market_id'] = market_id
-        if district_id is not None:
-            _path_params['district_id'] = district_id
+        if city is not None:
+            _path_params['city'] = city
+        if district is not None:
+            _path_params['district'] = district
         # process the query parameters
         if period is not None:
             
@@ -369,7 +369,7 @@ class MarketsApi:
     @validate_call
     def get_market(
         self,
-        market_id: Annotated[StrictStr, Field(description="Market identifier, such as berlin-de.")],
+        city: Annotated[StrictStr, Field(description="Market identifier, such as berlin-de.")],
         period: Annotated[Optional[StrictStr], Field(description="Month to report, as YYYY-MM. Defaults to the most recent computed.")] = None,
         property_type: Annotated[Optional[StrictStr], Field(description="Restrict the figures to one kind of property.")] = None,
         _request_timeout: Union[
@@ -389,8 +389,8 @@ class MarketsApi:
 
         One market with supply and price distribution.  Requires the `markets:read` scope.
 
-        :param market_id: Market identifier, such as berlin-de. (required)
-        :type market_id: str
+        :param city: Market identifier, such as berlin-de. (required)
+        :type city: str
         :param period: Month to report, as YYYY-MM. Defaults to the most recent computed.
         :type period: str
         :param property_type: Restrict the figures to one kind of property.
@@ -418,7 +418,7 @@ class MarketsApi:
         """ # noqa: E501
 
         _param = self._get_market_serialize(
-            market_id=market_id,
+            city=city,
             period=period,
             property_type=property_type,
             _request_auth=_request_auth,
@@ -449,7 +449,7 @@ class MarketsApi:
     @validate_call
     def get_market_with_http_info(
         self,
-        market_id: Annotated[StrictStr, Field(description="Market identifier, such as berlin-de.")],
+        city: Annotated[StrictStr, Field(description="Market identifier, such as berlin-de.")],
         period: Annotated[Optional[StrictStr], Field(description="Month to report, as YYYY-MM. Defaults to the most recent computed.")] = None,
         property_type: Annotated[Optional[StrictStr], Field(description="Restrict the figures to one kind of property.")] = None,
         _request_timeout: Union[
@@ -469,8 +469,8 @@ class MarketsApi:
 
         One market with supply and price distribution.  Requires the `markets:read` scope.
 
-        :param market_id: Market identifier, such as berlin-de. (required)
-        :type market_id: str
+        :param city: Market identifier, such as berlin-de. (required)
+        :type city: str
         :param period: Month to report, as YYYY-MM. Defaults to the most recent computed.
         :type period: str
         :param property_type: Restrict the figures to one kind of property.
@@ -498,7 +498,7 @@ class MarketsApi:
         """ # noqa: E501
 
         _param = self._get_market_serialize(
-            market_id=market_id,
+            city=city,
             period=period,
             property_type=property_type,
             _request_auth=_request_auth,
@@ -529,7 +529,7 @@ class MarketsApi:
     @validate_call
     def get_market_without_preload_content(
         self,
-        market_id: Annotated[StrictStr, Field(description="Market identifier, such as berlin-de.")],
+        city: Annotated[StrictStr, Field(description="Market identifier, such as berlin-de.")],
         period: Annotated[Optional[StrictStr], Field(description="Month to report, as YYYY-MM. Defaults to the most recent computed.")] = None,
         property_type: Annotated[Optional[StrictStr], Field(description="Restrict the figures to one kind of property.")] = None,
         _request_timeout: Union[
@@ -549,8 +549,8 @@ class MarketsApi:
 
         One market with supply and price distribution.  Requires the `markets:read` scope.
 
-        :param market_id: Market identifier, such as berlin-de. (required)
-        :type market_id: str
+        :param city: Market identifier, such as berlin-de. (required)
+        :type city: str
         :param period: Month to report, as YYYY-MM. Defaults to the most recent computed.
         :type period: str
         :param property_type: Restrict the figures to one kind of property.
@@ -578,7 +578,7 @@ class MarketsApi:
         """ # noqa: E501
 
         _param = self._get_market_serialize(
-            market_id=market_id,
+            city=city,
             period=period,
             property_type=property_type,
             _request_auth=_request_auth,
@@ -604,7 +604,7 @@ class MarketsApi:
 
     def _get_market_serialize(
         self,
-        market_id,
+        city,
         period,
         property_type,
         _request_auth,
@@ -628,8 +628,8 @@ class MarketsApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if market_id is not None:
-            _path_params['market_id'] = market_id
+        if city is not None:
+            _path_params['city'] = city
         # process the query parameters
         if period is not None:
             
@@ -680,7 +680,7 @@ class MarketsApi:
     @validate_call
     def list_districts(
         self,
-        market_id: Annotated[StrictStr, Field(description="Market identifier.")],
+        city: Annotated[StrictStr, Field(description="Market identifier.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -698,8 +698,8 @@ class MarketsApi:
 
         Subdivisions of a market, for building your own filters.  Requires the `markets:read` scope.
 
-        :param market_id: Market identifier. (required)
-        :type market_id: str
+        :param city: Market identifier. (required)
+        :type city: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -723,7 +723,7 @@ class MarketsApi:
         """ # noqa: E501
 
         _param = self._list_districts_serialize(
-            market_id=market_id,
+            city=city,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -752,7 +752,7 @@ class MarketsApi:
     @validate_call
     def list_districts_with_http_info(
         self,
-        market_id: Annotated[StrictStr, Field(description="Market identifier.")],
+        city: Annotated[StrictStr, Field(description="Market identifier.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -770,8 +770,8 @@ class MarketsApi:
 
         Subdivisions of a market, for building your own filters.  Requires the `markets:read` scope.
 
-        :param market_id: Market identifier. (required)
-        :type market_id: str
+        :param city: Market identifier. (required)
+        :type city: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -795,7 +795,7 @@ class MarketsApi:
         """ # noqa: E501
 
         _param = self._list_districts_serialize(
-            market_id=market_id,
+            city=city,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -824,7 +824,7 @@ class MarketsApi:
     @validate_call
     def list_districts_without_preload_content(
         self,
-        market_id: Annotated[StrictStr, Field(description="Market identifier.")],
+        city: Annotated[StrictStr, Field(description="Market identifier.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -842,8 +842,8 @@ class MarketsApi:
 
         Subdivisions of a market, for building your own filters.  Requires the `markets:read` scope.
 
-        :param market_id: Market identifier. (required)
-        :type market_id: str
+        :param city: Market identifier. (required)
+        :type city: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -867,7 +867,7 @@ class MarketsApi:
         """ # noqa: E501
 
         _param = self._list_districts_serialize(
-            market_id=market_id,
+            city=city,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -891,7 +891,7 @@ class MarketsApi:
 
     def _list_districts_serialize(
         self,
-        market_id,
+        city,
         _request_auth,
         _content_type,
         _headers,
@@ -913,8 +913,8 @@ class MarketsApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if market_id is not None:
-            _path_params['market_id'] = market_id
+        if city is not None:
+            _path_params['city'] = city
         # process the query parameters
         # process the header parameters
         # process the form parameters
@@ -1219,7 +1219,7 @@ class MarketsApi:
     @validate_call
     def market_statistics(
         self,
-        market_id: Annotated[StrictStr, Field(description="Market identifier.")],
+        city: Annotated[StrictStr, Field(description="Market identifier.")],
         property_type: Annotated[Optional[StrictStr], Field(description="Narrow to one property type.")] = None,
         transaction_type: Annotated[Optional[StrictStr], Field(description="sale or rent.")] = None,
         interval: Annotated[Optional[StrictStr], Field(description="Granularity of the returned series.")] = None,
@@ -1241,8 +1241,8 @@ class MarketsApi:
 
         Supply and price series over time, by property type.  Computed from the catalogue we hold, which means these describe asking behaviour rather than transacted prices. They are not appraisals and must not be used for lending decisions.  Requires the `markets:read` scope.
 
-        :param market_id: Market identifier. (required)
-        :type market_id: str
+        :param city: Market identifier. (required)
+        :type city: str
         :param property_type: Narrow to one property type.
         :type property_type: str
         :param transaction_type: sale or rent.
@@ -1274,7 +1274,7 @@ class MarketsApi:
         """ # noqa: E501
 
         _param = self._market_statistics_serialize(
-            market_id=market_id,
+            city=city,
             property_type=property_type,
             transaction_type=transaction_type,
             interval=interval,
@@ -1307,7 +1307,7 @@ class MarketsApi:
     @validate_call
     def market_statistics_with_http_info(
         self,
-        market_id: Annotated[StrictStr, Field(description="Market identifier.")],
+        city: Annotated[StrictStr, Field(description="Market identifier.")],
         property_type: Annotated[Optional[StrictStr], Field(description="Narrow to one property type.")] = None,
         transaction_type: Annotated[Optional[StrictStr], Field(description="sale or rent.")] = None,
         interval: Annotated[Optional[StrictStr], Field(description="Granularity of the returned series.")] = None,
@@ -1329,8 +1329,8 @@ class MarketsApi:
 
         Supply and price series over time, by property type.  Computed from the catalogue we hold, which means these describe asking behaviour rather than transacted prices. They are not appraisals and must not be used for lending decisions.  Requires the `markets:read` scope.
 
-        :param market_id: Market identifier. (required)
-        :type market_id: str
+        :param city: Market identifier. (required)
+        :type city: str
         :param property_type: Narrow to one property type.
         :type property_type: str
         :param transaction_type: sale or rent.
@@ -1362,7 +1362,7 @@ class MarketsApi:
         """ # noqa: E501
 
         _param = self._market_statistics_serialize(
-            market_id=market_id,
+            city=city,
             property_type=property_type,
             transaction_type=transaction_type,
             interval=interval,
@@ -1395,7 +1395,7 @@ class MarketsApi:
     @validate_call
     def market_statistics_without_preload_content(
         self,
-        market_id: Annotated[StrictStr, Field(description="Market identifier.")],
+        city: Annotated[StrictStr, Field(description="Market identifier.")],
         property_type: Annotated[Optional[StrictStr], Field(description="Narrow to one property type.")] = None,
         transaction_type: Annotated[Optional[StrictStr], Field(description="sale or rent.")] = None,
         interval: Annotated[Optional[StrictStr], Field(description="Granularity of the returned series.")] = None,
@@ -1417,8 +1417,8 @@ class MarketsApi:
 
         Supply and price series over time, by property type.  Computed from the catalogue we hold, which means these describe asking behaviour rather than transacted prices. They are not appraisals and must not be used for lending decisions.  Requires the `markets:read` scope.
 
-        :param market_id: Market identifier. (required)
-        :type market_id: str
+        :param city: Market identifier. (required)
+        :type city: str
         :param property_type: Narrow to one property type.
         :type property_type: str
         :param transaction_type: sale or rent.
@@ -1450,7 +1450,7 @@ class MarketsApi:
         """ # noqa: E501
 
         _param = self._market_statistics_serialize(
-            market_id=market_id,
+            city=city,
             property_type=property_type,
             transaction_type=transaction_type,
             interval=interval,
@@ -1478,7 +1478,7 @@ class MarketsApi:
 
     def _market_statistics_serialize(
         self,
-        market_id,
+        city,
         property_type,
         transaction_type,
         interval,
@@ -1504,8 +1504,8 @@ class MarketsApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if market_id is not None:
-            _path_params['market_id'] = market_id
+        if city is not None:
+            _path_params['city'] = city
         # process the query parameters
         if property_type is not None:
             

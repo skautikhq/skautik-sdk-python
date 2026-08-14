@@ -48,10 +48,10 @@ class ImportsApi:
     @validate_call
     def create_import(
         self,
-        format: StrictStr,
-        mode: Optional[StrictStr] = None,
-        source_id: Optional[StrictStr] = None,
-        dry_run: Optional[StrictBool] = None,
+        format: Annotated[StrictStr, Field(description="Format of the file being sent.")],
+        mode: Annotated[Optional[StrictStr], Field(description="Incremental updates what the file contains and leaves the rest alone. A full sync also withdraws anything absent from it, which is why it is not the default.")] = None,
+        source_id: Annotated[Optional[StrictStr], Field(description="Import source this transfer belongs to, when it comes from a standing connector rather than a one-off upload.")] = None,
+        dry_run: Annotated[Optional[StrictBool], Field(description="Parse and report what would change without writing anything. Worth doing once with a new mapping.")] = None,
         filename: Annotated[Optional[StrictStr], Field(description="Original filename, recorded on the run so a failure can be traced back to the file that caused it.")] = None,
         idempotency_key: Annotated[Optional[StrictStr], Field(description="Prevents a retried upload from being processed twice.")] = None,
         file: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="The payload. Mutually exclusive with url.")] = None,
@@ -72,13 +72,13 @@ class ImportsApi:
 
         Upload a file, or point us at one, and process it.  Accepts a multipart upload or a URL we fetch. Validation runs first and the whole file is rejected if it cannot be parsed; individual records that fail are reported without stopping the rest, unless you ask for all-or-nothing.  Requires the `imports:write` scope.
 
-        :param format:  (required)
+        :param format: Format of the file being sent. (required)
         :type format: str
-        :param mode: 
+        :param mode: Incremental updates what the file contains and leaves the rest alone. A full sync also withdraws anything absent from it, which is why it is not the default.
         :type mode: str
-        :param source_id: 
+        :param source_id: Import source this transfer belongs to, when it comes from a standing connector rather than a one-off upload.
         :type source_id: str
-        :param dry_run: 
+        :param dry_run: Parse and report what would change without writing anything. Worth doing once with a new mapping.
         :type dry_run: bool
         :param filename: Original filename, recorded on the run so a failure can be traced back to the file that caused it.
         :type filename: str
@@ -146,10 +146,10 @@ class ImportsApi:
     @validate_call
     def create_import_with_http_info(
         self,
-        format: StrictStr,
-        mode: Optional[StrictStr] = None,
-        source_id: Optional[StrictStr] = None,
-        dry_run: Optional[StrictBool] = None,
+        format: Annotated[StrictStr, Field(description="Format of the file being sent.")],
+        mode: Annotated[Optional[StrictStr], Field(description="Incremental updates what the file contains and leaves the rest alone. A full sync also withdraws anything absent from it, which is why it is not the default.")] = None,
+        source_id: Annotated[Optional[StrictStr], Field(description="Import source this transfer belongs to, when it comes from a standing connector rather than a one-off upload.")] = None,
+        dry_run: Annotated[Optional[StrictBool], Field(description="Parse and report what would change without writing anything. Worth doing once with a new mapping.")] = None,
         filename: Annotated[Optional[StrictStr], Field(description="Original filename, recorded on the run so a failure can be traced back to the file that caused it.")] = None,
         idempotency_key: Annotated[Optional[StrictStr], Field(description="Prevents a retried upload from being processed twice.")] = None,
         file: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="The payload. Mutually exclusive with url.")] = None,
@@ -170,13 +170,13 @@ class ImportsApi:
 
         Upload a file, or point us at one, and process it.  Accepts a multipart upload or a URL we fetch. Validation runs first and the whole file is rejected if it cannot be parsed; individual records that fail are reported without stopping the rest, unless you ask for all-or-nothing.  Requires the `imports:write` scope.
 
-        :param format:  (required)
+        :param format: Format of the file being sent. (required)
         :type format: str
-        :param mode: 
+        :param mode: Incremental updates what the file contains and leaves the rest alone. A full sync also withdraws anything absent from it, which is why it is not the default.
         :type mode: str
-        :param source_id: 
+        :param source_id: Import source this transfer belongs to, when it comes from a standing connector rather than a one-off upload.
         :type source_id: str
-        :param dry_run: 
+        :param dry_run: Parse and report what would change without writing anything. Worth doing once with a new mapping.
         :type dry_run: bool
         :param filename: Original filename, recorded on the run so a failure can be traced back to the file that caused it.
         :type filename: str
@@ -244,10 +244,10 @@ class ImportsApi:
     @validate_call
     def create_import_without_preload_content(
         self,
-        format: StrictStr,
-        mode: Optional[StrictStr] = None,
-        source_id: Optional[StrictStr] = None,
-        dry_run: Optional[StrictBool] = None,
+        format: Annotated[StrictStr, Field(description="Format of the file being sent.")],
+        mode: Annotated[Optional[StrictStr], Field(description="Incremental updates what the file contains and leaves the rest alone. A full sync also withdraws anything absent from it, which is why it is not the default.")] = None,
+        source_id: Annotated[Optional[StrictStr], Field(description="Import source this transfer belongs to, when it comes from a standing connector rather than a one-off upload.")] = None,
+        dry_run: Annotated[Optional[StrictBool], Field(description="Parse and report what would change without writing anything. Worth doing once with a new mapping.")] = None,
         filename: Annotated[Optional[StrictStr], Field(description="Original filename, recorded on the run so a failure can be traced back to the file that caused it.")] = None,
         idempotency_key: Annotated[Optional[StrictStr], Field(description="Prevents a retried upload from being processed twice.")] = None,
         file: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="The payload. Mutually exclusive with url.")] = None,
@@ -268,13 +268,13 @@ class ImportsApi:
 
         Upload a file, or point us at one, and process it.  Accepts a multipart upload or a URL we fetch. Validation runs first and the whole file is rejected if it cannot be parsed; individual records that fail are reported without stopping the rest, unless you ask for all-or-nothing.  Requires the `imports:write` scope.
 
-        :param format:  (required)
+        :param format: Format of the file being sent. (required)
         :type format: str
-        :param mode: 
+        :param mode: Incremental updates what the file contains and leaves the rest alone. A full sync also withdraws anything absent from it, which is why it is not the default.
         :type mode: str
-        :param source_id: 
+        :param source_id: Import source this transfer belongs to, when it comes from a standing connector rather than a one-off upload.
         :type source_id: str
-        :param dry_run: 
+        :param dry_run: Parse and report what would change without writing anything. Worth doing once with a new mapping.
         :type dry_run: bool
         :param filename: Original filename, recorded on the run so a failure can be traced back to the file that caused it.
         :type filename: str
