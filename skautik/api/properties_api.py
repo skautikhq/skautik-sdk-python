@@ -928,7 +928,7 @@ class PropertiesApi:
     def get_property(
         self,
         property_id: Annotated[StrictStr, Field(description="Identifier returned by any collection endpoint.")],
-        expand: Annotated[Optional[List[StrictStr]], Field(description="Related resources to inline.")] = None,
+        expand: Annotated[Optional[List[StrictStr]], Field(description="Related records to inline rather than fetch separately.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -948,7 +948,7 @@ class PropertiesApi:
 
         :param property_id: Identifier returned by any collection endpoint. (required)
         :type property_id: str
-        :param expand: Related resources to inline.
+        :param expand: Related records to inline rather than fetch separately.
         :type expand: List[str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1004,7 +1004,7 @@ class PropertiesApi:
     def get_property_with_http_info(
         self,
         property_id: Annotated[StrictStr, Field(description="Identifier returned by any collection endpoint.")],
-        expand: Annotated[Optional[List[StrictStr]], Field(description="Related resources to inline.")] = None,
+        expand: Annotated[Optional[List[StrictStr]], Field(description="Related records to inline rather than fetch separately.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1024,7 +1024,7 @@ class PropertiesApi:
 
         :param property_id: Identifier returned by any collection endpoint. (required)
         :type property_id: str
-        :param expand: Related resources to inline.
+        :param expand: Related records to inline rather than fetch separately.
         :type expand: List[str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1080,7 +1080,7 @@ class PropertiesApi:
     def get_property_without_preload_content(
         self,
         property_id: Annotated[StrictStr, Field(description="Identifier returned by any collection endpoint.")],
-        expand: Annotated[Optional[List[StrictStr]], Field(description="Related resources to inline.")] = None,
+        expand: Annotated[Optional[List[StrictStr]], Field(description="Related records to inline rather than fetch separately.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1100,7 +1100,7 @@ class PropertiesApi:
 
         :param property_id: Identifier returned by any collection endpoint. (required)
         :type property_id: str
-        :param expand: Related resources to inline.
+        :param expand: Related records to inline rather than fetch separately.
         :type expand: List[str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1222,21 +1222,21 @@ class PropertiesApi:
     @validate_call
     def list_properties(
         self,
-        market: Annotated[Optional[StrictStr], Field(description="Market identifier from the markets endpoint.")] = None,
-        district: Annotated[Optional[List[StrictStr]], Field(description="District within the market. Repeatable for a union.")] = None,
+        city: Annotated[Optional[StrictStr], Field(description="City to restrict to, as it appears on a property's address.")] = None,
+        district: Annotated[Optional[StrictStr], Field(description="District within the city.")] = None,
+        postal_code: Annotated[Optional[StrictStr], Field(description="Postal code to restrict to.")] = None,
+        type: Annotated[Optional[StrictStr], Field(description="Kind of property.")] = None,
         transaction_type: Annotated[Optional[StrictStr], Field(description="Restrict to sales or rentals.")] = None,
-        property_type: Annotated[Optional[List[StrictStr]], Field(description="Repeatable for a union.")] = None,
-        price_min: Annotated[Optional[StrictInt], Field(description="Inclusive lower bound, in minor units.")] = None,
-        price_max: Annotated[Optional[StrictInt], Field(description="Inclusive upper bound, in minor units.")] = None,
-        bedrooms_min: Annotated[Optional[StrictInt], Field(description="Inclusive lower bound on bedroom count.")] = None,
-        area_min: Annotated[Optional[Union[StrictFloat, StrictInt]], Field(description="Inclusive lower bound on living area, in square metres.")] = None,
-        status: Annotated[Optional[StrictStr], Field(description="Defaults to active. Pass explicitly to include withdrawn records.")] = None,
-        updated_since: Annotated[Optional[StrictStr], Field(description="RFC 3339 timestamp. The efficient way to keep a mirror in step without re-reading everything.")] = None,
-        limit: Annotated[Optional[StrictInt], Field(description="Records per page, 1 to 200.")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Listing status. Omit for every status rather than only active ones.")] = None,
+        external_id: Annotated[Optional[StrictStr], Field(description="Your own identifier for a record, to find what an import created.")] = None,
+        min_price: Annotated[Optional[Union[StrictFloat, StrictInt]], Field(description="Inclusive lower bound on the asking price.")] = None,
+        max_price: Annotated[Optional[Union[StrictFloat, StrictInt]], Field(description="Inclusive upper bound on the asking price.")] = None,
+        min_living_area: Annotated[Optional[Union[StrictFloat, StrictInt]], Field(description="Inclusive lower bound on living area, in square metres.")] = None,
+        min_bedrooms: Annotated[Optional[StrictInt], Field(description="Inclusive lower bound on bedroom count.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Records per page.")] = None,
         cursor: Annotated[Optional[StrictStr], Field(description="Opaque pointer from the previous response. Omit for the first page. Cursors are stable across inserts, so paging never skips or repeats a record the way an offset does.")] = None,
-        sort: Annotated[Optional[StrictStr], Field(description="Field to order by. Prefix with a minus for descending. Ties break on id, so paging is deterministic.")] = None,
-        fields: Annotated[Optional[List[StrictStr]], Field(description="Comma-separated list of fields to return. Trims payloads substantially when you only need a few.")] = None,
-        expand: Annotated[Optional[List[StrictStr]], Field(description="Comma-separated related resources to inline rather than fetch separately.")] = None,
+        sort: Annotated[Optional[StrictStr], Field(description="Field to order by. Prefix with a minus for descending.")] = None,
+        expand: Annotated[Optional[List[StrictStr]], Field(description="Related records to inline rather than fetch separately.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1254,35 +1254,35 @@ class PropertiesApi:
 
         Page through the catalogue with filters.  The workhorse read endpoint. Filters combine with AND. Anything omitted is unconstrained, so an unfiltered call returns the whole catalogue in cursor order.  Requires the `properties:read` scope.
 
-        :param market: Market identifier from the markets endpoint.
-        :type market: str
-        :param district: District within the market. Repeatable for a union.
-        :type district: List[str]
+        :param city: City to restrict to, as it appears on a property's address.
+        :type city: str
+        :param district: District within the city.
+        :type district: str
+        :param postal_code: Postal code to restrict to.
+        :type postal_code: str
+        :param type: Kind of property.
+        :type type: str
         :param transaction_type: Restrict to sales or rentals.
         :type transaction_type: str
-        :param property_type: Repeatable for a union.
-        :type property_type: List[str]
-        :param price_min: Inclusive lower bound, in minor units.
-        :type price_min: int
-        :param price_max: Inclusive upper bound, in minor units.
-        :type price_max: int
-        :param bedrooms_min: Inclusive lower bound on bedroom count.
-        :type bedrooms_min: int
-        :param area_min: Inclusive lower bound on living area, in square metres.
-        :type area_min: float
-        :param status: Defaults to active. Pass explicitly to include withdrawn records.
+        :param status: Listing status. Omit for every status rather than only active ones.
         :type status: str
-        :param updated_since: RFC 3339 timestamp. The efficient way to keep a mirror in step without re-reading everything.
-        :type updated_since: str
-        :param limit: Records per page, 1 to 200.
+        :param external_id: Your own identifier for a record, to find what an import created.
+        :type external_id: str
+        :param min_price: Inclusive lower bound on the asking price.
+        :type min_price: float
+        :param max_price: Inclusive upper bound on the asking price.
+        :type max_price: float
+        :param min_living_area: Inclusive lower bound on living area, in square metres.
+        :type min_living_area: float
+        :param min_bedrooms: Inclusive lower bound on bedroom count.
+        :type min_bedrooms: int
+        :param limit: Records per page.
         :type limit: int
         :param cursor: Opaque pointer from the previous response. Omit for the first page. Cursors are stable across inserts, so paging never skips or repeats a record the way an offset does.
         :type cursor: str
-        :param sort: Field to order by. Prefix with a minus for descending. Ties break on id, so paging is deterministic.
+        :param sort: Field to order by. Prefix with a minus for descending.
         :type sort: str
-        :param fields: Comma-separated list of fields to return. Trims payloads substantially when you only need a few.
-        :type fields: List[str]
-        :param expand: Comma-separated related resources to inline rather than fetch separately.
+        :param expand: Related records to inline rather than fetch separately.
         :type expand: List[str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1307,20 +1307,20 @@ class PropertiesApi:
         """ # noqa: E501
 
         _param = self._list_properties_serialize(
-            market=market,
+            city=city,
             district=district,
+            postal_code=postal_code,
+            type=type,
             transaction_type=transaction_type,
-            property_type=property_type,
-            price_min=price_min,
-            price_max=price_max,
-            bedrooms_min=bedrooms_min,
-            area_min=area_min,
             status=status,
-            updated_since=updated_since,
+            external_id=external_id,
+            min_price=min_price,
+            max_price=max_price,
+            min_living_area=min_living_area,
+            min_bedrooms=min_bedrooms,
             limit=limit,
             cursor=cursor,
             sort=sort,
-            fields=fields,
             expand=expand,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1350,21 +1350,21 @@ class PropertiesApi:
     @validate_call
     def list_properties_with_http_info(
         self,
-        market: Annotated[Optional[StrictStr], Field(description="Market identifier from the markets endpoint.")] = None,
-        district: Annotated[Optional[List[StrictStr]], Field(description="District within the market. Repeatable for a union.")] = None,
+        city: Annotated[Optional[StrictStr], Field(description="City to restrict to, as it appears on a property's address.")] = None,
+        district: Annotated[Optional[StrictStr], Field(description="District within the city.")] = None,
+        postal_code: Annotated[Optional[StrictStr], Field(description="Postal code to restrict to.")] = None,
+        type: Annotated[Optional[StrictStr], Field(description="Kind of property.")] = None,
         transaction_type: Annotated[Optional[StrictStr], Field(description="Restrict to sales or rentals.")] = None,
-        property_type: Annotated[Optional[List[StrictStr]], Field(description="Repeatable for a union.")] = None,
-        price_min: Annotated[Optional[StrictInt], Field(description="Inclusive lower bound, in minor units.")] = None,
-        price_max: Annotated[Optional[StrictInt], Field(description="Inclusive upper bound, in minor units.")] = None,
-        bedrooms_min: Annotated[Optional[StrictInt], Field(description="Inclusive lower bound on bedroom count.")] = None,
-        area_min: Annotated[Optional[Union[StrictFloat, StrictInt]], Field(description="Inclusive lower bound on living area, in square metres.")] = None,
-        status: Annotated[Optional[StrictStr], Field(description="Defaults to active. Pass explicitly to include withdrawn records.")] = None,
-        updated_since: Annotated[Optional[StrictStr], Field(description="RFC 3339 timestamp. The efficient way to keep a mirror in step without re-reading everything.")] = None,
-        limit: Annotated[Optional[StrictInt], Field(description="Records per page, 1 to 200.")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Listing status. Omit for every status rather than only active ones.")] = None,
+        external_id: Annotated[Optional[StrictStr], Field(description="Your own identifier for a record, to find what an import created.")] = None,
+        min_price: Annotated[Optional[Union[StrictFloat, StrictInt]], Field(description="Inclusive lower bound on the asking price.")] = None,
+        max_price: Annotated[Optional[Union[StrictFloat, StrictInt]], Field(description="Inclusive upper bound on the asking price.")] = None,
+        min_living_area: Annotated[Optional[Union[StrictFloat, StrictInt]], Field(description="Inclusive lower bound on living area, in square metres.")] = None,
+        min_bedrooms: Annotated[Optional[StrictInt], Field(description="Inclusive lower bound on bedroom count.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Records per page.")] = None,
         cursor: Annotated[Optional[StrictStr], Field(description="Opaque pointer from the previous response. Omit for the first page. Cursors are stable across inserts, so paging never skips or repeats a record the way an offset does.")] = None,
-        sort: Annotated[Optional[StrictStr], Field(description="Field to order by. Prefix with a minus for descending. Ties break on id, so paging is deterministic.")] = None,
-        fields: Annotated[Optional[List[StrictStr]], Field(description="Comma-separated list of fields to return. Trims payloads substantially when you only need a few.")] = None,
-        expand: Annotated[Optional[List[StrictStr]], Field(description="Comma-separated related resources to inline rather than fetch separately.")] = None,
+        sort: Annotated[Optional[StrictStr], Field(description="Field to order by. Prefix with a minus for descending.")] = None,
+        expand: Annotated[Optional[List[StrictStr]], Field(description="Related records to inline rather than fetch separately.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1382,35 +1382,35 @@ class PropertiesApi:
 
         Page through the catalogue with filters.  The workhorse read endpoint. Filters combine with AND. Anything omitted is unconstrained, so an unfiltered call returns the whole catalogue in cursor order.  Requires the `properties:read` scope.
 
-        :param market: Market identifier from the markets endpoint.
-        :type market: str
-        :param district: District within the market. Repeatable for a union.
-        :type district: List[str]
+        :param city: City to restrict to, as it appears on a property's address.
+        :type city: str
+        :param district: District within the city.
+        :type district: str
+        :param postal_code: Postal code to restrict to.
+        :type postal_code: str
+        :param type: Kind of property.
+        :type type: str
         :param transaction_type: Restrict to sales or rentals.
         :type transaction_type: str
-        :param property_type: Repeatable for a union.
-        :type property_type: List[str]
-        :param price_min: Inclusive lower bound, in minor units.
-        :type price_min: int
-        :param price_max: Inclusive upper bound, in minor units.
-        :type price_max: int
-        :param bedrooms_min: Inclusive lower bound on bedroom count.
-        :type bedrooms_min: int
-        :param area_min: Inclusive lower bound on living area, in square metres.
-        :type area_min: float
-        :param status: Defaults to active. Pass explicitly to include withdrawn records.
+        :param status: Listing status. Omit for every status rather than only active ones.
         :type status: str
-        :param updated_since: RFC 3339 timestamp. The efficient way to keep a mirror in step without re-reading everything.
-        :type updated_since: str
-        :param limit: Records per page, 1 to 200.
+        :param external_id: Your own identifier for a record, to find what an import created.
+        :type external_id: str
+        :param min_price: Inclusive lower bound on the asking price.
+        :type min_price: float
+        :param max_price: Inclusive upper bound on the asking price.
+        :type max_price: float
+        :param min_living_area: Inclusive lower bound on living area, in square metres.
+        :type min_living_area: float
+        :param min_bedrooms: Inclusive lower bound on bedroom count.
+        :type min_bedrooms: int
+        :param limit: Records per page.
         :type limit: int
         :param cursor: Opaque pointer from the previous response. Omit for the first page. Cursors are stable across inserts, so paging never skips or repeats a record the way an offset does.
         :type cursor: str
-        :param sort: Field to order by. Prefix with a minus for descending. Ties break on id, so paging is deterministic.
+        :param sort: Field to order by. Prefix with a minus for descending.
         :type sort: str
-        :param fields: Comma-separated list of fields to return. Trims payloads substantially when you only need a few.
-        :type fields: List[str]
-        :param expand: Comma-separated related resources to inline rather than fetch separately.
+        :param expand: Related records to inline rather than fetch separately.
         :type expand: List[str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1435,20 +1435,20 @@ class PropertiesApi:
         """ # noqa: E501
 
         _param = self._list_properties_serialize(
-            market=market,
+            city=city,
             district=district,
+            postal_code=postal_code,
+            type=type,
             transaction_type=transaction_type,
-            property_type=property_type,
-            price_min=price_min,
-            price_max=price_max,
-            bedrooms_min=bedrooms_min,
-            area_min=area_min,
             status=status,
-            updated_since=updated_since,
+            external_id=external_id,
+            min_price=min_price,
+            max_price=max_price,
+            min_living_area=min_living_area,
+            min_bedrooms=min_bedrooms,
             limit=limit,
             cursor=cursor,
             sort=sort,
-            fields=fields,
             expand=expand,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1478,21 +1478,21 @@ class PropertiesApi:
     @validate_call
     def list_properties_without_preload_content(
         self,
-        market: Annotated[Optional[StrictStr], Field(description="Market identifier from the markets endpoint.")] = None,
-        district: Annotated[Optional[List[StrictStr]], Field(description="District within the market. Repeatable for a union.")] = None,
+        city: Annotated[Optional[StrictStr], Field(description="City to restrict to, as it appears on a property's address.")] = None,
+        district: Annotated[Optional[StrictStr], Field(description="District within the city.")] = None,
+        postal_code: Annotated[Optional[StrictStr], Field(description="Postal code to restrict to.")] = None,
+        type: Annotated[Optional[StrictStr], Field(description="Kind of property.")] = None,
         transaction_type: Annotated[Optional[StrictStr], Field(description="Restrict to sales or rentals.")] = None,
-        property_type: Annotated[Optional[List[StrictStr]], Field(description="Repeatable for a union.")] = None,
-        price_min: Annotated[Optional[StrictInt], Field(description="Inclusive lower bound, in minor units.")] = None,
-        price_max: Annotated[Optional[StrictInt], Field(description="Inclusive upper bound, in minor units.")] = None,
-        bedrooms_min: Annotated[Optional[StrictInt], Field(description="Inclusive lower bound on bedroom count.")] = None,
-        area_min: Annotated[Optional[Union[StrictFloat, StrictInt]], Field(description="Inclusive lower bound on living area, in square metres.")] = None,
-        status: Annotated[Optional[StrictStr], Field(description="Defaults to active. Pass explicitly to include withdrawn records.")] = None,
-        updated_since: Annotated[Optional[StrictStr], Field(description="RFC 3339 timestamp. The efficient way to keep a mirror in step without re-reading everything.")] = None,
-        limit: Annotated[Optional[StrictInt], Field(description="Records per page, 1 to 200.")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Listing status. Omit for every status rather than only active ones.")] = None,
+        external_id: Annotated[Optional[StrictStr], Field(description="Your own identifier for a record, to find what an import created.")] = None,
+        min_price: Annotated[Optional[Union[StrictFloat, StrictInt]], Field(description="Inclusive lower bound on the asking price.")] = None,
+        max_price: Annotated[Optional[Union[StrictFloat, StrictInt]], Field(description="Inclusive upper bound on the asking price.")] = None,
+        min_living_area: Annotated[Optional[Union[StrictFloat, StrictInt]], Field(description="Inclusive lower bound on living area, in square metres.")] = None,
+        min_bedrooms: Annotated[Optional[StrictInt], Field(description="Inclusive lower bound on bedroom count.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Records per page.")] = None,
         cursor: Annotated[Optional[StrictStr], Field(description="Opaque pointer from the previous response. Omit for the first page. Cursors are stable across inserts, so paging never skips or repeats a record the way an offset does.")] = None,
-        sort: Annotated[Optional[StrictStr], Field(description="Field to order by. Prefix with a minus for descending. Ties break on id, so paging is deterministic.")] = None,
-        fields: Annotated[Optional[List[StrictStr]], Field(description="Comma-separated list of fields to return. Trims payloads substantially when you only need a few.")] = None,
-        expand: Annotated[Optional[List[StrictStr]], Field(description="Comma-separated related resources to inline rather than fetch separately.")] = None,
+        sort: Annotated[Optional[StrictStr], Field(description="Field to order by. Prefix with a minus for descending.")] = None,
+        expand: Annotated[Optional[List[StrictStr]], Field(description="Related records to inline rather than fetch separately.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1510,35 +1510,35 @@ class PropertiesApi:
 
         Page through the catalogue with filters.  The workhorse read endpoint. Filters combine with AND. Anything omitted is unconstrained, so an unfiltered call returns the whole catalogue in cursor order.  Requires the `properties:read` scope.
 
-        :param market: Market identifier from the markets endpoint.
-        :type market: str
-        :param district: District within the market. Repeatable for a union.
-        :type district: List[str]
+        :param city: City to restrict to, as it appears on a property's address.
+        :type city: str
+        :param district: District within the city.
+        :type district: str
+        :param postal_code: Postal code to restrict to.
+        :type postal_code: str
+        :param type: Kind of property.
+        :type type: str
         :param transaction_type: Restrict to sales or rentals.
         :type transaction_type: str
-        :param property_type: Repeatable for a union.
-        :type property_type: List[str]
-        :param price_min: Inclusive lower bound, in minor units.
-        :type price_min: int
-        :param price_max: Inclusive upper bound, in minor units.
-        :type price_max: int
-        :param bedrooms_min: Inclusive lower bound on bedroom count.
-        :type bedrooms_min: int
-        :param area_min: Inclusive lower bound on living area, in square metres.
-        :type area_min: float
-        :param status: Defaults to active. Pass explicitly to include withdrawn records.
+        :param status: Listing status. Omit for every status rather than only active ones.
         :type status: str
-        :param updated_since: RFC 3339 timestamp. The efficient way to keep a mirror in step without re-reading everything.
-        :type updated_since: str
-        :param limit: Records per page, 1 to 200.
+        :param external_id: Your own identifier for a record, to find what an import created.
+        :type external_id: str
+        :param min_price: Inclusive lower bound on the asking price.
+        :type min_price: float
+        :param max_price: Inclusive upper bound on the asking price.
+        :type max_price: float
+        :param min_living_area: Inclusive lower bound on living area, in square metres.
+        :type min_living_area: float
+        :param min_bedrooms: Inclusive lower bound on bedroom count.
+        :type min_bedrooms: int
+        :param limit: Records per page.
         :type limit: int
         :param cursor: Opaque pointer from the previous response. Omit for the first page. Cursors are stable across inserts, so paging never skips or repeats a record the way an offset does.
         :type cursor: str
-        :param sort: Field to order by. Prefix with a minus for descending. Ties break on id, so paging is deterministic.
+        :param sort: Field to order by. Prefix with a minus for descending.
         :type sort: str
-        :param fields: Comma-separated list of fields to return. Trims payloads substantially when you only need a few.
-        :type fields: List[str]
-        :param expand: Comma-separated related resources to inline rather than fetch separately.
+        :param expand: Related records to inline rather than fetch separately.
         :type expand: List[str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1563,20 +1563,20 @@ class PropertiesApi:
         """ # noqa: E501
 
         _param = self._list_properties_serialize(
-            market=market,
+            city=city,
             district=district,
+            postal_code=postal_code,
+            type=type,
             transaction_type=transaction_type,
-            property_type=property_type,
-            price_min=price_min,
-            price_max=price_max,
-            bedrooms_min=bedrooms_min,
-            area_min=area_min,
             status=status,
-            updated_since=updated_since,
+            external_id=external_id,
+            min_price=min_price,
+            max_price=max_price,
+            min_living_area=min_living_area,
+            min_bedrooms=min_bedrooms,
             limit=limit,
             cursor=cursor,
             sort=sort,
-            fields=fields,
             expand=expand,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1601,20 +1601,20 @@ class PropertiesApi:
 
     def _list_properties_serialize(
         self,
-        market,
+        city,
         district,
+        postal_code,
+        type,
         transaction_type,
-        property_type,
-        price_min,
-        price_max,
-        bedrooms_min,
-        area_min,
         status,
-        updated_since,
+        external_id,
+        min_price,
+        max_price,
+        min_living_area,
+        min_bedrooms,
         limit,
         cursor,
         sort,
-        fields,
         expand,
         _request_auth,
         _content_type,
@@ -1625,9 +1625,6 @@ class PropertiesApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            'district': 'multi',
-            'property_type': 'multi',
-            'fields': 'csv',
             'expand': 'csv',
         }
 
@@ -1642,45 +1639,49 @@ class PropertiesApi:
 
         # process the path parameters
         # process the query parameters
-        if market is not None:
+        if city is not None:
             
-            _query_params.append(('market', market))
+            _query_params.append(('city', city))
             
         if district is not None:
             
             _query_params.append(('district', district))
             
+        if postal_code is not None:
+            
+            _query_params.append(('postal_code', postal_code))
+            
+        if type is not None:
+            
+            _query_params.append(('type', type))
+            
         if transaction_type is not None:
             
             _query_params.append(('transaction_type', transaction_type))
-            
-        if property_type is not None:
-            
-            _query_params.append(('property_type', property_type))
-            
-        if price_min is not None:
-            
-            _query_params.append(('price_min', price_min))
-            
-        if price_max is not None:
-            
-            _query_params.append(('price_max', price_max))
-            
-        if bedrooms_min is not None:
-            
-            _query_params.append(('bedrooms_min', bedrooms_min))
-            
-        if area_min is not None:
-            
-            _query_params.append(('area_min', area_min))
             
         if status is not None:
             
             _query_params.append(('status', status))
             
-        if updated_since is not None:
+        if external_id is not None:
             
-            _query_params.append(('updated_since', updated_since))
+            _query_params.append(('external_id', external_id))
+            
+        if min_price is not None:
+            
+            _query_params.append(('min_price', min_price))
+            
+        if max_price is not None:
+            
+            _query_params.append(('max_price', max_price))
+            
+        if min_living_area is not None:
+            
+            _query_params.append(('min_living_area', min_living_area))
+            
+        if min_bedrooms is not None:
+            
+            _query_params.append(('min_bedrooms', min_bedrooms))
             
         if limit is not None:
             
@@ -1693,10 +1694,6 @@ class PropertiesApi:
         if sort is not None:
             
             _query_params.append(('sort', sort))
-            
-        if fields is not None:
-            
-            _query_params.append(('fields', fields))
             
         if expand is not None:
             
