@@ -15,18 +15,18 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictBytes, StrictFloat, StrictInt, StrictStr, field_validator
+from pydantic import Field, StrictBool, StrictBytes, StrictFloat, StrictInt, StrictStr, field_validator
 from typing import List, Optional, Tuple, Union
 from typing_extensions import Annotated
-from skautik.models.create_property_request import CreatePropertyRequest
 from skautik.models.envelope import Envelope
 from skautik.models.image_list import ImageList
 from skautik.models.image_response import ImageResponse
 from skautik.models.price_observation_list import PriceObservationList
+from skautik.models.property_input import PropertyInput
 from skautik.models.property_list import PropertyList
 from skautik.models.property_page import PropertyPage
 from skautik.models.property_response import PropertyResponse
-from skautik.models.search_properties_request import SearchPropertiesRequest
+from skautik.models.search_request import SearchRequest
 
 from skautik.api_client import ApiClient, RequestSerialized
 from skautik.api_response import ApiResponse
@@ -49,7 +49,7 @@ class PropertiesApi:
     @validate_call
     def create_property(
         self,
-        create_property_request: CreatePropertyRequest,
+        property_input: PropertyInput,
         idempotency_key: Annotated[Optional[StrictStr], Field(description="Unique per logical creation. Replaying the same key returns the original result rather than creating a second record.")] = None,
         _request_timeout: Union[
             None,
@@ -68,8 +68,8 @@ class PropertiesApi:
 
         Publish a record from your own inventory.  Send an Idempotency-Key so a retried request cannot create a duplicate listing. Records created this way belong to your organisation and are the only ones your key may modify.  Requires the `properties:write` scope.
 
-        :param create_property_request: (required)
-        :type create_property_request: CreatePropertyRequest
+        :param property_input: (required)
+        :type property_input: PropertyInput
         :param idempotency_key: Unique per logical creation. Replaying the same key returns the original result rather than creating a second record.
         :type idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
@@ -95,7 +95,7 @@ class PropertiesApi:
         """ # noqa: E501
 
         _param = self._create_property_serialize(
-            create_property_request=create_property_request,
+            property_input=property_input,
             idempotency_key=idempotency_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -126,7 +126,7 @@ class PropertiesApi:
     @validate_call
     def create_property_with_http_info(
         self,
-        create_property_request: CreatePropertyRequest,
+        property_input: PropertyInput,
         idempotency_key: Annotated[Optional[StrictStr], Field(description="Unique per logical creation. Replaying the same key returns the original result rather than creating a second record.")] = None,
         _request_timeout: Union[
             None,
@@ -145,8 +145,8 @@ class PropertiesApi:
 
         Publish a record from your own inventory.  Send an Idempotency-Key so a retried request cannot create a duplicate listing. Records created this way belong to your organisation and are the only ones your key may modify.  Requires the `properties:write` scope.
 
-        :param create_property_request: (required)
-        :type create_property_request: CreatePropertyRequest
+        :param property_input: (required)
+        :type property_input: PropertyInput
         :param idempotency_key: Unique per logical creation. Replaying the same key returns the original result rather than creating a second record.
         :type idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
@@ -172,7 +172,7 @@ class PropertiesApi:
         """ # noqa: E501
 
         _param = self._create_property_serialize(
-            create_property_request=create_property_request,
+            property_input=property_input,
             idempotency_key=idempotency_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -203,7 +203,7 @@ class PropertiesApi:
     @validate_call
     def create_property_without_preload_content(
         self,
-        create_property_request: CreatePropertyRequest,
+        property_input: PropertyInput,
         idempotency_key: Annotated[Optional[StrictStr], Field(description="Unique per logical creation. Replaying the same key returns the original result rather than creating a second record.")] = None,
         _request_timeout: Union[
             None,
@@ -222,8 +222,8 @@ class PropertiesApi:
 
         Publish a record from your own inventory.  Send an Idempotency-Key so a retried request cannot create a duplicate listing. Records created this way belong to your organisation and are the only ones your key may modify.  Requires the `properties:write` scope.
 
-        :param create_property_request: (required)
-        :type create_property_request: CreatePropertyRequest
+        :param property_input: (required)
+        :type property_input: PropertyInput
         :param idempotency_key: Unique per logical creation. Replaying the same key returns the original result rather than creating a second record.
         :type idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
@@ -249,7 +249,7 @@ class PropertiesApi:
         """ # noqa: E501
 
         _param = self._create_property_serialize(
-            create_property_request=create_property_request,
+            property_input=property_input,
             idempotency_key=idempotency_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -275,7 +275,7 @@ class PropertiesApi:
 
     def _create_property_serialize(
         self,
-        create_property_request,
+        property_input,
         idempotency_key,
         _request_auth,
         _content_type,
@@ -304,8 +304,8 @@ class PropertiesApi:
             _header_params['Idempotency-Key'] = idempotency_key
         # process the form parameters
         # process the body parameter
-        if create_property_request is not None:
-            _body_params = create_property_request
+        if property_input is not None:
+            _body_params = property_input
 
 
         # set the HTTP header `Accept`
@@ -2294,7 +2294,7 @@ class PropertiesApi:
     @validate_call
     def search_properties(
         self,
-        search_properties_request: Optional[SearchPropertiesRequest] = None,
+        search_request: SearchRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2312,8 +2312,8 @@ class PropertiesApi:
 
         Semantic and geographic search that is too complex for a query string.  Takes a natural-language query, a drawn polygon, or both. Results come back ranked by relevance rather than by a sortable column, so this endpoint ignores the sort parameter. It is a POST because a polygon does not belong in a URL, not because it changes anything.  Requires the `properties:read` scope.
 
-        :param search_properties_request:
-        :type search_properties_request: SearchPropertiesRequest
+        :param search_request: (required)
+        :type search_request: SearchRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2337,7 +2337,7 @@ class PropertiesApi:
         """ # noqa: E501
 
         _param = self._search_properties_serialize(
-            search_properties_request=search_properties_request,
+            search_request=search_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2366,7 +2366,7 @@ class PropertiesApi:
     @validate_call
     def search_properties_with_http_info(
         self,
-        search_properties_request: Optional[SearchPropertiesRequest] = None,
+        search_request: SearchRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2384,8 +2384,8 @@ class PropertiesApi:
 
         Semantic and geographic search that is too complex for a query string.  Takes a natural-language query, a drawn polygon, or both. Results come back ranked by relevance rather than by a sortable column, so this endpoint ignores the sort parameter. It is a POST because a polygon does not belong in a URL, not because it changes anything.  Requires the `properties:read` scope.
 
-        :param search_properties_request:
-        :type search_properties_request: SearchPropertiesRequest
+        :param search_request: (required)
+        :type search_request: SearchRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2409,7 +2409,7 @@ class PropertiesApi:
         """ # noqa: E501
 
         _param = self._search_properties_serialize(
-            search_properties_request=search_properties_request,
+            search_request=search_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2438,7 +2438,7 @@ class PropertiesApi:
     @validate_call
     def search_properties_without_preload_content(
         self,
-        search_properties_request: Optional[SearchPropertiesRequest] = None,
+        search_request: SearchRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2456,8 +2456,8 @@ class PropertiesApi:
 
         Semantic and geographic search that is too complex for a query string.  Takes a natural-language query, a drawn polygon, or both. Results come back ranked by relevance rather than by a sortable column, so this endpoint ignores the sort parameter. It is a POST because a polygon does not belong in a URL, not because it changes anything.  Requires the `properties:read` scope.
 
-        :param search_properties_request:
-        :type search_properties_request: SearchPropertiesRequest
+        :param search_request: (required)
+        :type search_request: SearchRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2481,7 +2481,7 @@ class PropertiesApi:
         """ # noqa: E501
 
         _param = self._search_properties_serialize(
-            search_properties_request=search_properties_request,
+            search_request=search_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2505,7 +2505,7 @@ class PropertiesApi:
 
     def _search_properties_serialize(
         self,
-        search_properties_request,
+        search_request,
         _request_auth,
         _content_type,
         _headers,
@@ -2531,8 +2531,8 @@ class PropertiesApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if search_properties_request is not None:
-            _body_params = search_properties_request
+        if search_request is not None:
+            _body_params = search_request
 
 
         # set the HTTP header `Accept`
@@ -2879,6 +2879,7 @@ class PropertiesApi:
     def update_property(
         self,
         property_id: Annotated[StrictStr, Field(description="Property to update.")],
+        property_input: PropertyInput,
         if_match: Annotated[Optional[StrictStr], Field(description="ETag from your last read. Rejected with 412 if the record moved on.")] = None,
         _request_timeout: Union[
             None,
@@ -2899,6 +2900,8 @@ class PropertiesApi:
 
         :param property_id: Property to update. (required)
         :type property_id: str
+        :param property_input: (required)
+        :type property_input: PropertyInput
         :param if_match: ETag from your last read. Rejected with 412 if the record moved on.
         :type if_match: str
         :param _request_timeout: timeout setting for this request. If one
@@ -2925,6 +2928,7 @@ class PropertiesApi:
 
         _param = self._update_property_serialize(
             property_id=property_id,
+            property_input=property_input,
             if_match=if_match,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2957,6 +2961,7 @@ class PropertiesApi:
     def update_property_with_http_info(
         self,
         property_id: Annotated[StrictStr, Field(description="Property to update.")],
+        property_input: PropertyInput,
         if_match: Annotated[Optional[StrictStr], Field(description="ETag from your last read. Rejected with 412 if the record moved on.")] = None,
         _request_timeout: Union[
             None,
@@ -2977,6 +2982,8 @@ class PropertiesApi:
 
         :param property_id: Property to update. (required)
         :type property_id: str
+        :param property_input: (required)
+        :type property_input: PropertyInput
         :param if_match: ETag from your last read. Rejected with 412 if the record moved on.
         :type if_match: str
         :param _request_timeout: timeout setting for this request. If one
@@ -3003,6 +3010,7 @@ class PropertiesApi:
 
         _param = self._update_property_serialize(
             property_id=property_id,
+            property_input=property_input,
             if_match=if_match,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3035,6 +3043,7 @@ class PropertiesApi:
     def update_property_without_preload_content(
         self,
         property_id: Annotated[StrictStr, Field(description="Property to update.")],
+        property_input: PropertyInput,
         if_match: Annotated[Optional[StrictStr], Field(description="ETag from your last read. Rejected with 412 if the record moved on.")] = None,
         _request_timeout: Union[
             None,
@@ -3055,6 +3064,8 @@ class PropertiesApi:
 
         :param property_id: Property to update. (required)
         :type property_id: str
+        :param property_input: (required)
+        :type property_input: PropertyInput
         :param if_match: ETag from your last read. Rejected with 412 if the record moved on.
         :type if_match: str
         :param _request_timeout: timeout setting for this request. If one
@@ -3081,6 +3092,7 @@ class PropertiesApi:
 
         _param = self._update_property_serialize(
             property_id=property_id,
+            property_input=property_input,
             if_match=if_match,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3108,6 +3120,7 @@ class PropertiesApi:
     def _update_property_serialize(
         self,
         property_id,
+        property_input,
         if_match,
         _request_auth,
         _content_type,
@@ -3138,6 +3151,8 @@ class PropertiesApi:
             _header_params['If-Match'] = if_match
         # process the form parameters
         # process the body parameter
+        if property_input is not None:
+            _body_params = property_input
 
 
         # set the HTTP header `Accept`
@@ -3149,6 +3164,19 @@ class PropertiesApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -3178,6 +3206,8 @@ class PropertiesApi:
         self,
         property_id: Annotated[StrictStr, Field(description="Property to attach to.")],
         file: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="Image payload.")],
+        room_type: Annotated[Optional[StrictStr], Field(description="What the photograph shows, used to group images and to pick a source for staging.")] = None,
+        primary: Annotated[Optional[StrictBool], Field(description="Pass true to make this the primary image, which demotes the current one.")] = None,
         position: Annotated[Optional[StrictInt], Field(description="Display order. The image at position 0 is the primary one.")] = None,
         _request_timeout: Union[
             None,
@@ -3200,6 +3230,10 @@ class PropertiesApi:
         :type property_id: str
         :param file: Image payload. (required)
         :type file: bytes
+        :param room_type: What the photograph shows, used to group images and to pick a source for staging.
+        :type room_type: str
+        :param primary: Pass true to make this the primary image, which demotes the current one.
+        :type primary: bool
         :param position: Display order. The image at position 0 is the primary one.
         :type position: int
         :param _request_timeout: timeout setting for this request. If one
@@ -3227,6 +3261,8 @@ class PropertiesApi:
         _param = self._upload_property_image_serialize(
             property_id=property_id,
             file=file,
+            room_type=room_type,
+            primary=primary,
             position=position,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3260,6 +3296,8 @@ class PropertiesApi:
         self,
         property_id: Annotated[StrictStr, Field(description="Property to attach to.")],
         file: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="Image payload.")],
+        room_type: Annotated[Optional[StrictStr], Field(description="What the photograph shows, used to group images and to pick a source for staging.")] = None,
+        primary: Annotated[Optional[StrictBool], Field(description="Pass true to make this the primary image, which demotes the current one.")] = None,
         position: Annotated[Optional[StrictInt], Field(description="Display order. The image at position 0 is the primary one.")] = None,
         _request_timeout: Union[
             None,
@@ -3282,6 +3320,10 @@ class PropertiesApi:
         :type property_id: str
         :param file: Image payload. (required)
         :type file: bytes
+        :param room_type: What the photograph shows, used to group images and to pick a source for staging.
+        :type room_type: str
+        :param primary: Pass true to make this the primary image, which demotes the current one.
+        :type primary: bool
         :param position: Display order. The image at position 0 is the primary one.
         :type position: int
         :param _request_timeout: timeout setting for this request. If one
@@ -3309,6 +3351,8 @@ class PropertiesApi:
         _param = self._upload_property_image_serialize(
             property_id=property_id,
             file=file,
+            room_type=room_type,
+            primary=primary,
             position=position,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3342,6 +3386,8 @@ class PropertiesApi:
         self,
         property_id: Annotated[StrictStr, Field(description="Property to attach to.")],
         file: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="Image payload.")],
+        room_type: Annotated[Optional[StrictStr], Field(description="What the photograph shows, used to group images and to pick a source for staging.")] = None,
+        primary: Annotated[Optional[StrictBool], Field(description="Pass true to make this the primary image, which demotes the current one.")] = None,
         position: Annotated[Optional[StrictInt], Field(description="Display order. The image at position 0 is the primary one.")] = None,
         _request_timeout: Union[
             None,
@@ -3364,6 +3410,10 @@ class PropertiesApi:
         :type property_id: str
         :param file: Image payload. (required)
         :type file: bytes
+        :param room_type: What the photograph shows, used to group images and to pick a source for staging.
+        :type room_type: str
+        :param primary: Pass true to make this the primary image, which demotes the current one.
+        :type primary: bool
         :param position: Display order. The image at position 0 is the primary one.
         :type position: int
         :param _request_timeout: timeout setting for this request. If one
@@ -3391,6 +3441,8 @@ class PropertiesApi:
         _param = self._upload_property_image_serialize(
             property_id=property_id,
             file=file,
+            room_type=room_type,
+            primary=primary,
             position=position,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3419,6 +3471,8 @@ class PropertiesApi:
         self,
         property_id,
         file,
+        room_type,
+        primary,
         position,
         _request_auth,
         _content_type,
@@ -3444,6 +3498,14 @@ class PropertiesApi:
         if property_id is not None:
             _path_params['property_id'] = property_id
         # process the query parameters
+        if room_type is not None:
+            
+            _query_params.append(('room_type', room_type))
+            
+        if primary is not None:
+            
+            _query_params.append(('primary', primary))
+            
         # process the header parameters
         # process the form parameters
         if file is not None:

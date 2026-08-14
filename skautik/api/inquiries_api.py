@@ -20,7 +20,7 @@ from typing import Optional
 from typing_extensions import Annotated
 from skautik.models.inquiry_page import InquiryPage
 from skautik.models.inquiry_response import InquiryResponse
-from skautik.models.update_inquiry_request import UpdateInquiryRequest
+from skautik.models.inquiry_status_input import InquiryStatusInput
 
 from skautik.api_client import ApiClient, RequestSerialized
 from skautik.api_response import ApiResponse
@@ -320,10 +320,11 @@ class InquiriesApi:
     @validate_call
     def list_inquiries(
         self,
-        property_id: Annotated[Optional[StrictStr], Field(description="Only enquiries about this property.")] = None,
         status: Annotated[Optional[StrictStr], Field(description="Only enquiries in this state.")] = None,
+        property_id: Annotated[Optional[StrictStr], Field(description="Only enquiries about this property.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Page size. Clamped to 200.")] = None,
         cursor: Annotated[Optional[StrictStr], Field(description="Opaque cursor from the previous page's meta.next_cursor.")] = None,
+        sort: Annotated[Optional[StrictStr], Field(description="Field to order by. Prefix with a minus for descending.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -341,14 +342,16 @@ class InquiriesApi:
 
         Enquiries about your properties, newest first.  Cursor paginated like every other collection. Filter by property or by status to build a work queue rather than paging the lot.  Requires the `inquiries:read` scope.
 
-        :param property_id: Only enquiries about this property.
-        :type property_id: str
         :param status: Only enquiries in this state.
         :type status: str
+        :param property_id: Only enquiries about this property.
+        :type property_id: str
         :param limit: Page size. Clamped to 200.
         :type limit: int
         :param cursor: Opaque cursor from the previous page's meta.next_cursor.
         :type cursor: str
+        :param sort: Field to order by. Prefix with a minus for descending.
+        :type sort: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -372,10 +375,11 @@ class InquiriesApi:
         """ # noqa: E501
 
         _param = self._list_inquiries_serialize(
-            property_id=property_id,
             status=status,
+            property_id=property_id,
             limit=limit,
             cursor=cursor,
+            sort=sort,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -404,10 +408,11 @@ class InquiriesApi:
     @validate_call
     def list_inquiries_with_http_info(
         self,
-        property_id: Annotated[Optional[StrictStr], Field(description="Only enquiries about this property.")] = None,
         status: Annotated[Optional[StrictStr], Field(description="Only enquiries in this state.")] = None,
+        property_id: Annotated[Optional[StrictStr], Field(description="Only enquiries about this property.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Page size. Clamped to 200.")] = None,
         cursor: Annotated[Optional[StrictStr], Field(description="Opaque cursor from the previous page's meta.next_cursor.")] = None,
+        sort: Annotated[Optional[StrictStr], Field(description="Field to order by. Prefix with a minus for descending.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -425,14 +430,16 @@ class InquiriesApi:
 
         Enquiries about your properties, newest first.  Cursor paginated like every other collection. Filter by property or by status to build a work queue rather than paging the lot.  Requires the `inquiries:read` scope.
 
-        :param property_id: Only enquiries about this property.
-        :type property_id: str
         :param status: Only enquiries in this state.
         :type status: str
+        :param property_id: Only enquiries about this property.
+        :type property_id: str
         :param limit: Page size. Clamped to 200.
         :type limit: int
         :param cursor: Opaque cursor from the previous page's meta.next_cursor.
         :type cursor: str
+        :param sort: Field to order by. Prefix with a minus for descending.
+        :type sort: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -456,10 +463,11 @@ class InquiriesApi:
         """ # noqa: E501
 
         _param = self._list_inquiries_serialize(
-            property_id=property_id,
             status=status,
+            property_id=property_id,
             limit=limit,
             cursor=cursor,
+            sort=sort,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -488,10 +496,11 @@ class InquiriesApi:
     @validate_call
     def list_inquiries_without_preload_content(
         self,
-        property_id: Annotated[Optional[StrictStr], Field(description="Only enquiries about this property.")] = None,
         status: Annotated[Optional[StrictStr], Field(description="Only enquiries in this state.")] = None,
+        property_id: Annotated[Optional[StrictStr], Field(description="Only enquiries about this property.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Page size. Clamped to 200.")] = None,
         cursor: Annotated[Optional[StrictStr], Field(description="Opaque cursor from the previous page's meta.next_cursor.")] = None,
+        sort: Annotated[Optional[StrictStr], Field(description="Field to order by. Prefix with a minus for descending.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -509,14 +518,16 @@ class InquiriesApi:
 
         Enquiries about your properties, newest first.  Cursor paginated like every other collection. Filter by property or by status to build a work queue rather than paging the lot.  Requires the `inquiries:read` scope.
 
-        :param property_id: Only enquiries about this property.
-        :type property_id: str
         :param status: Only enquiries in this state.
         :type status: str
+        :param property_id: Only enquiries about this property.
+        :type property_id: str
         :param limit: Page size. Clamped to 200.
         :type limit: int
         :param cursor: Opaque cursor from the previous page's meta.next_cursor.
         :type cursor: str
+        :param sort: Field to order by. Prefix with a minus for descending.
+        :type sort: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -540,10 +551,11 @@ class InquiriesApi:
         """ # noqa: E501
 
         _param = self._list_inquiries_serialize(
-            property_id=property_id,
             status=status,
+            property_id=property_id,
             limit=limit,
             cursor=cursor,
+            sort=sort,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -567,10 +579,11 @@ class InquiriesApi:
 
     def _list_inquiries_serialize(
         self,
-        property_id,
         status,
+        property_id,
         limit,
         cursor,
+        sort,
         _request_auth,
         _content_type,
         _headers,
@@ -593,13 +606,13 @@ class InquiriesApi:
 
         # process the path parameters
         # process the query parameters
-        if property_id is not None:
-            
-            _query_params.append(('property_id', property_id))
-            
         if status is not None:
             
             _query_params.append(('status', status))
+            
+        if property_id is not None:
+            
+            _query_params.append(('property_id', property_id))
             
         if limit is not None:
             
@@ -608,6 +621,10 @@ class InquiriesApi:
         if cursor is not None:
             
             _query_params.append(('cursor', cursor))
+            
+        if sort is not None:
+            
+            _query_params.append(('sort', sort))
             
         # process the header parameters
         # process the form parameters
@@ -927,7 +944,7 @@ class InquiriesApi:
     def update_inquiry(
         self,
         inquiry_id: Annotated[StrictStr, Field(description="Inquiry identifier.")],
-        update_inquiry_request: UpdateInquiryRequest,
+        inquiry_status_input: InquiryStatusInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -947,8 +964,8 @@ class InquiriesApi:
 
         :param inquiry_id: Inquiry identifier. (required)
         :type inquiry_id: str
-        :param update_inquiry_request: (required)
-        :type update_inquiry_request: UpdateInquiryRequest
+        :param inquiry_status_input: (required)
+        :type inquiry_status_input: InquiryStatusInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -973,7 +990,7 @@ class InquiriesApi:
 
         _param = self._update_inquiry_serialize(
             inquiry_id=inquiry_id,
-            update_inquiry_request=update_inquiry_request,
+            inquiry_status_input=inquiry_status_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1003,7 +1020,7 @@ class InquiriesApi:
     def update_inquiry_with_http_info(
         self,
         inquiry_id: Annotated[StrictStr, Field(description="Inquiry identifier.")],
-        update_inquiry_request: UpdateInquiryRequest,
+        inquiry_status_input: InquiryStatusInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1023,8 +1040,8 @@ class InquiriesApi:
 
         :param inquiry_id: Inquiry identifier. (required)
         :type inquiry_id: str
-        :param update_inquiry_request: (required)
-        :type update_inquiry_request: UpdateInquiryRequest
+        :param inquiry_status_input: (required)
+        :type inquiry_status_input: InquiryStatusInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1049,7 +1066,7 @@ class InquiriesApi:
 
         _param = self._update_inquiry_serialize(
             inquiry_id=inquiry_id,
-            update_inquiry_request=update_inquiry_request,
+            inquiry_status_input=inquiry_status_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1079,7 +1096,7 @@ class InquiriesApi:
     def update_inquiry_without_preload_content(
         self,
         inquiry_id: Annotated[StrictStr, Field(description="Inquiry identifier.")],
-        update_inquiry_request: UpdateInquiryRequest,
+        inquiry_status_input: InquiryStatusInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1099,8 +1116,8 @@ class InquiriesApi:
 
         :param inquiry_id: Inquiry identifier. (required)
         :type inquiry_id: str
-        :param update_inquiry_request: (required)
-        :type update_inquiry_request: UpdateInquiryRequest
+        :param inquiry_status_input: (required)
+        :type inquiry_status_input: InquiryStatusInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1125,7 +1142,7 @@ class InquiriesApi:
 
         _param = self._update_inquiry_serialize(
             inquiry_id=inquiry_id,
-            update_inquiry_request=update_inquiry_request,
+            inquiry_status_input=inquiry_status_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1150,7 +1167,7 @@ class InquiriesApi:
     def _update_inquiry_serialize(
         self,
         inquiry_id,
-        update_inquiry_request,
+        inquiry_status_input,
         _request_auth,
         _content_type,
         _headers,
@@ -1178,8 +1195,8 @@ class InquiriesApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if update_inquiry_request is not None:
-            _body_params = update_inquiry_request
+        if inquiry_status_input is not None:
+            _body_params = inquiry_status_input
 
 
         # set the HTTP header `Accept`

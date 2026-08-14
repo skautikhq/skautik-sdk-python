@@ -17,8 +17,8 @@ from typing_extensions import Annotated
 
 from pydantic import Field, StrictStr
 from typing_extensions import Annotated
-from skautik.models.create_generation_request import CreateGenerationRequest
 from skautik.models.envelope import Envelope
+from skautik.models.generation_input import GenerationInput
 from skautik.models.generation_list import GenerationList
 from skautik.models.generation_response import GenerationResponse
 
@@ -43,7 +43,7 @@ class ImageGenerationsApi:
     @validate_call
     def create_generation(
         self,
-        create_generation_request: CreateGenerationRequest,
+        generation_input: GenerationInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -61,8 +61,8 @@ class ImageGenerationsApi:
 
         Queue a transformation of one of your property images.  Returns immediately with a queued generation. Poll the retrieve endpoint, or subscribe to a webhook, rather than holding the request open. The source image must already belong to one of your properties: there is no way to submit an arbitrary URL, which is deliberate.  Requires the `images:write` scope.
 
-        :param create_generation_request: (required)
-        :type create_generation_request: CreateGenerationRequest
+        :param generation_input: (required)
+        :type generation_input: GenerationInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -86,7 +86,7 @@ class ImageGenerationsApi:
         """ # noqa: E501
 
         _param = self._create_generation_serialize(
-            create_generation_request=create_generation_request,
+            generation_input=generation_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -115,7 +115,7 @@ class ImageGenerationsApi:
     @validate_call
     def create_generation_with_http_info(
         self,
-        create_generation_request: CreateGenerationRequest,
+        generation_input: GenerationInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -133,8 +133,8 @@ class ImageGenerationsApi:
 
         Queue a transformation of one of your property images.  Returns immediately with a queued generation. Poll the retrieve endpoint, or subscribe to a webhook, rather than holding the request open. The source image must already belong to one of your properties: there is no way to submit an arbitrary URL, which is deliberate.  Requires the `images:write` scope.
 
-        :param create_generation_request: (required)
-        :type create_generation_request: CreateGenerationRequest
+        :param generation_input: (required)
+        :type generation_input: GenerationInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -158,7 +158,7 @@ class ImageGenerationsApi:
         """ # noqa: E501
 
         _param = self._create_generation_serialize(
-            create_generation_request=create_generation_request,
+            generation_input=generation_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -187,7 +187,7 @@ class ImageGenerationsApi:
     @validate_call
     def create_generation_without_preload_content(
         self,
-        create_generation_request: CreateGenerationRequest,
+        generation_input: GenerationInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -205,8 +205,8 @@ class ImageGenerationsApi:
 
         Queue a transformation of one of your property images.  Returns immediately with a queued generation. Poll the retrieve endpoint, or subscribe to a webhook, rather than holding the request open. The source image must already belong to one of your properties: there is no way to submit an arbitrary URL, which is deliberate.  Requires the `images:write` scope.
 
-        :param create_generation_request: (required)
-        :type create_generation_request: CreateGenerationRequest
+        :param generation_input: (required)
+        :type generation_input: GenerationInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -230,7 +230,7 @@ class ImageGenerationsApi:
         """ # noqa: E501
 
         _param = self._create_generation_serialize(
-            create_generation_request=create_generation_request,
+            generation_input=generation_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -254,7 +254,7 @@ class ImageGenerationsApi:
 
     def _create_generation_serialize(
         self,
-        create_generation_request,
+        generation_input,
         _request_auth,
         _content_type,
         _headers,
@@ -280,8 +280,8 @@ class ImageGenerationsApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if create_generation_request is not None:
-            _body_params = create_generation_request
+        if generation_input is not None:
+            _body_params = generation_input
 
 
         # set the HTTP header `Accept`

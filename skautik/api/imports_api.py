@@ -18,13 +18,14 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictBool, StrictBytes, StrictStr, field_validator
 from typing import Optional, Tuple, Union
 from typing_extensions import Annotated
-from skautik.models.create_import_source_request import CreateImportSourceRequest
 from skautik.models.envelope import Envelope
 from skautik.models.import_list import ImportList
 from skautik.models.import_record_list import ImportRecordList
 from skautik.models.import_response import ImportResponse
+from skautik.models.import_source_input import ImportSourceInput
 from skautik.models.import_source_list import ImportSourceList
 from skautik.models.import_source_response import ImportSourceResponse
+from skautik.models.source_update import SourceUpdate
 
 from skautik.api_client import ApiClient, RequestSerialized
 from skautik.api_response import ApiResponse
@@ -47,13 +48,13 @@ class ImportsApi:
     @validate_call
     def create_import(
         self,
-        format: Annotated[StrictStr, Field(description="Which format the payload is in.")],
+        format: StrictStr,
+        mode: Optional[StrictStr] = None,
+        source_id: Optional[StrictStr] = None,
+        dry_run: Optional[StrictBool] = None,
+        filename: Annotated[Optional[StrictStr], Field(description="Original filename, recorded on the run so a failure can be traced back to the file that caused it.")] = None,
         idempotency_key: Annotated[Optional[StrictStr], Field(description="Prevents a retried upload from being processed twice.")] = None,
-        dry_run: Annotated[Optional[StrictBool], Field(description="Validate and report what would change without writing anything. Run this first on any migration.")] = None,
         file: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="The payload. Mutually exclusive with url.")] = None,
-        mode: Annotated[Optional[StrictStr], Field(description="incremental updates what the payload contains. full_sync additionally withdraws anything absent, and is refused unless the source is configured for it.")] = None,
-        source_id: Annotated[Optional[StrictStr], Field(description="Apply a stored import source's mapping and settings rather than the defaults.")] = None,
-        url: Annotated[Optional[StrictStr], Field(description="Where to fetch the payload from. Mutually exclusive with file.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -71,20 +72,20 @@ class ImportsApi:
 
         Upload a file, or point us at one, and process it.  Accepts a multipart upload or a URL we fetch. Validation runs first and the whole file is rejected if it cannot be parsed; individual records that fail are reported without stopping the rest, unless you ask for all-or-nothing.  Requires the `imports:write` scope.
 
-        :param format: Which format the payload is in. (required)
+        :param format:  (required)
         :type format: str
+        :param mode: 
+        :type mode: str
+        :param source_id: 
+        :type source_id: str
+        :param dry_run: 
+        :type dry_run: bool
+        :param filename: Original filename, recorded on the run so a failure can be traced back to the file that caused it.
+        :type filename: str
         :param idempotency_key: Prevents a retried upload from being processed twice.
         :type idempotency_key: str
-        :param dry_run: Validate and report what would change without writing anything. Run this first on any migration.
-        :type dry_run: bool
         :param file: The payload. Mutually exclusive with url.
         :type file: bytes
-        :param mode: incremental updates what the payload contains. full_sync additionally withdraws anything absent, and is refused unless the source is configured for it.
-        :type mode: str
-        :param source_id: Apply a stored import source's mapping and settings rather than the defaults.
-        :type source_id: str
-        :param url: Where to fetch the payload from. Mutually exclusive with file.
-        :type url: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -109,12 +110,12 @@ class ImportsApi:
 
         _param = self._create_import_serialize(
             format=format,
-            idempotency_key=idempotency_key,
-            dry_run=dry_run,
-            file=file,
             mode=mode,
             source_id=source_id,
-            url=url,
+            dry_run=dry_run,
+            filename=filename,
+            idempotency_key=idempotency_key,
+            file=file,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -145,13 +146,13 @@ class ImportsApi:
     @validate_call
     def create_import_with_http_info(
         self,
-        format: Annotated[StrictStr, Field(description="Which format the payload is in.")],
+        format: StrictStr,
+        mode: Optional[StrictStr] = None,
+        source_id: Optional[StrictStr] = None,
+        dry_run: Optional[StrictBool] = None,
+        filename: Annotated[Optional[StrictStr], Field(description="Original filename, recorded on the run so a failure can be traced back to the file that caused it.")] = None,
         idempotency_key: Annotated[Optional[StrictStr], Field(description="Prevents a retried upload from being processed twice.")] = None,
-        dry_run: Annotated[Optional[StrictBool], Field(description="Validate and report what would change without writing anything. Run this first on any migration.")] = None,
         file: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="The payload. Mutually exclusive with url.")] = None,
-        mode: Annotated[Optional[StrictStr], Field(description="incremental updates what the payload contains. full_sync additionally withdraws anything absent, and is refused unless the source is configured for it.")] = None,
-        source_id: Annotated[Optional[StrictStr], Field(description="Apply a stored import source's mapping and settings rather than the defaults.")] = None,
-        url: Annotated[Optional[StrictStr], Field(description="Where to fetch the payload from. Mutually exclusive with file.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -169,20 +170,20 @@ class ImportsApi:
 
         Upload a file, or point us at one, and process it.  Accepts a multipart upload or a URL we fetch. Validation runs first and the whole file is rejected if it cannot be parsed; individual records that fail are reported without stopping the rest, unless you ask for all-or-nothing.  Requires the `imports:write` scope.
 
-        :param format: Which format the payload is in. (required)
+        :param format:  (required)
         :type format: str
+        :param mode: 
+        :type mode: str
+        :param source_id: 
+        :type source_id: str
+        :param dry_run: 
+        :type dry_run: bool
+        :param filename: Original filename, recorded on the run so a failure can be traced back to the file that caused it.
+        :type filename: str
         :param idempotency_key: Prevents a retried upload from being processed twice.
         :type idempotency_key: str
-        :param dry_run: Validate and report what would change without writing anything. Run this first on any migration.
-        :type dry_run: bool
         :param file: The payload. Mutually exclusive with url.
         :type file: bytes
-        :param mode: incremental updates what the payload contains. full_sync additionally withdraws anything absent, and is refused unless the source is configured for it.
-        :type mode: str
-        :param source_id: Apply a stored import source's mapping and settings rather than the defaults.
-        :type source_id: str
-        :param url: Where to fetch the payload from. Mutually exclusive with file.
-        :type url: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -207,12 +208,12 @@ class ImportsApi:
 
         _param = self._create_import_serialize(
             format=format,
-            idempotency_key=idempotency_key,
-            dry_run=dry_run,
-            file=file,
             mode=mode,
             source_id=source_id,
-            url=url,
+            dry_run=dry_run,
+            filename=filename,
+            idempotency_key=idempotency_key,
+            file=file,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -243,13 +244,13 @@ class ImportsApi:
     @validate_call
     def create_import_without_preload_content(
         self,
-        format: Annotated[StrictStr, Field(description="Which format the payload is in.")],
+        format: StrictStr,
+        mode: Optional[StrictStr] = None,
+        source_id: Optional[StrictStr] = None,
+        dry_run: Optional[StrictBool] = None,
+        filename: Annotated[Optional[StrictStr], Field(description="Original filename, recorded on the run so a failure can be traced back to the file that caused it.")] = None,
         idempotency_key: Annotated[Optional[StrictStr], Field(description="Prevents a retried upload from being processed twice.")] = None,
-        dry_run: Annotated[Optional[StrictBool], Field(description="Validate and report what would change without writing anything. Run this first on any migration.")] = None,
         file: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="The payload. Mutually exclusive with url.")] = None,
-        mode: Annotated[Optional[StrictStr], Field(description="incremental updates what the payload contains. full_sync additionally withdraws anything absent, and is refused unless the source is configured for it.")] = None,
-        source_id: Annotated[Optional[StrictStr], Field(description="Apply a stored import source's mapping and settings rather than the defaults.")] = None,
-        url: Annotated[Optional[StrictStr], Field(description="Where to fetch the payload from. Mutually exclusive with file.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -267,20 +268,20 @@ class ImportsApi:
 
         Upload a file, or point us at one, and process it.  Accepts a multipart upload or a URL we fetch. Validation runs first and the whole file is rejected if it cannot be parsed; individual records that fail are reported without stopping the rest, unless you ask for all-or-nothing.  Requires the `imports:write` scope.
 
-        :param format: Which format the payload is in. (required)
+        :param format:  (required)
         :type format: str
+        :param mode: 
+        :type mode: str
+        :param source_id: 
+        :type source_id: str
+        :param dry_run: 
+        :type dry_run: bool
+        :param filename: Original filename, recorded on the run so a failure can be traced back to the file that caused it.
+        :type filename: str
         :param idempotency_key: Prevents a retried upload from being processed twice.
         :type idempotency_key: str
-        :param dry_run: Validate and report what would change without writing anything. Run this first on any migration.
-        :type dry_run: bool
         :param file: The payload. Mutually exclusive with url.
         :type file: bytes
-        :param mode: incremental updates what the payload contains. full_sync additionally withdraws anything absent, and is refused unless the source is configured for it.
-        :type mode: str
-        :param source_id: Apply a stored import source's mapping and settings rather than the defaults.
-        :type source_id: str
-        :param url: Where to fetch the payload from. Mutually exclusive with file.
-        :type url: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -305,12 +306,12 @@ class ImportsApi:
 
         _param = self._create_import_serialize(
             format=format,
-            idempotency_key=idempotency_key,
-            dry_run=dry_run,
-            file=file,
             mode=mode,
             source_id=source_id,
-            url=url,
+            dry_run=dry_run,
+            filename=filename,
+            idempotency_key=idempotency_key,
+            file=file,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -337,12 +338,12 @@ class ImportsApi:
     def _create_import_serialize(
         self,
         format,
-        idempotency_key,
-        dry_run,
-        file,
         mode,
         source_id,
-        url,
+        dry_run,
+        filename,
+        idempotency_key,
+        file,
         _request_auth,
         _content_type,
         _headers,
@@ -365,22 +366,32 @@ class ImportsApi:
 
         # process the path parameters
         # process the query parameters
+        if format is not None:
+            
+            _query_params.append(('format', format))
+            
+        if mode is not None:
+            
+            _query_params.append(('mode', mode))
+            
+        if source_id is not None:
+            
+            _query_params.append(('source_id', source_id))
+            
+        if dry_run is not None:
+            
+            _query_params.append(('dry_run', dry_run))
+            
+        if filename is not None:
+            
+            _query_params.append(('filename', filename))
+            
         # process the header parameters
         if idempotency_key is not None:
             _header_params['Idempotency-Key'] = idempotency_key
         # process the form parameters
-        if dry_run is not None:
-            _form_params.append(('dry_run', dry_run))
         if file is not None:
             _files['file'] = file
-        if format is not None:
-            _form_params.append(('format', format))
-        if mode is not None:
-            _form_params.append(('mode', mode))
-        if source_id is not None:
-            _form_params.append(('source_id', source_id))
-        if url is not None:
-            _form_params.append(('url', url))
         # process the body parameter
 
 
@@ -433,7 +444,7 @@ class ImportsApi:
     @validate_call
     def create_import_source(
         self,
-        create_import_source_request: CreateImportSourceRequest,
+        import_source_input: ImportSourceInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -451,8 +462,8 @@ class ImportsApi:
 
         A standing connector that imports on a schedule.  Configure once and stop thinking about it. A source holds the format, the delivery method, the field mapping, and the deletion policy, and every run against it produces an import you can inspect.  Requires the `imports:write` scope.
 
-        :param create_import_source_request: (required)
-        :type create_import_source_request: CreateImportSourceRequest
+        :param import_source_input: (required)
+        :type import_source_input: ImportSourceInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -476,7 +487,7 @@ class ImportsApi:
         """ # noqa: E501
 
         _param = self._create_import_source_serialize(
-            create_import_source_request=create_import_source_request,
+            import_source_input=import_source_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -505,7 +516,7 @@ class ImportsApi:
     @validate_call
     def create_import_source_with_http_info(
         self,
-        create_import_source_request: CreateImportSourceRequest,
+        import_source_input: ImportSourceInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -523,8 +534,8 @@ class ImportsApi:
 
         A standing connector that imports on a schedule.  Configure once and stop thinking about it. A source holds the format, the delivery method, the field mapping, and the deletion policy, and every run against it produces an import you can inspect.  Requires the `imports:write` scope.
 
-        :param create_import_source_request: (required)
-        :type create_import_source_request: CreateImportSourceRequest
+        :param import_source_input: (required)
+        :type import_source_input: ImportSourceInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -548,7 +559,7 @@ class ImportsApi:
         """ # noqa: E501
 
         _param = self._create_import_source_serialize(
-            create_import_source_request=create_import_source_request,
+            import_source_input=import_source_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -577,7 +588,7 @@ class ImportsApi:
     @validate_call
     def create_import_source_without_preload_content(
         self,
-        create_import_source_request: CreateImportSourceRequest,
+        import_source_input: ImportSourceInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -595,8 +606,8 @@ class ImportsApi:
 
         A standing connector that imports on a schedule.  Configure once and stop thinking about it. A source holds the format, the delivery method, the field mapping, and the deletion policy, and every run against it produces an import you can inspect.  Requires the `imports:write` scope.
 
-        :param create_import_source_request: (required)
-        :type create_import_source_request: CreateImportSourceRequest
+        :param import_source_input: (required)
+        :type import_source_input: ImportSourceInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -620,7 +631,7 @@ class ImportsApi:
         """ # noqa: E501
 
         _param = self._create_import_source_serialize(
-            create_import_source_request=create_import_source_request,
+            import_source_input=import_source_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -644,7 +655,7 @@ class ImportsApi:
 
     def _create_import_source_serialize(
         self,
-        create_import_source_request,
+        import_source_input,
         _request_auth,
         _content_type,
         _headers,
@@ -670,8 +681,8 @@ class ImportsApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if create_import_source_request is not None:
-            _body_params = create_import_source_request
+        if import_source_input is not None:
+            _body_params = import_source_input
 
 
         # set the HTTP header `Accept`
@@ -1816,7 +1827,6 @@ class ImportsApi:
     def list_import_records(
         self,
         import_id: Annotated[StrictStr, Field(description="Import identifier.")],
-        outcome: Annotated[Optional[StrictStr], Field(description="Narrow to one outcome.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1836,8 +1846,6 @@ class ImportsApi:
 
         :param import_id: Import identifier. (required)
         :type import_id: str
-        :param outcome: Narrow to one outcome.
-        :type outcome: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1862,7 +1870,6 @@ class ImportsApi:
 
         _param = self._list_import_records_serialize(
             import_id=import_id,
-            outcome=outcome,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1892,7 +1899,6 @@ class ImportsApi:
     def list_import_records_with_http_info(
         self,
         import_id: Annotated[StrictStr, Field(description="Import identifier.")],
-        outcome: Annotated[Optional[StrictStr], Field(description="Narrow to one outcome.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1912,8 +1918,6 @@ class ImportsApi:
 
         :param import_id: Import identifier. (required)
         :type import_id: str
-        :param outcome: Narrow to one outcome.
-        :type outcome: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1938,7 +1942,6 @@ class ImportsApi:
 
         _param = self._list_import_records_serialize(
             import_id=import_id,
-            outcome=outcome,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1968,7 +1971,6 @@ class ImportsApi:
     def list_import_records_without_preload_content(
         self,
         import_id: Annotated[StrictStr, Field(description="Import identifier.")],
-        outcome: Annotated[Optional[StrictStr], Field(description="Narrow to one outcome.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1988,8 +1990,6 @@ class ImportsApi:
 
         :param import_id: Import identifier. (required)
         :type import_id: str
-        :param outcome: Narrow to one outcome.
-        :type outcome: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2014,7 +2014,6 @@ class ImportsApi:
 
         _param = self._list_import_records_serialize(
             import_id=import_id,
-            outcome=outcome,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2039,7 +2038,6 @@ class ImportsApi:
     def _list_import_records_serialize(
         self,
         import_id,
-        outcome,
         _request_auth,
         _content_type,
         _headers,
@@ -2064,10 +2062,6 @@ class ImportsApi:
         if import_id is not None:
             _path_params['import_id'] = import_id
         # process the query parameters
-        if outcome is not None:
-            
-            _query_params.append(('outcome', outcome))
-            
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -2371,8 +2365,6 @@ class ImportsApi:
     @validate_call
     def list_imports(
         self,
-        source_id: Annotated[Optional[StrictStr], Field(description="Only imports produced by one source.")] = None,
-        status: Annotated[Optional[StrictStr], Field(description="Filter by outcome.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2390,10 +2382,6 @@ class ImportsApi:
 
         Import history for your organisation.  Requires the `imports:write` scope.
 
-        :param source_id: Only imports produced by one source.
-        :type source_id: str
-        :param status: Filter by outcome.
-        :type status: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2417,8 +2405,6 @@ class ImportsApi:
         """ # noqa: E501
 
         _param = self._list_imports_serialize(
-            source_id=source_id,
-            status=status,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2447,8 +2433,6 @@ class ImportsApi:
     @validate_call
     def list_imports_with_http_info(
         self,
-        source_id: Annotated[Optional[StrictStr], Field(description="Only imports produced by one source.")] = None,
-        status: Annotated[Optional[StrictStr], Field(description="Filter by outcome.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2466,10 +2450,6 @@ class ImportsApi:
 
         Import history for your organisation.  Requires the `imports:write` scope.
 
-        :param source_id: Only imports produced by one source.
-        :type source_id: str
-        :param status: Filter by outcome.
-        :type status: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2493,8 +2473,6 @@ class ImportsApi:
         """ # noqa: E501
 
         _param = self._list_imports_serialize(
-            source_id=source_id,
-            status=status,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2523,8 +2501,6 @@ class ImportsApi:
     @validate_call
     def list_imports_without_preload_content(
         self,
-        source_id: Annotated[Optional[StrictStr], Field(description="Only imports produced by one source.")] = None,
-        status: Annotated[Optional[StrictStr], Field(description="Filter by outcome.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2542,10 +2518,6 @@ class ImportsApi:
 
         Import history for your organisation.  Requires the `imports:write` scope.
 
-        :param source_id: Only imports produced by one source.
-        :type source_id: str
-        :param status: Filter by outcome.
-        :type status: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2569,8 +2541,6 @@ class ImportsApi:
         """ # noqa: E501
 
         _param = self._list_imports_serialize(
-            source_id=source_id,
-            status=status,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2594,8 +2564,6 @@ class ImportsApi:
 
     def _list_imports_serialize(
         self,
-        source_id,
-        status,
         _request_auth,
         _content_type,
         _headers,
@@ -2618,14 +2586,6 @@ class ImportsApi:
 
         # process the path parameters
         # process the query parameters
-        if source_id is not None:
-            
-            _query_params.append(('source_id', source_id))
-            
-        if status is not None:
-            
-            _query_params.append(('status', status))
-            
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -2668,6 +2628,7 @@ class ImportsApi:
     def update_import_source(
         self,
         source_id: Annotated[StrictStr, Field(description="Source identifier.")],
+        source_update: SourceUpdate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2687,6 +2648,8 @@ class ImportsApi:
 
         :param source_id: Source identifier. (required)
         :type source_id: str
+        :param source_update: (required)
+        :type source_update: SourceUpdate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2711,6 +2674,7 @@ class ImportsApi:
 
         _param = self._update_import_source_serialize(
             source_id=source_id,
+            source_update=source_update,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2740,6 +2704,7 @@ class ImportsApi:
     def update_import_source_with_http_info(
         self,
         source_id: Annotated[StrictStr, Field(description="Source identifier.")],
+        source_update: SourceUpdate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2759,6 +2724,8 @@ class ImportsApi:
 
         :param source_id: Source identifier. (required)
         :type source_id: str
+        :param source_update: (required)
+        :type source_update: SourceUpdate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2783,6 +2750,7 @@ class ImportsApi:
 
         _param = self._update_import_source_serialize(
             source_id=source_id,
+            source_update=source_update,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2812,6 +2780,7 @@ class ImportsApi:
     def update_import_source_without_preload_content(
         self,
         source_id: Annotated[StrictStr, Field(description="Source identifier.")],
+        source_update: SourceUpdate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2831,6 +2800,8 @@ class ImportsApi:
 
         :param source_id: Source identifier. (required)
         :type source_id: str
+        :param source_update: (required)
+        :type source_update: SourceUpdate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2855,6 +2826,7 @@ class ImportsApi:
 
         _param = self._update_import_source_serialize(
             source_id=source_id,
+            source_update=source_update,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2879,6 +2851,7 @@ class ImportsApi:
     def _update_import_source_serialize(
         self,
         source_id,
+        source_update,
         _request_auth,
         _content_type,
         _headers,
@@ -2906,6 +2879,8 @@ class ImportsApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if source_update is not None:
+            _body_params = source_update
 
 
         # set the HTTP header `Accept`
@@ -2917,6 +2892,19 @@ class ImportsApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [

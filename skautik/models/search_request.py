@@ -17,21 +17,23 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional, Union
+from skautik.models.bounds import Bounds
+from skautik.models.search_filters import SearchFilters
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class SearchPropertiesRequest(BaseModel):
+class SearchRequest(BaseModel):
     """
-    SearchPropertiesRequest
+    SearchRequest
     """ # noqa: E501
-    bounds: Optional[Dict[str, Any]] = Field(default=None, description="Rectangle with sw_lat, sw_lng, ne_lat, ne_lng. Mutually exclusive with polygon.", json_schema_extra={"examples": [{"east": 13.4791, "north": 52.5401, "south": 52.4812, "west": 13.3702}]})
-    filters: Optional[Dict[str, Any]] = Field(default=None, description="Same keys the list endpoint accepts as query parameters.", json_schema_extra={"examples": [{"price_max": 60000000, "property_type": "apartment"}]})
-    limit: Optional[StrictInt] = Field(default=50, description="Results to return, 1 to 200.", json_schema_extra={"examples": [50]})
-    polygon: Optional[List[StrictStr]] = Field(default=None, description="Closed ring of [longitude, latitude] pairs, GeoJSON order.", json_schema_extra={"examples": [[[13.3702, 52.4812], [13.4791, 52.4812], [13.4791, 52.5401], [13.3702, 52.5401], [13.3702, 52.4812]]]})
-    query: Optional[StrictStr] = Field(default=None, description="Plain-language description of what is wanted.", json_schema_extra={"examples": ["\"quiet two bedroom near a park, needs a home office\""]})
+    bounds: Optional[Bounds] = None
+    filters: SearchFilters
+    limit: StrictInt
+    polygon: List[List[Union[StrictFloat, StrictInt]]]
+    query: StrictStr
     __properties: ClassVar[List[str]] = ["bounds", "filters", "limit", "polygon", "query"]
 
     model_config = ConfigDict(
@@ -52,7 +54,7 @@ class SearchPropertiesRequest(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of SearchPropertiesRequest from a JSON string"""
+        """Create an instance of SearchRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,11 +75,17 @@ class SearchPropertiesRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of bounds
+        if self.bounds:
+            _dict['bounds'] = self.bounds.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of filters
+        if self.filters:
+            _dict['filters'] = self.filters.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of SearchPropertiesRequest from a dict"""
+        """Create an instance of SearchRequest from a dict"""
         if obj is None:
             return None
 
@@ -85,9 +93,9 @@ class SearchPropertiesRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "bounds": obj.get("bounds"),
-            "filters": obj.get("filters"),
-            "limit": obj.get("limit") if obj.get("limit") is not None else 50,
+            "bounds": Bounds.from_dict(obj["bounds"]) if obj.get("bounds") is not None else None,
+            "filters": SearchFilters.from_dict(obj["filters"]) if obj.get("filters") is not None else None,
+            "limit": obj.get("limit"),
             "polygon": obj.get("polygon"),
             "query": obj.get("query")
         })

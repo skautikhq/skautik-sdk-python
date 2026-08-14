@@ -17,20 +17,24 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class UpdateWebhookRequest(BaseModel):
+class ListingInput(BaseModel):
     """
-    UpdateWebhookRequest
+    ListingInput
     """ # noqa: E501
-    active: Optional[StrictBool] = Field(default=None, description="False pauses deliveries; the registration and its secret survive.", json_schema_extra={"examples": [True]})
-    events: Optional[List[StrictStr]] = Field(default=None, description="Replaces the whole subscription list rather than adding to it.", json_schema_extra={"examples": [["property.created", "property.withdrawn"]]})
-    url: Optional[StrictStr] = Field(default=None, description="New HTTPS endpoint.", json_schema_extra={"examples": ["https://example.com/hooks/skautik"]})
-    __properties: ClassVar[List[str]] = ["active", "events", "url"]
+    currency: Optional[StrictStr] = None
+    deposit: Optional[Union[StrictFloat, StrictInt]] = None
+    price: Optional[Union[StrictFloat, StrictInt]] = None
+    price_period: Optional[StrictStr] = None
+    service_charges: Optional[Union[StrictFloat, StrictInt]] = None
+    status: Optional[StrictStr] = None
+    transaction_type: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["currency", "deposit", "price", "price_period", "service_charges", "status", "transaction_type"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -50,7 +54,7 @@ class UpdateWebhookRequest(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of UpdateWebhookRequest from a JSON string"""
+        """Create an instance of ListingInput from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -75,7 +79,7 @@ class UpdateWebhookRequest(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of UpdateWebhookRequest from a dict"""
+        """Create an instance of ListingInput from a dict"""
         if obj is None:
             return None
 
@@ -83,9 +87,13 @@ class UpdateWebhookRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "active": obj.get("active"),
-            "events": obj.get("events"),
-            "url": obj.get("url")
+            "currency": obj.get("currency"),
+            "deposit": obj.get("deposit"),
+            "price": obj.get("price"),
+            "price_period": obj.get("price_period"),
+            "service_charges": obj.get("service_charges"),
+            "status": obj.get("status"),
+            "transaction_type": obj.get("transaction_type")
         })
         return _obj
 

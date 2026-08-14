@@ -18,12 +18,12 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr, field_validator
 from typing import Optional
 from typing_extensions import Annotated
-from skautik.models.create_webhook_request import CreateWebhookRequest
 from skautik.models.delivery_list import DeliveryList
 from skautik.models.envelope import Envelope
-from skautik.models.update_webhook_request import UpdateWebhookRequest
+from skautik.models.webhook_input import WebhookInput
 from skautik.models.webhook_list import WebhookList
 from skautik.models.webhook_response import WebhookResponse
+from skautik.models.webhook_update import WebhookUpdate
 
 from skautik.api_client import ApiClient, RequestSerialized
 from skautik.api_response import ApiResponse
@@ -46,7 +46,7 @@ class WebhooksApi:
     @validate_call
     def create_webhook(
         self,
-        create_webhook_request: CreateWebhookRequest,
+        webhook_input: WebhookInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -64,8 +64,8 @@ class WebhooksApi:
 
         Register an HTTPS endpoint for a set of events.  The response includes a signing secret, shown once. Store it immediately: every delivery is signed with it, and a handler that does not verify the signature will accept forged calls from anyone who learns the URL.  Requires the `webhooks:manage` scope.
 
-        :param create_webhook_request: (required)
-        :type create_webhook_request: CreateWebhookRequest
+        :param webhook_input: (required)
+        :type webhook_input: WebhookInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -89,7 +89,7 @@ class WebhooksApi:
         """ # noqa: E501
 
         _param = self._create_webhook_serialize(
-            create_webhook_request=create_webhook_request,
+            webhook_input=webhook_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -118,7 +118,7 @@ class WebhooksApi:
     @validate_call
     def create_webhook_with_http_info(
         self,
-        create_webhook_request: CreateWebhookRequest,
+        webhook_input: WebhookInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -136,8 +136,8 @@ class WebhooksApi:
 
         Register an HTTPS endpoint for a set of events.  The response includes a signing secret, shown once. Store it immediately: every delivery is signed with it, and a handler that does not verify the signature will accept forged calls from anyone who learns the URL.  Requires the `webhooks:manage` scope.
 
-        :param create_webhook_request: (required)
-        :type create_webhook_request: CreateWebhookRequest
+        :param webhook_input: (required)
+        :type webhook_input: WebhookInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -161,7 +161,7 @@ class WebhooksApi:
         """ # noqa: E501
 
         _param = self._create_webhook_serialize(
-            create_webhook_request=create_webhook_request,
+            webhook_input=webhook_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -190,7 +190,7 @@ class WebhooksApi:
     @validate_call
     def create_webhook_without_preload_content(
         self,
-        create_webhook_request: CreateWebhookRequest,
+        webhook_input: WebhookInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -208,8 +208,8 @@ class WebhooksApi:
 
         Register an HTTPS endpoint for a set of events.  The response includes a signing secret, shown once. Store it immediately: every delivery is signed with it, and a handler that does not verify the signature will accept forged calls from anyone who learns the URL.  Requires the `webhooks:manage` scope.
 
-        :param create_webhook_request: (required)
-        :type create_webhook_request: CreateWebhookRequest
+        :param webhook_input: (required)
+        :type webhook_input: WebhookInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -233,7 +233,7 @@ class WebhooksApi:
         """ # noqa: E501
 
         _param = self._create_webhook_serialize(
-            create_webhook_request=create_webhook_request,
+            webhook_input=webhook_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -257,7 +257,7 @@ class WebhooksApi:
 
     def _create_webhook_serialize(
         self,
-        create_webhook_request,
+        webhook_input,
         _request_auth,
         _content_type,
         _headers,
@@ -283,8 +283,8 @@ class WebhooksApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if create_webhook_request is not None:
-            _body_params = create_webhook_request
+        if webhook_input is not None:
+            _body_params = webhook_input
 
 
         # set the HTTP header `Accept`
@@ -2278,7 +2278,7 @@ class WebhooksApi:
     def update_webhook(
         self,
         webhook_id: Annotated[StrictStr, Field(description="Webhook identifier.")],
-        update_webhook_request: Optional[UpdateWebhookRequest] = None,
+        webhook_update: WebhookUpdate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2298,8 +2298,8 @@ class WebhooksApi:
 
         :param webhook_id: Webhook identifier. (required)
         :type webhook_id: str
-        :param update_webhook_request:
-        :type update_webhook_request: UpdateWebhookRequest
+        :param webhook_update: (required)
+        :type webhook_update: WebhookUpdate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2324,7 +2324,7 @@ class WebhooksApi:
 
         _param = self._update_webhook_serialize(
             webhook_id=webhook_id,
-            update_webhook_request=update_webhook_request,
+            webhook_update=webhook_update,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2354,7 +2354,7 @@ class WebhooksApi:
     def update_webhook_with_http_info(
         self,
         webhook_id: Annotated[StrictStr, Field(description="Webhook identifier.")],
-        update_webhook_request: Optional[UpdateWebhookRequest] = None,
+        webhook_update: WebhookUpdate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2374,8 +2374,8 @@ class WebhooksApi:
 
         :param webhook_id: Webhook identifier. (required)
         :type webhook_id: str
-        :param update_webhook_request:
-        :type update_webhook_request: UpdateWebhookRequest
+        :param webhook_update: (required)
+        :type webhook_update: WebhookUpdate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2400,7 +2400,7 @@ class WebhooksApi:
 
         _param = self._update_webhook_serialize(
             webhook_id=webhook_id,
-            update_webhook_request=update_webhook_request,
+            webhook_update=webhook_update,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2430,7 +2430,7 @@ class WebhooksApi:
     def update_webhook_without_preload_content(
         self,
         webhook_id: Annotated[StrictStr, Field(description="Webhook identifier.")],
-        update_webhook_request: Optional[UpdateWebhookRequest] = None,
+        webhook_update: WebhookUpdate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2450,8 +2450,8 @@ class WebhooksApi:
 
         :param webhook_id: Webhook identifier. (required)
         :type webhook_id: str
-        :param update_webhook_request:
-        :type update_webhook_request: UpdateWebhookRequest
+        :param webhook_update: (required)
+        :type webhook_update: WebhookUpdate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2476,7 +2476,7 @@ class WebhooksApi:
 
         _param = self._update_webhook_serialize(
             webhook_id=webhook_id,
-            update_webhook_request=update_webhook_request,
+            webhook_update=webhook_update,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2501,7 +2501,7 @@ class WebhooksApi:
     def _update_webhook_serialize(
         self,
         webhook_id,
-        update_webhook_request,
+        webhook_update,
         _request_auth,
         _content_type,
         _headers,
@@ -2529,8 +2529,8 @@ class WebhooksApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if update_webhook_request is not None:
-            _body_params = update_webhook_request
+        if webhook_update is not None:
+            _body_params = webhook_update
 
 
         # set the HTTP header `Accept`

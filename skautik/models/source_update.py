@@ -17,27 +17,23 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class CreateExportRequest(BaseModel):
+class SourceUpdate(BaseModel):
     """
-    CreateExportRequest
+    SourceUpdate
     """ # noqa: E501
-    fields: Optional[List[StrictStr]] = Field(default=None, description="Restrict columns. Omit for the full record.", json_schema_extra={"examples": [["id", "title", "price", "address"]]})
-    filters: Optional[Dict[str, Any]] = Field(default=None, description="Same keys the list endpoint accepts.", json_schema_extra={"examples": [{"price_max": 60000000, "property_type": "apartment"}]})
-    format: StrictStr = Field(description="Output format. Parquet is named in the schema and is not implemented; asking for it is refused rather than answered with a corrupt file.", json_schema_extra={"examples": ["ndjson"]})
-    __properties: ClassVar[List[str]] = ["fields", "filters", "format"]
-
-    @field_validator('format')
-    def format_validate_enum(cls, value):
-        """Validates the enum"""
-        if value not in set(['ndjson', 'csv']):
-            raise ValueError("must be one of enum values ('ndjson', 'csv')")
-        return value
+    active: Optional[StrictBool] = None
+    deletion_policy: Optional[StrictStr] = None
+    fetch_url: Optional[StrictStr] = None
+    mapping: Optional[Dict[str, StrictStr]] = None
+    name: Optional[StrictStr] = None
+    schedule: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["active", "deletion_policy", "fetch_url", "mapping", "name", "schedule"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -57,7 +53,7 @@ class CreateExportRequest(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of CreateExportRequest from a JSON string"""
+        """Create an instance of SourceUpdate from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -82,7 +78,7 @@ class CreateExportRequest(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of CreateExportRequest from a dict"""
+        """Create an instance of SourceUpdate from a dict"""
         if obj is None:
             return None
 
@@ -90,9 +86,12 @@ class CreateExportRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "fields": obj.get("fields"),
-            "filters": obj.get("filters"),
-            "format": obj.get("format")
+            "active": obj.get("active"),
+            "deletion_policy": obj.get("deletion_policy"),
+            "fetch_url": obj.get("fetch_url"),
+            "mapping": obj.get("mapping"),
+            "name": obj.get("name"),
+            "schedule": obj.get("schedule")
         })
         return _obj
 

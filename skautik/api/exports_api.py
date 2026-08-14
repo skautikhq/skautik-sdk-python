@@ -17,7 +17,7 @@ from typing_extensions import Annotated
 
 from pydantic import Field, StrictStr
 from typing_extensions import Annotated
-from skautik.models.create_export_request import CreateExportRequest
+from skautik.models.export_input import ExportInput
 from skautik.models.export_list import ExportList
 from skautik.models.export_response import ExportResponse
 
@@ -42,7 +42,7 @@ class ExportsApi:
     @validate_call
     def create_export(
         self,
-        create_export_request: CreateExportRequest,
+        export_input: ExportInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -60,8 +60,8 @@ class ExportsApi:
 
         Queue a bulk extract of the catalogue.  Accepts the same filters as the list endpoint. Returns immediately with a pending export; subscribe to export.completed rather than polling. Note that a narrowed field set may not round trip: feeding an export back into an import needs the columns an import requires, external_id and type among them, so omit fields for analysis rather than for a re-import.  Requires the `exports:create` scope.
 
-        :param create_export_request: (required)
-        :type create_export_request: CreateExportRequest
+        :param export_input: (required)
+        :type export_input: ExportInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -85,7 +85,7 @@ class ExportsApi:
         """ # noqa: E501
 
         _param = self._create_export_serialize(
-            create_export_request=create_export_request,
+            export_input=export_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -114,7 +114,7 @@ class ExportsApi:
     @validate_call
     def create_export_with_http_info(
         self,
-        create_export_request: CreateExportRequest,
+        export_input: ExportInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -132,8 +132,8 @@ class ExportsApi:
 
         Queue a bulk extract of the catalogue.  Accepts the same filters as the list endpoint. Returns immediately with a pending export; subscribe to export.completed rather than polling. Note that a narrowed field set may not round trip: feeding an export back into an import needs the columns an import requires, external_id and type among them, so omit fields for analysis rather than for a re-import.  Requires the `exports:create` scope.
 
-        :param create_export_request: (required)
-        :type create_export_request: CreateExportRequest
+        :param export_input: (required)
+        :type export_input: ExportInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -157,7 +157,7 @@ class ExportsApi:
         """ # noqa: E501
 
         _param = self._create_export_serialize(
-            create_export_request=create_export_request,
+            export_input=export_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -186,7 +186,7 @@ class ExportsApi:
     @validate_call
     def create_export_without_preload_content(
         self,
-        create_export_request: CreateExportRequest,
+        export_input: ExportInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -204,8 +204,8 @@ class ExportsApi:
 
         Queue a bulk extract of the catalogue.  Accepts the same filters as the list endpoint. Returns immediately with a pending export; subscribe to export.completed rather than polling. Note that a narrowed field set may not round trip: feeding an export back into an import needs the columns an import requires, external_id and type among them, so omit fields for analysis rather than for a re-import.  Requires the `exports:create` scope.
 
-        :param create_export_request: (required)
-        :type create_export_request: CreateExportRequest
+        :param export_input: (required)
+        :type export_input: ExportInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -229,7 +229,7 @@ class ExportsApi:
         """ # noqa: E501
 
         _param = self._create_export_serialize(
-            create_export_request=create_export_request,
+            export_input=export_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -253,7 +253,7 @@ class ExportsApi:
 
     def _create_export_serialize(
         self,
-        create_export_request,
+        export_input,
         _request_auth,
         _content_type,
         _headers,
@@ -279,8 +279,8 @@ class ExportsApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if create_export_request is not None:
-            _body_params = create_export_request
+        if export_input is not None:
+            _body_params = export_input
 
 
         # set the HTTP header `Accept`

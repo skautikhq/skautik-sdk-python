@@ -17,19 +17,21 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List
+from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt
+from typing import Any, ClassVar, Dict, List, Union
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class CreateWebhookRequest(BaseModel):
+class Bounds(BaseModel):
     """
-    CreateWebhookRequest
+    Bounds
     """ # noqa: E501
-    events: List[StrictStr] = Field(description="Event names to subscribe to. Every name must be one of the events listed above; an unrecognised one is refused rather than silently never firing.", json_schema_extra={"examples": [["property.created", "inquiry.created"]]})
-    url: StrictStr = Field(description="HTTPS endpoint. Plain HTTP is rejected.", json_schema_extra={"examples": ["https://example.com/hooks/skautik"]})
-    __properties: ClassVar[List[str]] = ["events", "url"]
+    ne_lat: Union[StrictFloat, StrictInt]
+    ne_lng: Union[StrictFloat, StrictInt]
+    sw_lat: Union[StrictFloat, StrictInt]
+    sw_lng: Union[StrictFloat, StrictInt]
+    __properties: ClassVar[List[str]] = ["ne_lat", "ne_lng", "sw_lat", "sw_lng"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -49,7 +51,7 @@ class CreateWebhookRequest(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of CreateWebhookRequest from a JSON string"""
+        """Create an instance of Bounds from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -74,7 +76,7 @@ class CreateWebhookRequest(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of CreateWebhookRequest from a dict"""
+        """Create an instance of Bounds from a dict"""
         if obj is None:
             return None
 
@@ -82,8 +84,10 @@ class CreateWebhookRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "events": obj.get("events"),
-            "url": obj.get("url")
+            "ne_lat": obj.get("ne_lat"),
+            "ne_lng": obj.get("ne_lng"),
+            "sw_lat": obj.get("sw_lat"),
+            "sw_lng": obj.get("sw_lng")
         })
         return _obj
 

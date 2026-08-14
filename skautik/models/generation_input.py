@@ -17,25 +17,22 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, StrictStr
 from typing import Any, ClassVar, Dict, List
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class UpdateInquiryRequest(BaseModel):
+class GenerationInput(BaseModel):
     """
-    UpdateInquiryRequest
+    GenerationInput
     """ # noqa: E501
-    status: StrictStr = Field(description="The state to move it to.", json_schema_extra={"examples": ["new"]})
-    __properties: ClassVar[List[str]] = ["status"]
-
-    @field_validator('status')
-    def status_validate_enum(cls, value):
-        """Validates the enum"""
-        if value not in set(['new', 'read', 'replied', 'closed', 'spam']):
-            raise ValueError("must be one of enum values ('new', 'read', 'replied', 'closed', 'spam')")
-        return value
+    kind: StrictStr
+    prompt: StrictStr
+    room_type: StrictStr
+    source_image_id: StrictStr
+    style: StrictStr
+    __properties: ClassVar[List[str]] = ["kind", "prompt", "room_type", "source_image_id", "style"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -55,7 +52,7 @@ class UpdateInquiryRequest(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of UpdateInquiryRequest from a JSON string"""
+        """Create an instance of GenerationInput from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -80,7 +77,7 @@ class UpdateInquiryRequest(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of UpdateInquiryRequest from a dict"""
+        """Create an instance of GenerationInput from a dict"""
         if obj is None:
             return None
 
@@ -88,7 +85,11 @@ class UpdateInquiryRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "status": obj.get("status")
+            "kind": obj.get("kind"),
+            "prompt": obj.get("prompt"),
+            "room_type": obj.get("room_type"),
+            "source_image_id": obj.get("source_image_id"),
+            "style": obj.get("style")
         })
         return _obj
 

@@ -17,40 +17,24 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict, StrictStr
+from typing import Any, ClassVar, Dict, List
+from skautik.models.delivery_input import DeliveryInput
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class CreateImportSourceRequest(BaseModel):
+class ImportSourceInput(BaseModel):
     """
-    CreateImportSourceRequest
+    ImportSourceInput
     """ # noqa: E501
-    deletion_policy: Optional[StrictStr] = Field(default='explicit_only', description="explicit_only honours deletion markers alone. absence_withdraws also withdraws anything missing from a full delivery, and should only be used where the format is a complete statement of stock.", json_schema_extra={"examples": ["explicit_only"]})
-    delivery: Dict[str, Any] = Field(description="How data arrives. fetch_url pulls from a URL you give us on a schedule; api_push means you send us each delivery. SFTP drops are named in the schema and are not running yet, so asking for one is refused rather than answered with credentials for a host that would never accept them.", json_schema_extra={"examples": [{"compression": "gzip", "url": "https://example.com/hooks/skautik"}]})
-    format: StrictStr = Field(description="Format this source delivers. Only csv and json parse today; the others are named in the schema and are refused here rather than accepted into a connector that would fail every run.", json_schema_extra={"examples": ["csv"]})
-    mapping: Optional[Dict[str, Any]] = Field(default=None, description="Field mapping, for formats that need one. Omit for OpenImmo and RESO, which are already standardised.", json_schema_extra={"examples": [{"Kaufpreis": "price", "Objektnummer": "external_id", "Wohnflaeche": "living_area"}]})
-    name: StrictStr = Field(description="Your own label for the connector.", json_schema_extra={"examples": ["Nightly listing sync"]})
-    schedule: Optional[StrictStr] = Field(default=None, description="How often to pull, for fetched sources. Cron expression in UTC. Ignored for drops and pushes, which run on arrival.", json_schema_extra={"examples": ["15 3 * * *"]})
+    deletion_policy: StrictStr
+    delivery: DeliveryInput
+    format: StrictStr
+    mapping: Dict[str, StrictStr]
+    name: StrictStr
+    schedule: StrictStr
     __properties: ClassVar[List[str]] = ["deletion_policy", "delivery", "format", "mapping", "name", "schedule"]
-
-    @field_validator('deletion_policy')
-    def deletion_policy_validate_enum(cls, value):
-        """Validates the enum"""
-        if value is None:
-            return value
-
-        if value not in set(['explicit_only', 'absence_withdraws']):
-            raise ValueError("must be one of enum values ('explicit_only', 'absence_withdraws')")
-        return value
-
-    @field_validator('format')
-    def format_validate_enum(cls, value):
-        """Validates the enum"""
-        if value not in set(['csv', 'json']):
-            raise ValueError("must be one of enum values ('csv', 'json')")
-        return value
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -70,7 +54,7 @@ class CreateImportSourceRequest(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of CreateImportSourceRequest from a JSON string"""
+        """Create an instance of ImportSourceInput from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -91,11 +75,14 @@ class CreateImportSourceRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of delivery
+        if self.delivery:
+            _dict['delivery'] = self.delivery.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of CreateImportSourceRequest from a dict"""
+        """Create an instance of ImportSourceInput from a dict"""
         if obj is None:
             return None
 
@@ -103,8 +90,8 @@ class CreateImportSourceRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "deletion_policy": obj.get("deletion_policy") if obj.get("deletion_policy") is not None else 'explicit_only',
-            "delivery": obj.get("delivery"),
+            "deletion_policy": obj.get("deletion_policy"),
+            "delivery": DeliveryInput.from_dict(obj["delivery"]) if obj.get("delivery") is not None else None,
             "format": obj.get("format"),
             "mapping": obj.get("mapping"),
             "name": obj.get("name"),

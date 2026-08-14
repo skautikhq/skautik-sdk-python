@@ -15,8 +15,8 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictInt, StrictStr, field_validator
-from typing import List, Optional
+from pydantic import Field, StrictStr, field_validator
+from typing import Optional
 from typing_extensions import Annotated
 from skautik.models.city_list import CityList
 from skautik.models.district_list import DistrictList
@@ -46,6 +46,8 @@ class MarketsApi:
         self,
         market_id: Annotated[StrictStr, Field(description="Market identifier.")],
         district_id: Annotated[StrictStr, Field(description="District identifier.")],
+        period: Annotated[Optional[StrictStr], Field(description="Month to report, as YYYY-MM. Defaults to the most recent computed.")] = None,
+        property_type: Annotated[Optional[StrictStr], Field(description="Restrict the figures to one kind of property.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -67,6 +69,10 @@ class MarketsApi:
         :type market_id: str
         :param district_id: District identifier. (required)
         :type district_id: str
+        :param period: Month to report, as YYYY-MM. Defaults to the most recent computed.
+        :type period: str
+        :param property_type: Restrict the figures to one kind of property.
+        :type property_type: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -92,6 +98,8 @@ class MarketsApi:
         _param = self._get_district_serialize(
             market_id=market_id,
             district_id=district_id,
+            period=period,
+            property_type=property_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -122,6 +130,8 @@ class MarketsApi:
         self,
         market_id: Annotated[StrictStr, Field(description="Market identifier.")],
         district_id: Annotated[StrictStr, Field(description="District identifier.")],
+        period: Annotated[Optional[StrictStr], Field(description="Month to report, as YYYY-MM. Defaults to the most recent computed.")] = None,
+        property_type: Annotated[Optional[StrictStr], Field(description="Restrict the figures to one kind of property.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -143,6 +153,10 @@ class MarketsApi:
         :type market_id: str
         :param district_id: District identifier. (required)
         :type district_id: str
+        :param period: Month to report, as YYYY-MM. Defaults to the most recent computed.
+        :type period: str
+        :param property_type: Restrict the figures to one kind of property.
+        :type property_type: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -168,6 +182,8 @@ class MarketsApi:
         _param = self._get_district_serialize(
             market_id=market_id,
             district_id=district_id,
+            period=period,
+            property_type=property_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -198,6 +214,8 @@ class MarketsApi:
         self,
         market_id: Annotated[StrictStr, Field(description="Market identifier.")],
         district_id: Annotated[StrictStr, Field(description="District identifier.")],
+        period: Annotated[Optional[StrictStr], Field(description="Month to report, as YYYY-MM. Defaults to the most recent computed.")] = None,
+        property_type: Annotated[Optional[StrictStr], Field(description="Restrict the figures to one kind of property.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -219,6 +237,10 @@ class MarketsApi:
         :type market_id: str
         :param district_id: District identifier. (required)
         :type district_id: str
+        :param period: Month to report, as YYYY-MM. Defaults to the most recent computed.
+        :type period: str
+        :param property_type: Restrict the figures to one kind of property.
+        :type property_type: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -244,6 +266,8 @@ class MarketsApi:
         _param = self._get_district_serialize(
             market_id=market_id,
             district_id=district_id,
+            period=period,
+            property_type=property_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -269,6 +293,8 @@ class MarketsApi:
         self,
         market_id,
         district_id,
+        period,
+        property_type,
         _request_auth,
         _content_type,
         _headers,
@@ -295,6 +321,14 @@ class MarketsApi:
         if district_id is not None:
             _path_params['district_id'] = district_id
         # process the query parameters
+        if period is not None:
+            
+            _query_params.append(('period', period))
+            
+        if property_type is not None:
+            
+            _query_params.append(('property_type', property_type))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -336,6 +370,8 @@ class MarketsApi:
     def get_market(
         self,
         market_id: Annotated[StrictStr, Field(description="Market identifier, such as berlin-de.")],
+        period: Annotated[Optional[StrictStr], Field(description="Month to report, as YYYY-MM. Defaults to the most recent computed.")] = None,
+        property_type: Annotated[Optional[StrictStr], Field(description="Restrict the figures to one kind of property.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -355,6 +391,10 @@ class MarketsApi:
 
         :param market_id: Market identifier, such as berlin-de. (required)
         :type market_id: str
+        :param period: Month to report, as YYYY-MM. Defaults to the most recent computed.
+        :type period: str
+        :param property_type: Restrict the figures to one kind of property.
+        :type property_type: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -379,6 +419,8 @@ class MarketsApi:
 
         _param = self._get_market_serialize(
             market_id=market_id,
+            period=period,
+            property_type=property_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -408,6 +450,8 @@ class MarketsApi:
     def get_market_with_http_info(
         self,
         market_id: Annotated[StrictStr, Field(description="Market identifier, such as berlin-de.")],
+        period: Annotated[Optional[StrictStr], Field(description="Month to report, as YYYY-MM. Defaults to the most recent computed.")] = None,
+        property_type: Annotated[Optional[StrictStr], Field(description="Restrict the figures to one kind of property.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -427,6 +471,10 @@ class MarketsApi:
 
         :param market_id: Market identifier, such as berlin-de. (required)
         :type market_id: str
+        :param period: Month to report, as YYYY-MM. Defaults to the most recent computed.
+        :type period: str
+        :param property_type: Restrict the figures to one kind of property.
+        :type property_type: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -451,6 +499,8 @@ class MarketsApi:
 
         _param = self._get_market_serialize(
             market_id=market_id,
+            period=period,
+            property_type=property_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -480,6 +530,8 @@ class MarketsApi:
     def get_market_without_preload_content(
         self,
         market_id: Annotated[StrictStr, Field(description="Market identifier, such as berlin-de.")],
+        period: Annotated[Optional[StrictStr], Field(description="Month to report, as YYYY-MM. Defaults to the most recent computed.")] = None,
+        property_type: Annotated[Optional[StrictStr], Field(description="Restrict the figures to one kind of property.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -499,6 +551,10 @@ class MarketsApi:
 
         :param market_id: Market identifier, such as berlin-de. (required)
         :type market_id: str
+        :param period: Month to report, as YYYY-MM. Defaults to the most recent computed.
+        :type period: str
+        :param property_type: Restrict the figures to one kind of property.
+        :type property_type: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -523,6 +579,8 @@ class MarketsApi:
 
         _param = self._get_market_serialize(
             market_id=market_id,
+            period=period,
+            property_type=property_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -547,6 +605,8 @@ class MarketsApi:
     def _get_market_serialize(
         self,
         market_id,
+        period,
+        property_type,
         _request_auth,
         _content_type,
         _headers,
@@ -571,6 +631,14 @@ class MarketsApi:
         if market_id is not None:
             _path_params['market_id'] = market_id
         # process the query parameters
+        if period is not None:
+            
+            _query_params.append(('period', period))
+            
+        if property_type is not None:
+            
+            _query_params.append(('property_type', property_type))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -889,9 +957,6 @@ class MarketsApi:
     @validate_call
     def list_markets(
         self,
-        country: Annotated[Optional[StrictStr], Field(description="ISO 3166-1 alpha-2 filter.")] = None,
-        limit: Annotated[Optional[StrictInt], Field(description="Records per page, 1 to 200.")] = None,
-        cursor: Annotated[Optional[StrictStr], Field(description="Opaque pointer from the previous response. Omit for the first page. Cursors are stable across inserts, so paging never skips or repeats a record the way an offset does.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -909,12 +974,6 @@ class MarketsApi:
 
         Every market with coverage, and how deep that coverage runs.  Call this before hardcoding a market identifier. Coverage expands, and a market absent here has no systematic inventory yet rather than no property.  Requires the `markets:read` scope.
 
-        :param country: ISO 3166-1 alpha-2 filter.
-        :type country: str
-        :param limit: Records per page, 1 to 200.
-        :type limit: int
-        :param cursor: Opaque pointer from the previous response. Omit for the first page. Cursors are stable across inserts, so paging never skips or repeats a record the way an offset does.
-        :type cursor: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -938,9 +997,6 @@ class MarketsApi:
         """ # noqa: E501
 
         _param = self._list_markets_serialize(
-            country=country,
-            limit=limit,
-            cursor=cursor,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -969,9 +1025,6 @@ class MarketsApi:
     @validate_call
     def list_markets_with_http_info(
         self,
-        country: Annotated[Optional[StrictStr], Field(description="ISO 3166-1 alpha-2 filter.")] = None,
-        limit: Annotated[Optional[StrictInt], Field(description="Records per page, 1 to 200.")] = None,
-        cursor: Annotated[Optional[StrictStr], Field(description="Opaque pointer from the previous response. Omit for the first page. Cursors are stable across inserts, so paging never skips or repeats a record the way an offset does.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -989,12 +1042,6 @@ class MarketsApi:
 
         Every market with coverage, and how deep that coverage runs.  Call this before hardcoding a market identifier. Coverage expands, and a market absent here has no systematic inventory yet rather than no property.  Requires the `markets:read` scope.
 
-        :param country: ISO 3166-1 alpha-2 filter.
-        :type country: str
-        :param limit: Records per page, 1 to 200.
-        :type limit: int
-        :param cursor: Opaque pointer from the previous response. Omit for the first page. Cursors are stable across inserts, so paging never skips or repeats a record the way an offset does.
-        :type cursor: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1018,9 +1065,6 @@ class MarketsApi:
         """ # noqa: E501
 
         _param = self._list_markets_serialize(
-            country=country,
-            limit=limit,
-            cursor=cursor,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1049,9 +1093,6 @@ class MarketsApi:
     @validate_call
     def list_markets_without_preload_content(
         self,
-        country: Annotated[Optional[StrictStr], Field(description="ISO 3166-1 alpha-2 filter.")] = None,
-        limit: Annotated[Optional[StrictInt], Field(description="Records per page, 1 to 200.")] = None,
-        cursor: Annotated[Optional[StrictStr], Field(description="Opaque pointer from the previous response. Omit for the first page. Cursors are stable across inserts, so paging never skips or repeats a record the way an offset does.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1069,12 +1110,6 @@ class MarketsApi:
 
         Every market with coverage, and how deep that coverage runs.  Call this before hardcoding a market identifier. Coverage expands, and a market absent here has no systematic inventory yet rather than no property.  Requires the `markets:read` scope.
 
-        :param country: ISO 3166-1 alpha-2 filter.
-        :type country: str
-        :param limit: Records per page, 1 to 200.
-        :type limit: int
-        :param cursor: Opaque pointer from the previous response. Omit for the first page. Cursors are stable across inserts, so paging never skips or repeats a record the way an offset does.
-        :type cursor: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1098,9 +1133,6 @@ class MarketsApi:
         """ # noqa: E501
 
         _param = self._list_markets_serialize(
-            country=country,
-            limit=limit,
-            cursor=cursor,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1124,9 +1156,6 @@ class MarketsApi:
 
     def _list_markets_serialize(
         self,
-        country,
-        limit,
-        cursor,
         _request_auth,
         _content_type,
         _headers,
@@ -1149,18 +1178,6 @@ class MarketsApi:
 
         # process the path parameters
         # process the query parameters
-        if country is not None:
-            
-            _query_params.append(('country', country))
-            
-        if limit is not None:
-            
-            _query_params.append(('limit', limit))
-            
-        if cursor is not None:
-            
-            _query_params.append(('cursor', cursor))
-            
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -1203,7 +1220,7 @@ class MarketsApi:
     def market_statistics(
         self,
         market_id: Annotated[StrictStr, Field(description="Market identifier.")],
-        property_type: Annotated[Optional[List[StrictStr]], Field(description="Narrow to one property type.")] = None,
+        property_type: Annotated[Optional[StrictStr], Field(description="Narrow to one property type.")] = None,
         transaction_type: Annotated[Optional[StrictStr], Field(description="sale or rent.")] = None,
         interval: Annotated[Optional[StrictStr], Field(description="Granularity of the returned series.")] = None,
         since: Annotated[Optional[StrictStr], Field(description="RFC 3339 lower bound on the series.")] = None,
@@ -1227,7 +1244,7 @@ class MarketsApi:
         :param market_id: Market identifier. (required)
         :type market_id: str
         :param property_type: Narrow to one property type.
-        :type property_type: List[str]
+        :type property_type: str
         :param transaction_type: sale or rent.
         :type transaction_type: str
         :param interval: Granularity of the returned series.
@@ -1291,7 +1308,7 @@ class MarketsApi:
     def market_statistics_with_http_info(
         self,
         market_id: Annotated[StrictStr, Field(description="Market identifier.")],
-        property_type: Annotated[Optional[List[StrictStr]], Field(description="Narrow to one property type.")] = None,
+        property_type: Annotated[Optional[StrictStr], Field(description="Narrow to one property type.")] = None,
         transaction_type: Annotated[Optional[StrictStr], Field(description="sale or rent.")] = None,
         interval: Annotated[Optional[StrictStr], Field(description="Granularity of the returned series.")] = None,
         since: Annotated[Optional[StrictStr], Field(description="RFC 3339 lower bound on the series.")] = None,
@@ -1315,7 +1332,7 @@ class MarketsApi:
         :param market_id: Market identifier. (required)
         :type market_id: str
         :param property_type: Narrow to one property type.
-        :type property_type: List[str]
+        :type property_type: str
         :param transaction_type: sale or rent.
         :type transaction_type: str
         :param interval: Granularity of the returned series.
@@ -1379,7 +1396,7 @@ class MarketsApi:
     def market_statistics_without_preload_content(
         self,
         market_id: Annotated[StrictStr, Field(description="Market identifier.")],
-        property_type: Annotated[Optional[List[StrictStr]], Field(description="Narrow to one property type.")] = None,
+        property_type: Annotated[Optional[StrictStr], Field(description="Narrow to one property type.")] = None,
         transaction_type: Annotated[Optional[StrictStr], Field(description="sale or rent.")] = None,
         interval: Annotated[Optional[StrictStr], Field(description="Granularity of the returned series.")] = None,
         since: Annotated[Optional[StrictStr], Field(description="RFC 3339 lower bound on the series.")] = None,
@@ -1403,7 +1420,7 @@ class MarketsApi:
         :param market_id: Market identifier. (required)
         :type market_id: str
         :param property_type: Narrow to one property type.
-        :type property_type: List[str]
+        :type property_type: str
         :param transaction_type: sale or rent.
         :type transaction_type: str
         :param interval: Granularity of the returned series.
@@ -1475,7 +1492,6 @@ class MarketsApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            'property_type': 'multi',
         }
 
         _path_params: Dict[str, str] = {}

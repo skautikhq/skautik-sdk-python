@@ -17,29 +17,19 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict, StrictStr
+from typing import Any, ClassVar, Dict, List
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class CreateGenerationRequest(BaseModel):
+class WebhookInput(BaseModel):
     """
-    CreateGenerationRequest
+    WebhookInput
     """ # noqa: E501
-    kind: StrictStr = Field(description="The transformation to apply. floorplan_render is named in the schema and is not implemented; asking for it is refused rather than answered with a fabricated plan.", json_schema_extra={"examples": ["virtual_staging"]})
-    prompt: Optional[StrictStr] = Field(default=None, description="Up to 500 characters of additional direction. It is added to the instruction for the chosen kind and never replaces it, so it cannot be used to make the model do something unrelated.", json_schema_extra={"examples": ["A bright Scandinavian living room with oak floors and a linen sofa"]})
-    room_type: Optional[StrictStr] = Field(default=None, description="For virtual_staging: what the room is. Improves the result markedly. Defaults to a generic room.", json_schema_extra={"examples": ["living room"]})
-    source_image_id: StrictStr = Field(description="The image to transform. Must belong to one of your own properties; anything else answers 404, the same as an image that does not exist.", json_schema_extra={"examples": ["img_ce1c9e04db6140eda7c6934af60daebb"]})
-    style: Optional[StrictStr] = Field(default=None, description="For virtual_staging: the furnishing style. Defaults to contemporary.", json_schema_extra={"examples": ["scandinavian"]})
-    __properties: ClassVar[List[str]] = ["kind", "prompt", "room_type", "source_image_id", "style"]
-
-    @field_validator('kind')
-    def kind_validate_enum(cls, value):
-        """Validates the enum"""
-        if value not in set(['virtual_staging', 'decluttering', 'enhancement']):
-            raise ValueError("must be one of enum values ('virtual_staging', 'decluttering', 'enhancement')")
-        return value
+    events: List[StrictStr]
+    url: StrictStr
+    __properties: ClassVar[List[str]] = ["events", "url"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -59,7 +49,7 @@ class CreateGenerationRequest(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of CreateGenerationRequest from a JSON string"""
+        """Create an instance of WebhookInput from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -84,7 +74,7 @@ class CreateGenerationRequest(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of CreateGenerationRequest from a dict"""
+        """Create an instance of WebhookInput from a dict"""
         if obj is None:
             return None
 
@@ -92,11 +82,8 @@ class CreateGenerationRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "kind": obj.get("kind"),
-            "prompt": obj.get("prompt"),
-            "room_type": obj.get("room_type"),
-            "source_image_id": obj.get("source_image_id"),
-            "style": obj.get("style")
+            "events": obj.get("events"),
+            "url": obj.get("url")
         })
         return _obj
 

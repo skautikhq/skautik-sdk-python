@@ -36,24 +36,23 @@ __all__ = [
     "ApiAttributeError",
     "ApiException",
     "Address",
+    "Bounds",
     "Building",
     "City",
     "CityList",
-    "CreateExportRequest",
-    "CreateGenerationRequest",
-    "CreateImportSourceRequest",
-    "CreatePropertyRequest",
-    "CreateWebhookRequest",
     "Delivery",
+    "DeliveryInput",
     "DeliveryList",
     "District",
     "DistrictList",
     "Energy",
     "Envelope",
     "Export",
+    "ExportInput",
     "ExportList",
     "ExportResponse",
     "Generation",
+    "GenerationInput",
     "GenerationList",
     "GenerationResponse",
     "Image",
@@ -65,12 +64,15 @@ __all__ = [
     "ImportRecordList",
     "ImportResponse",
     "ImportSource",
+    "ImportSourceInput",
     "ImportSourceList",
     "ImportSourceResponse",
     "Inquiry",
     "InquiryPage",
     "InquiryResponse",
+    "InquiryStatusInput",
     "Listing",
+    "ListingInput",
     "Location",
     "Market",
     "MarketContext",
@@ -83,21 +85,24 @@ __all__ = [
     "PriceObservationList",
     "Problem",
     "ProblemErrorsInner",
+    "PropertyInput",
     "PropertyList",
     "PropertyPage",
     "PropertyResponse",
     "Rooms",
-    "SearchPropertiesRequest",
+    "SearchFilters",
+    "SearchRequest",
     "Series",
     "SeriesPoint",
     "SeriesResponse",
     "Size",
     "SourceDelivery",
-    "UpdateInquiryRequest",
-    "UpdateWebhookRequest",
+    "SourceUpdate",
     "Webhook",
+    "WebhookInput",
     "WebhookList",
     "WebhookResponse",
+    "WebhookUpdate",
 ]
 
 # import apis into sdk package
@@ -123,24 +128,23 @@ from skautik.exceptions import ApiException as ApiException
 
 # import models into sdk package
 from skautik.models.address import Address as Address
+from skautik.models.bounds import Bounds as Bounds
 from skautik.models.building import Building as Building
 from skautik.models.city import City as City
 from skautik.models.city_list import CityList as CityList
-from skautik.models.create_export_request import CreateExportRequest as CreateExportRequest
-from skautik.models.create_generation_request import CreateGenerationRequest as CreateGenerationRequest
-from skautik.models.create_import_source_request import CreateImportSourceRequest as CreateImportSourceRequest
-from skautik.models.create_property_request import CreatePropertyRequest as CreatePropertyRequest
-from skautik.models.create_webhook_request import CreateWebhookRequest as CreateWebhookRequest
 from skautik.models.delivery import Delivery as Delivery
+from skautik.models.delivery_input import DeliveryInput as DeliveryInput
 from skautik.models.delivery_list import DeliveryList as DeliveryList
 from skautik.models.district import District as District
 from skautik.models.district_list import DistrictList as DistrictList
 from skautik.models.energy import Energy as Energy
 from skautik.models.envelope import Envelope as Envelope
 from skautik.models.export import Export as Export
+from skautik.models.export_input import ExportInput as ExportInput
 from skautik.models.export_list import ExportList as ExportList
 from skautik.models.export_response import ExportResponse as ExportResponse
 from skautik.models.generation import Generation as Generation
+from skautik.models.generation_input import GenerationInput as GenerationInput
 from skautik.models.generation_list import GenerationList as GenerationList
 from skautik.models.generation_response import GenerationResponse as GenerationResponse
 from skautik.models.image import Image as Image
@@ -152,12 +156,15 @@ from skautik.models.import_record import ImportRecord as ImportRecord
 from skautik.models.import_record_list import ImportRecordList as ImportRecordList
 from skautik.models.import_response import ImportResponse as ImportResponse
 from skautik.models.import_source import ImportSource as ImportSource
+from skautik.models.import_source_input import ImportSourceInput as ImportSourceInput
 from skautik.models.import_source_list import ImportSourceList as ImportSourceList
 from skautik.models.import_source_response import ImportSourceResponse as ImportSourceResponse
 from skautik.models.inquiry import Inquiry as Inquiry
 from skautik.models.inquiry_page import InquiryPage as InquiryPage
 from skautik.models.inquiry_response import InquiryResponse as InquiryResponse
+from skautik.models.inquiry_status_input import InquiryStatusInput as InquiryStatusInput
 from skautik.models.listing import Listing as Listing
+from skautik.models.listing_input import ListingInput as ListingInput
 from skautik.models.location import Location as Location
 from skautik.models.market import Market as Market
 from skautik.models.market_context import MarketContext as MarketContext
@@ -170,19 +177,22 @@ from skautik.models.price_observation import PriceObservation as PriceObservatio
 from skautik.models.price_observation_list import PriceObservationList as PriceObservationList
 from skautik.models.problem import Problem as Problem
 from skautik.models.problem_errors_inner import ProblemErrorsInner as ProblemErrorsInner
+from skautik.models.property_input import PropertyInput as PropertyInput
 from skautik.models.property_list import PropertyList as PropertyList
 from skautik.models.property_page import PropertyPage as PropertyPage
 from skautik.models.property_response import PropertyResponse as PropertyResponse
 from skautik.models.rooms import Rooms as Rooms
-from skautik.models.search_properties_request import SearchPropertiesRequest as SearchPropertiesRequest
+from skautik.models.search_filters import SearchFilters as SearchFilters
+from skautik.models.search_request import SearchRequest as SearchRequest
 from skautik.models.series import Series as Series
 from skautik.models.series_point import SeriesPoint as SeriesPoint
 from skautik.models.series_response import SeriesResponse as SeriesResponse
 from skautik.models.size import Size as Size
 from skautik.models.source_delivery import SourceDelivery as SourceDelivery
-from skautik.models.update_inquiry_request import UpdateInquiryRequest as UpdateInquiryRequest
-from skautik.models.update_webhook_request import UpdateWebhookRequest as UpdateWebhookRequest
+from skautik.models.source_update import SourceUpdate as SourceUpdate
 from skautik.models.webhook import Webhook as Webhook
+from skautik.models.webhook_input import WebhookInput as WebhookInput
 from skautik.models.webhook_list import WebhookList as WebhookList
 from skautik.models.webhook_response import WebhookResponse as WebhookResponse
+from skautik.models.webhook_update import WebhookUpdate as WebhookUpdate
 

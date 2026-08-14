@@ -17,24 +17,19 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict, StrictStr
+from typing import Any, ClassVar, Dict, List
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class CreatePropertyRequest(BaseModel):
+class DeliveryInput(BaseModel):
     """
-    CreatePropertyRequest
+    DeliveryInput
     """ # noqa: E501
-    address: Dict[str, Any] = Field(description="At minimum a city and country; more improves geocoding precision.", json_schema_extra={"examples": [{"city": "Berlin", "country": "DE", "postal_code": "10999", "street": "Oranienstrasse 12"}]})
-    currency: StrictStr = Field(description="ISO 4217 code.", json_schema_extra={"examples": ["EUR"]})
-    external_id: Optional[StrictStr] = Field(default=None, description="Your identifier for this property. Optional, but set it if the record might later arrive through an import: without one the import has nothing to match on and creates a duplicate.", json_schema_extra={"examples": ["AG-4471-0812"]})
-    price: StrictInt = Field(description="Amount in minor units.", json_schema_extra={"examples": [48900000]})
-    property_type: StrictStr = Field(description="One of the supported property types.", json_schema_extra={"examples": ["apartment"]})
-    title: StrictStr = Field(description="Headline for the listing.", json_schema_extra={"examples": ["Top-floor apartment with a south-facing balcony"]})
-    transaction_type: StrictStr = Field(description="sale or rent.", json_schema_extra={"examples": ["sale"]})
-    __properties: ClassVar[List[str]] = ["address", "currency", "external_id", "price", "property_type", "title", "transaction_type"]
+    type: StrictStr
+    url: StrictStr
+    __properties: ClassVar[List[str]] = ["type", "url"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -54,7 +49,7 @@ class CreatePropertyRequest(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of CreatePropertyRequest from a JSON string"""
+        """Create an instance of DeliveryInput from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -79,7 +74,7 @@ class CreatePropertyRequest(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of CreatePropertyRequest from a dict"""
+        """Create an instance of DeliveryInput from a dict"""
         if obj is None:
             return None
 
@@ -87,13 +82,8 @@ class CreatePropertyRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "address": obj.get("address"),
-            "currency": obj.get("currency"),
-            "external_id": obj.get("external_id"),
-            "price": obj.get("price"),
-            "property_type": obj.get("property_type"),
-            "title": obj.get("title"),
-            "transaction_type": obj.get("transaction_type")
+            "type": obj.get("type"),
+            "url": obj.get("url")
         })
         return _obj
 
