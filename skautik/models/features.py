@@ -17,25 +17,35 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictInt
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class Rooms(BaseModel):
+class Features(BaseModel):
     """
-    Rooms
+    Features
     """ # noqa: E501
-    balconies: Optional[StrictInt] = None
-    bathrooms: Optional[StrictInt] = None
-    bedrooms: Optional[StrictInt] = None
-    floor: Optional[StrictInt] = None
-    floors_in_building: Optional[StrictInt] = None
-    half_bathrooms: Optional[StrictInt] = None
-    terraces: Optional[StrictInt] = None
-    total_rooms: Optional[StrictInt] = None
-    __properties: ClassVar[List[str]] = ["balconies", "bathrooms", "bedrooms", "floor", "floors_in_building", "half_bathrooms", "terraces", "total_rooms"]
+    air_conditioning: Optional[StrictBool] = None
+    alarm_system: Optional[StrictBool] = None
+    balcony: Optional[StrictBool] = None
+    barrier_free: Optional[StrictBool] = None
+    cellar: Optional[StrictBool] = None
+    fireplace: Optional[StrictBool] = None
+    fitted_kitchen: Optional[StrictBool] = None
+    flooring: Optional[StrictStr] = None
+    furnished: Optional[StrictBool] = None
+    garden: Optional[StrictBool] = None
+    guest_toilet: Optional[StrictBool] = None
+    kitchen_type: Optional[StrictStr] = None
+    lift: Optional[StrictBool] = None
+    pool: Optional[StrictBool] = None
+    sauna: Optional[StrictBool] = None
+    solar_panels: Optional[StrictBool] = None
+    terrace: Optional[StrictBool] = None
+    window_glazing: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["air_conditioning", "alarm_system", "balcony", "barrier_free", "cellar", "fireplace", "fitted_kitchen", "flooring", "furnished", "garden", "guest_toilet", "kitchen_type", "lift", "pool", "sauna", "solar_panels", "terrace", "window_glazing"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -55,7 +65,7 @@ class Rooms(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of Rooms from a JSON string"""
+        """Create an instance of Features from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -80,7 +90,7 @@ class Rooms(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of Rooms from a dict"""
+        """Create an instance of Features from a dict"""
         if obj is None:
             return None
 
@@ -88,14 +98,24 @@ class Rooms(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "balconies": obj.get("balconies"),
-            "bathrooms": obj.get("bathrooms"),
-            "bedrooms": obj.get("bedrooms"),
-            "floor": obj.get("floor"),
-            "floors_in_building": obj.get("floors_in_building"),
-            "half_bathrooms": obj.get("half_bathrooms"),
-            "terraces": obj.get("terraces"),
-            "total_rooms": obj.get("total_rooms")
+            "air_conditioning": obj.get("air_conditioning"),
+            "alarm_system": obj.get("alarm_system"),
+            "balcony": obj.get("balcony"),
+            "barrier_free": obj.get("barrier_free"),
+            "cellar": obj.get("cellar"),
+            "fireplace": obj.get("fireplace"),
+            "fitted_kitchen": obj.get("fitted_kitchen"),
+            "flooring": obj.get("flooring"),
+            "furnished": obj.get("furnished"),
+            "garden": obj.get("garden"),
+            "guest_toilet": obj.get("guest_toilet"),
+            "kitchen_type": obj.get("kitchen_type"),
+            "lift": obj.get("lift"),
+            "pool": obj.get("pool"),
+            "sauna": obj.get("sauna"),
+            "solar_panels": obj.get("solar_panels"),
+            "terrace": obj.get("terrace"),
+            "window_glazing": obj.get("window_glazing")
         })
         return _obj
 

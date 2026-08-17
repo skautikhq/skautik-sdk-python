@@ -18,7 +18,8 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, StrictStr
-from typing import Any, ClassVar, Dict, List
+from typing import Any, ClassVar, Dict, List, Optional
+from skautik.models.connector_input import ConnectorInput
 from skautik.models.delivery_input import DeliveryInput
 from typing import Optional, Set
 from typing_extensions import Self
@@ -28,13 +29,14 @@ class ImportSourceInput(BaseModel):
     """
     ImportSourceInput
     """ # noqa: E501
-    deletion_policy: StrictStr
+    connector: Optional[ConnectorInput] = None
+    deletion_policy: Optional[StrictStr] = None
     delivery: DeliveryInput
     format: StrictStr
-    mapping: Dict[str, StrictStr]
+    mapping: Optional[Dict[str, StrictStr]] = None
     name: StrictStr
-    schedule: StrictStr
-    __properties: ClassVar[List[str]] = ["deletion_policy", "delivery", "format", "mapping", "name", "schedule"]
+    schedule: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["connector", "deletion_policy", "delivery", "format", "mapping", "name", "schedule"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -75,6 +77,9 @@ class ImportSourceInput(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of connector
+        if self.connector:
+            _dict['connector'] = self.connector.to_dict()
         # override the default output from pydantic by calling `to_dict()` of delivery
         if self.delivery:
             _dict['delivery'] = self.delivery.to_dict()
@@ -90,6 +95,7 @@ class ImportSourceInput(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "connector": ConnectorInput.from_dict(obj["connector"]) if obj.get("connector") is not None else None,
             "deletion_policy": obj.get("deletion_policy"),
             "delivery": DeliveryInput.from_dict(obj["delivery"]) if obj.get("delivery") is not None else None,
             "format": obj.get("format"),

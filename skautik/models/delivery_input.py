@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, StrictStr
-from typing import Any, ClassVar, Dict, List
+from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -28,7 +28,7 @@ class DeliveryInput(BaseModel):
     DeliveryInput
     """ # noqa: E501
     type: StrictStr
-    url: StrictStr
+    url: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["type", "url"]
 
     model_config = ConfigDict(

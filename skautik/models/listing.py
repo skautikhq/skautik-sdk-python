@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing import Optional, Set
 from typing_extensions import Self
@@ -29,16 +29,23 @@ class Listing(BaseModel):
     Listing
     """ # noqa: E501
     available_from: Optional[datetime] = None
+    commission_amount: Optional[Union[StrictFloat, StrictInt]] = None
+    commission_note: Optional[StrictStr] = None
+    commission_payer: Optional[StrictStr] = None
+    commission_percent: Optional[Union[StrictFloat, StrictInt]] = None
     currency: Optional[StrictStr] = None
     deposit: Optional[Union[StrictFloat, StrictInt]] = None
+    heating_costs: Optional[Union[StrictFloat, StrictInt]] = None
     price: Optional[Union[StrictFloat, StrictInt]] = None
+    price_on_request: Optional[StrictBool] = None
     price_per_sqm: Optional[Union[StrictFloat, StrictInt]] = None
     price_period: Optional[StrictStr] = None
     published_at: Optional[datetime] = None
     service_charges: Optional[Union[StrictFloat, StrictInt]] = None
     status: StrictStr
+    total_rent: Optional[Union[StrictFloat, StrictInt]] = None
     transaction_type: StrictStr
-    __properties: ClassVar[List[str]] = ["available_from", "currency", "deposit", "price", "price_per_sqm", "price_period", "published_at", "service_charges", "status", "transaction_type"]
+    __properties: ClassVar[List[str]] = ["available_from", "commission_amount", "commission_note", "commission_payer", "commission_percent", "currency", "deposit", "heating_costs", "price", "price_on_request", "price_per_sqm", "price_period", "published_at", "service_charges", "status", "total_rent", "transaction_type"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -92,14 +99,21 @@ class Listing(BaseModel):
 
         _obj = cls.model_validate({
             "available_from": obj.get("available_from"),
+            "commission_amount": obj.get("commission_amount"),
+            "commission_note": obj.get("commission_note"),
+            "commission_payer": obj.get("commission_payer"),
+            "commission_percent": obj.get("commission_percent"),
             "currency": obj.get("currency"),
             "deposit": obj.get("deposit"),
+            "heating_costs": obj.get("heating_costs"),
             "price": obj.get("price"),
+            "price_on_request": obj.get("price_on_request"),
             "price_per_sqm": obj.get("price_per_sqm"),
             "price_period": obj.get("price_period"),
             "published_at": obj.get("published_at"),
             "service_charges": obj.get("service_charges"),
             "status": obj.get("status"),
+            "total_rent": obj.get("total_rent"),
             "transaction_type": obj.get("transaction_type")
         })
         return _obj

@@ -22,14 +22,18 @@ from pydantic import BaseModel, ConfigDict, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from skautik.models.address import Address
 from skautik.models.building import Building
+from skautik.models.descriptions import Descriptions
 from skautik.models.energy import Energy
+from skautik.models.features import Features
 from skautik.models.image import Image
 from skautik.models.listing import Listing
 from skautik.models.location import Location
 from skautik.models.market_context import MarketContext
+from skautik.models.parking import Parking
 from skautik.models.price_observation import PriceObservation
 from skautik.models.rooms import Rooms
 from skautik.models.size import Size
+from skautik.models.translation import Translation
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -42,22 +46,28 @@ class ModelProperty(BaseModel):
     building: Building
     created_at: datetime
     description: Optional[StrictStr] = None
+    descriptions: Optional[Descriptions] = None
     energy: Optional[Energy] = None
     external_id: Optional[StrictStr] = None
+    features: Optional[Features] = None
     id: StrictStr
     images: Optional[List[Image]] = None
+    language: Optional[StrictStr] = None
     last_verified_at: Optional[datetime] = None
     listing: Optional[Listing] = None
     location: Optional[Location] = None
     market: Optional[MarketContext] = None
+    parking: Optional[Parking] = None
     price_history: Optional[List[PriceObservation]] = None
     rooms: Rooms
     size: Size
     source: StrictStr
+    subtype: Optional[StrictStr] = None
     title: StrictStr
+    translations: Optional[List[Translation]] = None
     type: StrictStr
     updated_at: datetime
-    __properties: ClassVar[List[str]] = ["address", "building", "created_at", "description", "energy", "external_id", "id", "images", "last_verified_at", "listing", "location", "market", "price_history", "rooms", "size", "source", "title", "type", "updated_at"]
+    __properties: ClassVar[List[str]] = ["address", "building", "created_at", "description", "descriptions", "energy", "external_id", "features", "id", "images", "language", "last_verified_at", "listing", "location", "market", "parking", "price_history", "rooms", "size", "source", "subtype", "title", "translations", "type", "updated_at"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -104,9 +114,15 @@ class ModelProperty(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of building
         if self.building:
             _dict['building'] = self.building.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of descriptions
+        if self.descriptions:
+            _dict['descriptions'] = self.descriptions.to_dict()
         # override the default output from pydantic by calling `to_dict()` of energy
         if self.energy:
             _dict['energy'] = self.energy.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of features
+        if self.features:
+            _dict['features'] = self.features.to_dict()
         # override the default output from pydantic by calling `to_dict()` of each item in images (list)
         _items = []
         if self.images:
@@ -123,6 +139,9 @@ class ModelProperty(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of market
         if self.market:
             _dict['market'] = self.market.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of parking
+        if self.parking:
+            _dict['parking'] = self.parking.to_dict()
         # override the default output from pydantic by calling `to_dict()` of each item in price_history (list)
         _items = []
         if self.price_history:
@@ -136,6 +155,13 @@ class ModelProperty(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of size
         if self.size:
             _dict['size'] = self.size.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in translations (list)
+        _items = []
+        if self.translations:
+            for _item_translations in self.translations:
+                if _item_translations:
+                    _items.append(_item_translations.to_dict())
+            _dict['translations'] = _items
         return _dict
 
     @classmethod
@@ -152,19 +178,25 @@ class ModelProperty(BaseModel):
             "building": Building.from_dict(obj["building"]) if obj.get("building") is not None else None,
             "created_at": obj.get("created_at"),
             "description": obj.get("description"),
+            "descriptions": Descriptions.from_dict(obj["descriptions"]) if obj.get("descriptions") is not None else None,
             "energy": Energy.from_dict(obj["energy"]) if obj.get("energy") is not None else None,
             "external_id": obj.get("external_id"),
+            "features": Features.from_dict(obj["features"]) if obj.get("features") is not None else None,
             "id": obj.get("id"),
             "images": [Image.from_dict(_item) for _item in obj["images"]] if obj.get("images") is not None else None,
+            "language": obj.get("language"),
             "last_verified_at": obj.get("last_verified_at"),
             "listing": Listing.from_dict(obj["listing"]) if obj.get("listing") is not None else None,
             "location": Location.from_dict(obj["location"]) if obj.get("location") is not None else None,
             "market": MarketContext.from_dict(obj["market"]) if obj.get("market") is not None else None,
+            "parking": Parking.from_dict(obj["parking"]) if obj.get("parking") is not None else None,
             "price_history": [PriceObservation.from_dict(_item) for _item in obj["price_history"]] if obj.get("price_history") is not None else None,
             "rooms": Rooms.from_dict(obj["rooms"]) if obj.get("rooms") is not None else None,
             "size": Size.from_dict(obj["size"]) if obj.get("size") is not None else None,
             "source": obj.get("source"),
+            "subtype": obj.get("subtype"),
             "title": obj.get("title"),
+            "translations": [Translation.from_dict(_item) for _item in obj["translations"]] if obj.get("translations") is not None else None,
             "type": obj.get("type"),
             "updated_at": obj.get("updated_at")
         })

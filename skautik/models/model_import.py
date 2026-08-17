@@ -21,6 +21,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from skautik.models.import_counts import ImportCounts
+from skautik.models.shrink_guard import ShrinkGuard
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -38,11 +39,13 @@ class ModelImport(BaseModel):
     finished_at: Optional[datetime] = None
     format: StrictStr
     id: StrictStr
+    images_queued: Optional[StrictInt] = None
     mode: StrictStr
+    shrink_guard: Optional[ShrinkGuard] = None
     source_id: Optional[StrictStr] = None
     started_at: Optional[datetime] = None
     status: StrictStr
-    __properties: ClassVar[List[str]] = ["bytes", "counts", "created_at", "dry_run", "failure_reason", "filename", "finished_at", "format", "id", "mode", "source_id", "started_at", "status"]
+    __properties: ClassVar[List[str]] = ["bytes", "counts", "created_at", "dry_run", "failure_reason", "filename", "finished_at", "format", "id", "images_queued", "mode", "shrink_guard", "source_id", "started_at", "status"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -86,6 +89,9 @@ class ModelImport(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of counts
         if self.counts:
             _dict['counts'] = self.counts.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of shrink_guard
+        if self.shrink_guard:
+            _dict['shrink_guard'] = self.shrink_guard.to_dict()
         return _dict
 
     @classmethod
@@ -107,7 +113,9 @@ class ModelImport(BaseModel):
             "finished_at": obj.get("finished_at"),
             "format": obj.get("format"),
             "id": obj.get("id"),
+            "images_queued": obj.get("images_queued"),
             "mode": obj.get("mode"),
+            "shrink_guard": ShrinkGuard.from_dict(obj["shrink_guard"]) if obj.get("shrink_guard") is not None else None,
             "source_id": obj.get("source_id"),
             "started_at": obj.get("started_at"),
             "status": obj.get("status")

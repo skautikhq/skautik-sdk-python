@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing import Optional, Set
 from typing_extensions import Self
@@ -27,9 +27,16 @@ class Energy(BaseModel):
     """
     Energy
     """ # noqa: E501
+    certificate_type: Optional[StrictStr] = None
+    co2_emissions: Optional[Union[StrictFloat, StrictInt]] = None
     consumption_kwh: Optional[Union[StrictFloat, StrictInt]] = None
+    demand_kwh: Optional[Union[StrictFloat, StrictInt]] = None
+    includes_hot_water: Optional[StrictBool] = None
+    issued_at: Optional[StrictStr] = None
     label: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["consumption_kwh", "label"]
+    primary_carrier: Optional[StrictStr] = None
+    valid_until: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["certificate_type", "co2_emissions", "consumption_kwh", "demand_kwh", "includes_hot_water", "issued_at", "label", "primary_carrier", "valid_until"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -82,8 +89,15 @@ class Energy(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "certificate_type": obj.get("certificate_type"),
+            "co2_emissions": obj.get("co2_emissions"),
             "consumption_kwh": obj.get("consumption_kwh"),
-            "label": obj.get("label")
+            "demand_kwh": obj.get("demand_kwh"),
+            "includes_hot_water": obj.get("includes_hot_water"),
+            "issued_at": obj.get("issued_at"),
+            "label": obj.get("label"),
+            "primary_carrier": obj.get("primary_carrier"),
+            "valid_until": obj.get("valid_until")
         })
         return _obj
 

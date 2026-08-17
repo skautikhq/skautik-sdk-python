@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing import Optional, Set
 from typing_extensions import Self
@@ -27,14 +27,21 @@ class ListingInput(BaseModel):
     """
     ListingInput
     """ # noqa: E501
+    commission_amount: Optional[Union[StrictFloat, StrictInt]] = None
+    commission_note: Optional[StrictStr] = None
+    commission_payer: Optional[StrictStr] = None
+    commission_percent: Optional[Union[StrictFloat, StrictInt]] = None
     currency: Optional[StrictStr] = None
     deposit: Optional[Union[StrictFloat, StrictInt]] = None
+    heating_costs: Optional[Union[StrictFloat, StrictInt]] = None
     price: Optional[Union[StrictFloat, StrictInt]] = None
+    price_on_request: Optional[StrictBool] = None
     price_period: Optional[StrictStr] = None
     service_charges: Optional[Union[StrictFloat, StrictInt]] = None
     status: Optional[StrictStr] = None
+    total_rent: Optional[Union[StrictFloat, StrictInt]] = None
     transaction_type: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["currency", "deposit", "price", "price_period", "service_charges", "status", "transaction_type"]
+    __properties: ClassVar[List[str]] = ["commission_amount", "commission_note", "commission_payer", "commission_percent", "currency", "deposit", "heating_costs", "price", "price_on_request", "price_period", "service_charges", "status", "total_rent", "transaction_type"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -87,12 +94,19 @@ class ListingInput(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "commission_amount": obj.get("commission_amount"),
+            "commission_note": obj.get("commission_note"),
+            "commission_payer": obj.get("commission_payer"),
+            "commission_percent": obj.get("commission_percent"),
             "currency": obj.get("currency"),
             "deposit": obj.get("deposit"),
+            "heating_costs": obj.get("heating_costs"),
             "price": obj.get("price"),
+            "price_on_request": obj.get("price_on_request"),
             "price_period": obj.get("price_period"),
             "service_charges": obj.get("service_charges"),
             "status": obj.get("status"),
+            "total_rent": obj.get("total_rent"),
             "transaction_type": obj.get("transaction_type")
         })
         return _obj

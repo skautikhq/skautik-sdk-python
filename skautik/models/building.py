@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -28,11 +28,14 @@ class Building(BaseModel):
     Building
     """ # noqa: E501
     condition: Optional[StrictStr] = None
+    construction_phase: Optional[StrictStr] = None
     construction_type: Optional[StrictStr] = None
     heating_type: Optional[StrictStr] = None
+    leasehold: Optional[StrictBool] = None
+    monument_protected: Optional[StrictBool] = None
     year_built: Optional[StrictInt] = None
     year_renovated: Optional[StrictInt] = None
-    __properties: ClassVar[List[str]] = ["condition", "construction_type", "heating_type", "year_built", "year_renovated"]
+    __properties: ClassVar[List[str]] = ["condition", "construction_phase", "construction_type", "heating_type", "leasehold", "monument_protected", "year_built", "year_renovated"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -86,8 +89,11 @@ class Building(BaseModel):
 
         _obj = cls.model_validate({
             "condition": obj.get("condition"),
+            "construction_phase": obj.get("construction_phase"),
             "construction_type": obj.get("construction_type"),
             "heating_type": obj.get("heating_type"),
+            "leasehold": obj.get("leasehold"),
+            "monument_protected": obj.get("monument_protected"),
             "year_built": obj.get("year_built"),
             "year_renovated": obj.get("year_renovated")
         })

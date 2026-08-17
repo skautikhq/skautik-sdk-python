@@ -27,10 +27,19 @@ class Size(BaseModel):
     """
     Size
     """ # noqa: E501
+    attic_sqm: Optional[Union[StrictFloat, StrictInt]] = None
+    balcony_terrace_sqm: Optional[Union[StrictFloat, StrictInt]] = None
+    cellar_sqm: Optional[Union[StrictFloat, StrictInt]] = None
+    garden_sqm: Optional[Union[StrictFloat, StrictInt]] = None
     living_area_sqm: Optional[Union[StrictFloat, StrictInt]] = None
+    office_area_sqm: Optional[Union[StrictFloat, StrictInt]] = None
+    other_area_sqm: Optional[Union[StrictFloat, StrictInt]] = None
     plot_area_sqm: Optional[Union[StrictFloat, StrictInt]] = None
+    retail_area_sqm: Optional[Union[StrictFloat, StrictInt]] = None
+    storage_area_sqm: Optional[Union[StrictFloat, StrictInt]] = None
+    total_area_sqm: Optional[Union[StrictFloat, StrictInt]] = None
     usable_area_sqm: Optional[Union[StrictFloat, StrictInt]] = None
-    __properties: ClassVar[List[str]] = ["living_area_sqm", "plot_area_sqm", "usable_area_sqm"]
+    __properties: ClassVar[List[str]] = ["attic_sqm", "balcony_terrace_sqm", "cellar_sqm", "garden_sqm", "living_area_sqm", "office_area_sqm", "other_area_sqm", "plot_area_sqm", "retail_area_sqm", "storage_area_sqm", "total_area_sqm", "usable_area_sqm"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -83,8 +92,17 @@ class Size(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "attic_sqm": obj.get("attic_sqm"),
+            "balcony_terrace_sqm": obj.get("balcony_terrace_sqm"),
+            "cellar_sqm": obj.get("cellar_sqm"),
+            "garden_sqm": obj.get("garden_sqm"),
             "living_area_sqm": obj.get("living_area_sqm"),
+            "office_area_sqm": obj.get("office_area_sqm"),
+            "other_area_sqm": obj.get("other_area_sqm"),
             "plot_area_sqm": obj.get("plot_area_sqm"),
+            "retail_area_sqm": obj.get("retail_area_sqm"),
+            "storage_area_sqm": obj.get("storage_area_sqm"),
+            "total_area_sqm": obj.get("total_area_sqm"),
             "usable_area_sqm": obj.get("usable_area_sqm")
         })
         return _obj

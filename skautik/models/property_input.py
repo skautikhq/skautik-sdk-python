@@ -17,9 +17,11 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
+from skautik.models.image_input import ImageInput
 from skautik.models.listing_input import ListingInput
+from skautik.models.translation import Translation
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -35,31 +37,84 @@ class PropertyInput(BaseModel):
     address_postal_code: Optional[StrictStr] = None
     address_province: Optional[StrictStr] = None
     address_street: Optional[StrictStr] = None
+    attic_sqm: Optional[Union[StrictFloat, StrictInt]] = None
+    balcony_count: Optional[StrictInt] = None
+    balcony_terrace_sqm: Optional[Union[StrictFloat, StrictInt]] = None
     bathrooms: Optional[StrictInt] = None
     bedrooms: Optional[StrictInt] = None
+    building_amenities: Optional[List[StrictStr]] = None
+    cellar_sqm: Optional[Union[StrictFloat, StrictInt]] = None
     condition: Optional[StrictStr] = None
+    construction_phase: Optional[StrictStr] = None
     construction_type: Optional[StrictStr] = None
     description: Optional[StrictStr] = None
+    description_fittings: Optional[StrictStr] = None
+    description_location: Optional[StrictStr] = None
+    description_other: Optional[StrictStr] = None
+    energy_certificate_issued_at: Optional[StrictStr] = None
+    energy_certificate_type: Optional[StrictStr] = None
+    energy_certificate_valid_until: Optional[StrictStr] = None
+    energy_co2_emissions: Optional[Union[StrictFloat, StrictInt]] = None
     energy_consumption_kwh: Optional[Union[StrictFloat, StrictInt]] = None
+    energy_demand_kwh: Optional[Union[StrictFloat, StrictInt]] = None
+    energy_includes_hot_water: Optional[StrictBool] = None
     energy_label: Optional[StrictStr] = None
+    energy_primary_carrier: Optional[StrictStr] = None
+    exterior_features: Optional[List[StrictStr]] = None
     external_id: Optional[StrictStr] = None
     floor: Optional[StrictInt] = None
+    flooring: Optional[StrictStr] = None
     floors_in_building: Optional[StrictInt] = None
+    garden_sqm: Optional[Union[StrictFloat, StrictInt]] = None
     half_bathrooms: Optional[StrictInt] = None
+    has_air_conditioning: Optional[StrictBool] = None
+    has_alarm_system: Optional[StrictBool] = None
+    has_balcony: Optional[StrictBool] = None
+    has_cellar: Optional[StrictBool] = None
+    has_fireplace: Optional[StrictBool] = None
+    has_fitted_kitchen: Optional[StrictBool] = None
+    has_garden: Optional[StrictBool] = None
+    has_guest_toilet: Optional[StrictBool] = None
+    has_lift: Optional[StrictBool] = None
+    has_pool: Optional[StrictBool] = None
+    has_sauna: Optional[StrictBool] = None
+    has_solar_panels: Optional[StrictBool] = None
+    has_terrace: Optional[StrictBool] = None
     heating_type: Optional[StrictStr] = None
+    images: Optional[List[ImageInput]] = None
+    interior_features: Optional[List[StrictStr]] = None
+    is_barrier_free: Optional[StrictBool] = None
+    is_furnished: Optional[StrictBool] = None
+    is_leasehold: Optional[StrictBool] = None
+    is_monument_protected: Optional[StrictBool] = None
+    kitchen_type: Optional[StrictStr] = None
     latitude: Optional[Union[StrictFloat, StrictInt]] = None
     listing: Optional[ListingInput] = None
     living_area_sqm: Optional[Union[StrictFloat, StrictInt]] = None
     location_precision: Optional[StrictStr] = None
     longitude: Optional[Union[StrictFloat, StrictInt]] = None
+    office_area_sqm: Optional[Union[StrictFloat, StrictInt]] = None
+    other_area_sqm: Optional[Union[StrictFloat, StrictInt]] = None
+    parking_included: Optional[StrictBool] = None
+    parking_space_count: Optional[StrictInt] = None
+    parking_type: Optional[StrictStr] = None
     plot_area_sqm: Optional[Union[StrictFloat, StrictInt]] = None
+    property_subtype: Optional[StrictStr] = None
+    publish_address: Optional[StrictBool] = None
+    retail_area_sqm: Optional[Union[StrictFloat, StrictInt]] = None
+    storage_area_sqm: Optional[Union[StrictFloat, StrictInt]] = None
+    surroundings: Optional[List[StrictStr]] = None
+    terrace_count: Optional[StrictInt] = None
     title: Optional[StrictStr] = None
+    total_area_sqm: Optional[Union[StrictFloat, StrictInt]] = None
     total_rooms: Optional[StrictInt] = None
+    translations: Optional[List[Translation]] = None
     type: Optional[StrictStr] = None
     usable_area_sqm: Optional[Union[StrictFloat, StrictInt]] = None
+    window_glazing: Optional[StrictStr] = None
     year_built: Optional[StrictInt] = None
     year_renovated: Optional[StrictInt] = None
-    __properties: ClassVar[List[str]] = ["address_city", "address_country", "address_district", "address_number", "address_postal_code", "address_province", "address_street", "bathrooms", "bedrooms", "condition", "construction_type", "description", "energy_consumption_kwh", "energy_label", "external_id", "floor", "floors_in_building", "half_bathrooms", "heating_type", "latitude", "listing", "living_area_sqm", "location_precision", "longitude", "plot_area_sqm", "title", "total_rooms", "type", "usable_area_sqm", "year_built", "year_renovated"]
+    __properties: ClassVar[List[str]] = ["address_city", "address_country", "address_district", "address_number", "address_postal_code", "address_province", "address_street", "attic_sqm", "balcony_count", "balcony_terrace_sqm", "bathrooms", "bedrooms", "building_amenities", "cellar_sqm", "condition", "construction_phase", "construction_type", "description", "description_fittings", "description_location", "description_other", "energy_certificate_issued_at", "energy_certificate_type", "energy_certificate_valid_until", "energy_co2_emissions", "energy_consumption_kwh", "energy_demand_kwh", "energy_includes_hot_water", "energy_label", "energy_primary_carrier", "exterior_features", "external_id", "floor", "flooring", "floors_in_building", "garden_sqm", "half_bathrooms", "has_air_conditioning", "has_alarm_system", "has_balcony", "has_cellar", "has_fireplace", "has_fitted_kitchen", "has_garden", "has_guest_toilet", "has_lift", "has_pool", "has_sauna", "has_solar_panels", "has_terrace", "heating_type", "images", "interior_features", "is_barrier_free", "is_furnished", "is_leasehold", "is_monument_protected", "kitchen_type", "latitude", "listing", "living_area_sqm", "location_precision", "longitude", "office_area_sqm", "other_area_sqm", "parking_included", "parking_space_count", "parking_type", "plot_area_sqm", "property_subtype", "publish_address", "retail_area_sqm", "storage_area_sqm", "surroundings", "terrace_count", "title", "total_area_sqm", "total_rooms", "translations", "type", "usable_area_sqm", "window_glazing", "year_built", "year_renovated"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -100,9 +155,23 @@ class PropertyInput(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in images (list)
+        _items = []
+        if self.images:
+            for _item_images in self.images:
+                if _item_images:
+                    _items.append(_item_images.to_dict())
+            _dict['images'] = _items
         # override the default output from pydantic by calling `to_dict()` of listing
         if self.listing:
             _dict['listing'] = self.listing.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in translations (list)
+        _items = []
+        if self.translations:
+            for _item_translations in self.translations:
+                if _item_translations:
+                    _items.append(_item_translations.to_dict())
+            _dict['translations'] = _items
         return _dict
 
     @classmethod
@@ -122,28 +191,81 @@ class PropertyInput(BaseModel):
             "address_postal_code": obj.get("address_postal_code"),
             "address_province": obj.get("address_province"),
             "address_street": obj.get("address_street"),
+            "attic_sqm": obj.get("attic_sqm"),
+            "balcony_count": obj.get("balcony_count"),
+            "balcony_terrace_sqm": obj.get("balcony_terrace_sqm"),
             "bathrooms": obj.get("bathrooms"),
             "bedrooms": obj.get("bedrooms"),
+            "building_amenities": obj.get("building_amenities"),
+            "cellar_sqm": obj.get("cellar_sqm"),
             "condition": obj.get("condition"),
+            "construction_phase": obj.get("construction_phase"),
             "construction_type": obj.get("construction_type"),
             "description": obj.get("description"),
+            "description_fittings": obj.get("description_fittings"),
+            "description_location": obj.get("description_location"),
+            "description_other": obj.get("description_other"),
+            "energy_certificate_issued_at": obj.get("energy_certificate_issued_at"),
+            "energy_certificate_type": obj.get("energy_certificate_type"),
+            "energy_certificate_valid_until": obj.get("energy_certificate_valid_until"),
+            "energy_co2_emissions": obj.get("energy_co2_emissions"),
             "energy_consumption_kwh": obj.get("energy_consumption_kwh"),
+            "energy_demand_kwh": obj.get("energy_demand_kwh"),
+            "energy_includes_hot_water": obj.get("energy_includes_hot_water"),
             "energy_label": obj.get("energy_label"),
+            "energy_primary_carrier": obj.get("energy_primary_carrier"),
+            "exterior_features": obj.get("exterior_features"),
             "external_id": obj.get("external_id"),
             "floor": obj.get("floor"),
+            "flooring": obj.get("flooring"),
             "floors_in_building": obj.get("floors_in_building"),
+            "garden_sqm": obj.get("garden_sqm"),
             "half_bathrooms": obj.get("half_bathrooms"),
+            "has_air_conditioning": obj.get("has_air_conditioning"),
+            "has_alarm_system": obj.get("has_alarm_system"),
+            "has_balcony": obj.get("has_balcony"),
+            "has_cellar": obj.get("has_cellar"),
+            "has_fireplace": obj.get("has_fireplace"),
+            "has_fitted_kitchen": obj.get("has_fitted_kitchen"),
+            "has_garden": obj.get("has_garden"),
+            "has_guest_toilet": obj.get("has_guest_toilet"),
+            "has_lift": obj.get("has_lift"),
+            "has_pool": obj.get("has_pool"),
+            "has_sauna": obj.get("has_sauna"),
+            "has_solar_panels": obj.get("has_solar_panels"),
+            "has_terrace": obj.get("has_terrace"),
             "heating_type": obj.get("heating_type"),
+            "images": [ImageInput.from_dict(_item) for _item in obj["images"]] if obj.get("images") is not None else None,
+            "interior_features": obj.get("interior_features"),
+            "is_barrier_free": obj.get("is_barrier_free"),
+            "is_furnished": obj.get("is_furnished"),
+            "is_leasehold": obj.get("is_leasehold"),
+            "is_monument_protected": obj.get("is_monument_protected"),
+            "kitchen_type": obj.get("kitchen_type"),
             "latitude": obj.get("latitude"),
             "listing": ListingInput.from_dict(obj["listing"]) if obj.get("listing") is not None else None,
             "living_area_sqm": obj.get("living_area_sqm"),
             "location_precision": obj.get("location_precision"),
             "longitude": obj.get("longitude"),
+            "office_area_sqm": obj.get("office_area_sqm"),
+            "other_area_sqm": obj.get("other_area_sqm"),
+            "parking_included": obj.get("parking_included"),
+            "parking_space_count": obj.get("parking_space_count"),
+            "parking_type": obj.get("parking_type"),
             "plot_area_sqm": obj.get("plot_area_sqm"),
+            "property_subtype": obj.get("property_subtype"),
+            "publish_address": obj.get("publish_address"),
+            "retail_area_sqm": obj.get("retail_area_sqm"),
+            "storage_area_sqm": obj.get("storage_area_sqm"),
+            "surroundings": obj.get("surroundings"),
+            "terrace_count": obj.get("terrace_count"),
             "title": obj.get("title"),
+            "total_area_sqm": obj.get("total_area_sqm"),
             "total_rooms": obj.get("total_rooms"),
+            "translations": [Translation.from_dict(_item) for _item in obj["translations"]] if obj.get("translations") is not None else None,
             "type": obj.get("type"),
             "usable_area_sqm": obj.get("usable_area_sqm"),
+            "window_glazing": obj.get("window_glazing"),
             "year_built": obj.get("year_built"),
             "year_renovated": obj.get("year_renovated")
         })

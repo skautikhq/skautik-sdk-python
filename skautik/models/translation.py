@@ -17,25 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictInt
-from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from typing import Any, ClassVar, Dict, List
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class Rooms(BaseModel):
+class Translation(BaseModel):
     """
-    Rooms
+    Translation
     """ # noqa: E501
-    balconies: Optional[StrictInt] = None
-    bathrooms: Optional[StrictInt] = None
-    bedrooms: Optional[StrictInt] = None
-    floor: Optional[StrictInt] = None
-    floors_in_building: Optional[StrictInt] = None
-    half_bathrooms: Optional[StrictInt] = None
-    terraces: Optional[StrictInt] = None
-    total_rooms: Optional[StrictInt] = None
-    __properties: ClassVar[List[str]] = ["balconies", "bathrooms", "bedrooms", "floor", "floors_in_building", "half_bathrooms", "terraces", "total_rooms"]
+    var_field: StrictStr = Field(alias="field")
+    language: StrictStr
+    value: StrictStr
+    __properties: ClassVar[List[str]] = ["field", "language", "value"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -55,7 +50,7 @@ class Rooms(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of Rooms from a JSON string"""
+        """Create an instance of Translation from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -80,7 +75,7 @@ class Rooms(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of Rooms from a dict"""
+        """Create an instance of Translation from a dict"""
         if obj is None:
             return None
 
@@ -88,14 +83,9 @@ class Rooms(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "balconies": obj.get("balconies"),
-            "bathrooms": obj.get("bathrooms"),
-            "bedrooms": obj.get("bedrooms"),
-            "floor": obj.get("floor"),
-            "floors_in_building": obj.get("floors_in_building"),
-            "half_bathrooms": obj.get("half_bathrooms"),
-            "terraces": obj.get("terraces"),
-            "total_rooms": obj.get("total_rooms")
+            "field": obj.get("field"),
+            "language": obj.get("language"),
+            "value": obj.get("value")
         })
         return _obj
 

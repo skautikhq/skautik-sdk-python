@@ -18,9 +18,11 @@ from skautik.models.bounds import Bounds
 from skautik.models.building import Building
 from skautik.models.city import City
 from skautik.models.city_list import CityList
+from skautik.models.connector_input import ConnectorInput
 from skautik.models.delivery import Delivery
 from skautik.models.delivery_input import DeliveryInput
 from skautik.models.delivery_list import DeliveryList
+from skautik.models.descriptions import Descriptions
 from skautik.models.district import District
 from skautik.models.district_list import DistrictList
 from skautik.models.energy import Energy
@@ -29,11 +31,13 @@ from skautik.models.export import Export
 from skautik.models.export_input import ExportInput
 from skautik.models.export_list import ExportList
 from skautik.models.export_response import ExportResponse
+from skautik.models.features import Features
 from skautik.models.generation import Generation
 from skautik.models.generation_input import GenerationInput
 from skautik.models.generation_list import GenerationList
 from skautik.models.generation_response import GenerationResponse
 from skautik.models.image import Image
+from skautik.models.image_input import ImageInput
 from skautik.models.image_list import ImageList
 from skautik.models.image_response import ImageResponse
 from skautik.models.import_counts import ImportCounts
@@ -59,6 +63,7 @@ from skautik.models.market_response import MarketResponse
 from skautik.models.model_import import ModelImport
 from skautik.models.model_property import ModelProperty
 from skautik.models.page_meta import PageMeta
+from skautik.models.parking import Parking
 from skautik.models.price_observation import PriceObservation
 from skautik.models.price_observation_list import PriceObservationList
 from skautik.models.problem import Problem
@@ -73,9 +78,11 @@ from skautik.models.search_request import SearchRequest
 from skautik.models.series import Series
 from skautik.models.series_point import SeriesPoint
 from skautik.models.series_response import SeriesResponse
+from skautik.models.shrink_guard import ShrinkGuard
 from skautik.models.size import Size
 from skautik.models.source_delivery import SourceDelivery
 from skautik.models.source_update import SourceUpdate
+from skautik.models.translation import Translation
 from skautik.models.webhook import Webhook
 from skautik.models.webhook_input import WebhookInput
 from skautik.models.webhook_list import WebhookList

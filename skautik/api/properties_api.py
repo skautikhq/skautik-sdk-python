@@ -928,7 +928,8 @@ class PropertiesApi:
     def get_property(
         self,
         property_id: Annotated[StrictStr, Field(description="Identifier returned by any collection endpoint.")],
-        expand: Annotated[Optional[List[StrictStr]], Field(description="Related records to inline rather than fetch separately.")] = None,
+        expand: Annotated[Optional[List[StrictStr]], Field(description="Related records to inline rather than fetch separately. Available: images, price_history, market, translations.")] = None,
+        language: Annotated[Optional[StrictStr], Field(description="Answer in this language where the property has it, as an ISO 639-1 code. A property that does not hold the language keeps its own text rather than being answered in another, and the response says which language it came back in. Feeds carrying several languages are what fills this.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -948,8 +949,10 @@ class PropertiesApi:
 
         :param property_id: Identifier returned by any collection endpoint. (required)
         :type property_id: str
-        :param expand: Related records to inline rather than fetch separately.
+        :param expand: Related records to inline rather than fetch separately. Available: images, price_history, market, translations.
         :type expand: List[str]
+        :param language: Answer in this language where the property has it, as an ISO 639-1 code. A property that does not hold the language keeps its own text rather than being answered in another, and the response says which language it came back in. Feeds carrying several languages are what fills this.
+        :type language: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -975,6 +978,7 @@ class PropertiesApi:
         _param = self._get_property_serialize(
             property_id=property_id,
             expand=expand,
+            language=language,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1004,7 +1008,8 @@ class PropertiesApi:
     def get_property_with_http_info(
         self,
         property_id: Annotated[StrictStr, Field(description="Identifier returned by any collection endpoint.")],
-        expand: Annotated[Optional[List[StrictStr]], Field(description="Related records to inline rather than fetch separately.")] = None,
+        expand: Annotated[Optional[List[StrictStr]], Field(description="Related records to inline rather than fetch separately. Available: images, price_history, market, translations.")] = None,
+        language: Annotated[Optional[StrictStr], Field(description="Answer in this language where the property has it, as an ISO 639-1 code. A property that does not hold the language keeps its own text rather than being answered in another, and the response says which language it came back in. Feeds carrying several languages are what fills this.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1024,8 +1029,10 @@ class PropertiesApi:
 
         :param property_id: Identifier returned by any collection endpoint. (required)
         :type property_id: str
-        :param expand: Related records to inline rather than fetch separately.
+        :param expand: Related records to inline rather than fetch separately. Available: images, price_history, market, translations.
         :type expand: List[str]
+        :param language: Answer in this language where the property has it, as an ISO 639-1 code. A property that does not hold the language keeps its own text rather than being answered in another, and the response says which language it came back in. Feeds carrying several languages are what fills this.
+        :type language: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1051,6 +1058,7 @@ class PropertiesApi:
         _param = self._get_property_serialize(
             property_id=property_id,
             expand=expand,
+            language=language,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1080,7 +1088,8 @@ class PropertiesApi:
     def get_property_without_preload_content(
         self,
         property_id: Annotated[StrictStr, Field(description="Identifier returned by any collection endpoint.")],
-        expand: Annotated[Optional[List[StrictStr]], Field(description="Related records to inline rather than fetch separately.")] = None,
+        expand: Annotated[Optional[List[StrictStr]], Field(description="Related records to inline rather than fetch separately. Available: images, price_history, market, translations.")] = None,
+        language: Annotated[Optional[StrictStr], Field(description="Answer in this language where the property has it, as an ISO 639-1 code. A property that does not hold the language keeps its own text rather than being answered in another, and the response says which language it came back in. Feeds carrying several languages are what fills this.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1100,8 +1109,10 @@ class PropertiesApi:
 
         :param property_id: Identifier returned by any collection endpoint. (required)
         :type property_id: str
-        :param expand: Related records to inline rather than fetch separately.
+        :param expand: Related records to inline rather than fetch separately. Available: images, price_history, market, translations.
         :type expand: List[str]
+        :param language: Answer in this language where the property has it, as an ISO 639-1 code. A property that does not hold the language keeps its own text rather than being answered in another, and the response says which language it came back in. Feeds carrying several languages are what fills this.
+        :type language: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1127,6 +1138,7 @@ class PropertiesApi:
         _param = self._get_property_serialize(
             property_id=property_id,
             expand=expand,
+            language=language,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1152,6 +1164,7 @@ class PropertiesApi:
         self,
         property_id,
         expand,
+        language,
         _request_auth,
         _content_type,
         _headers,
@@ -1180,6 +1193,10 @@ class PropertiesApi:
         if expand is not None:
             
             _query_params.append(('expand', expand))
+            
+        if language is not None:
+            
+            _query_params.append(('language', language))
             
         # process the header parameters
         # process the form parameters
@@ -1236,7 +1253,8 @@ class PropertiesApi:
         limit: Annotated[Optional[StrictInt], Field(description="Records per page.")] = None,
         cursor: Annotated[Optional[StrictStr], Field(description="Opaque pointer from the previous response. Omit for the first page. Cursors are stable across inserts, so paging never skips or repeats a record the way an offset does.")] = None,
         sort: Annotated[Optional[StrictStr], Field(description="Field to order by. Prefix with a minus for descending.")] = None,
-        expand: Annotated[Optional[List[StrictStr]], Field(description="Related records to inline rather than fetch separately.")] = None,
+        expand: Annotated[Optional[List[StrictStr]], Field(description="Related records to inline rather than fetch separately. Available: images, price_history, market, translations.")] = None,
+        language: Annotated[Optional[StrictStr], Field(description="Answer in this language where the property has it, as an ISO 639-1 code. A property that does not hold the language keeps its own text rather than being answered in another, and the response says which language it came back in. Feeds carrying several languages are what fills this.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1282,8 +1300,10 @@ class PropertiesApi:
         :type cursor: str
         :param sort: Field to order by. Prefix with a minus for descending.
         :type sort: str
-        :param expand: Related records to inline rather than fetch separately.
+        :param expand: Related records to inline rather than fetch separately. Available: images, price_history, market, translations.
         :type expand: List[str]
+        :param language: Answer in this language where the property has it, as an ISO 639-1 code. A property that does not hold the language keeps its own text rather than being answered in another, and the response says which language it came back in. Feeds carrying several languages are what fills this.
+        :type language: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1322,6 +1342,7 @@ class PropertiesApi:
             cursor=cursor,
             sort=sort,
             expand=expand,
+            language=language,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1364,7 +1385,8 @@ class PropertiesApi:
         limit: Annotated[Optional[StrictInt], Field(description="Records per page.")] = None,
         cursor: Annotated[Optional[StrictStr], Field(description="Opaque pointer from the previous response. Omit for the first page. Cursors are stable across inserts, so paging never skips or repeats a record the way an offset does.")] = None,
         sort: Annotated[Optional[StrictStr], Field(description="Field to order by. Prefix with a minus for descending.")] = None,
-        expand: Annotated[Optional[List[StrictStr]], Field(description="Related records to inline rather than fetch separately.")] = None,
+        expand: Annotated[Optional[List[StrictStr]], Field(description="Related records to inline rather than fetch separately. Available: images, price_history, market, translations.")] = None,
+        language: Annotated[Optional[StrictStr], Field(description="Answer in this language where the property has it, as an ISO 639-1 code. A property that does not hold the language keeps its own text rather than being answered in another, and the response says which language it came back in. Feeds carrying several languages are what fills this.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1410,8 +1432,10 @@ class PropertiesApi:
         :type cursor: str
         :param sort: Field to order by. Prefix with a minus for descending.
         :type sort: str
-        :param expand: Related records to inline rather than fetch separately.
+        :param expand: Related records to inline rather than fetch separately. Available: images, price_history, market, translations.
         :type expand: List[str]
+        :param language: Answer in this language where the property has it, as an ISO 639-1 code. A property that does not hold the language keeps its own text rather than being answered in another, and the response says which language it came back in. Feeds carrying several languages are what fills this.
+        :type language: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1450,6 +1474,7 @@ class PropertiesApi:
             cursor=cursor,
             sort=sort,
             expand=expand,
+            language=language,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1492,7 +1517,8 @@ class PropertiesApi:
         limit: Annotated[Optional[StrictInt], Field(description="Records per page.")] = None,
         cursor: Annotated[Optional[StrictStr], Field(description="Opaque pointer from the previous response. Omit for the first page. Cursors are stable across inserts, so paging never skips or repeats a record the way an offset does.")] = None,
         sort: Annotated[Optional[StrictStr], Field(description="Field to order by. Prefix with a minus for descending.")] = None,
-        expand: Annotated[Optional[List[StrictStr]], Field(description="Related records to inline rather than fetch separately.")] = None,
+        expand: Annotated[Optional[List[StrictStr]], Field(description="Related records to inline rather than fetch separately. Available: images, price_history, market, translations.")] = None,
+        language: Annotated[Optional[StrictStr], Field(description="Answer in this language where the property has it, as an ISO 639-1 code. A property that does not hold the language keeps its own text rather than being answered in another, and the response says which language it came back in. Feeds carrying several languages are what fills this.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1538,8 +1564,10 @@ class PropertiesApi:
         :type cursor: str
         :param sort: Field to order by. Prefix with a minus for descending.
         :type sort: str
-        :param expand: Related records to inline rather than fetch separately.
+        :param expand: Related records to inline rather than fetch separately. Available: images, price_history, market, translations.
         :type expand: List[str]
+        :param language: Answer in this language where the property has it, as an ISO 639-1 code. A property that does not hold the language keeps its own text rather than being answered in another, and the response says which language it came back in. Feeds carrying several languages are what fills this.
+        :type language: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1578,6 +1606,7 @@ class PropertiesApi:
             cursor=cursor,
             sort=sort,
             expand=expand,
+            language=language,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1616,6 +1645,7 @@ class PropertiesApi:
         cursor,
         sort,
         expand,
+        language,
         _request_auth,
         _content_type,
         _headers,
@@ -1698,6 +1728,10 @@ class PropertiesApi:
         if expand is not None:
             
             _query_params.append(('expand', expand))
+            
+        if language is not None:
+            
+            _query_params.append(('language', language))
             
         # process the header parameters
         # process the form parameters

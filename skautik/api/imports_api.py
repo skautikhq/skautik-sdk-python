@@ -53,6 +53,7 @@ class ImportsApi:
         source_id: Annotated[Optional[StrictStr], Field(description="Import source this transfer belongs to, when it comes from a standing connector rather than a one-off upload.")] = None,
         dry_run: Annotated[Optional[StrictBool], Field(description="Parse and report what would change without writing anything. Worth doing once with a new mapping.")] = None,
         filename: Annotated[Optional[StrictStr], Field(description="Original filename, recorded on the run so a failure can be traced back to the file that caused it.")] = None,
+        confirm_shrink: Annotated[Optional[StrictBool], Field(description="Allow a full sync that would withdraw a large share of the source's portfolio. Without it, a delivery carrying far fewer records than the source currently holds has its withdrawals held back and the run is reported as partial, on the assumption that the export was truncated. Set this when the reduction is real.")] = None,
         idempotency_key: Annotated[Optional[StrictStr], Field(description="Prevents a retried upload from being processed twice.")] = None,
         file: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="The payload. Mutually exclusive with url.")] = None,
         _request_timeout: Union[
@@ -82,6 +83,8 @@ class ImportsApi:
         :type dry_run: bool
         :param filename: Original filename, recorded on the run so a failure can be traced back to the file that caused it.
         :type filename: str
+        :param confirm_shrink: Allow a full sync that would withdraw a large share of the source's portfolio. Without it, a delivery carrying far fewer records than the source currently holds has its withdrawals held back and the run is reported as partial, on the assumption that the export was truncated. Set this when the reduction is real.
+        :type confirm_shrink: bool
         :param idempotency_key: Prevents a retried upload from being processed twice.
         :type idempotency_key: str
         :param file: The payload. Mutually exclusive with url.
@@ -114,6 +117,7 @@ class ImportsApi:
             source_id=source_id,
             dry_run=dry_run,
             filename=filename,
+            confirm_shrink=confirm_shrink,
             idempotency_key=idempotency_key,
             file=file,
             _request_auth=_request_auth,
@@ -151,6 +155,7 @@ class ImportsApi:
         source_id: Annotated[Optional[StrictStr], Field(description="Import source this transfer belongs to, when it comes from a standing connector rather than a one-off upload.")] = None,
         dry_run: Annotated[Optional[StrictBool], Field(description="Parse and report what would change without writing anything. Worth doing once with a new mapping.")] = None,
         filename: Annotated[Optional[StrictStr], Field(description="Original filename, recorded on the run so a failure can be traced back to the file that caused it.")] = None,
+        confirm_shrink: Annotated[Optional[StrictBool], Field(description="Allow a full sync that would withdraw a large share of the source's portfolio. Without it, a delivery carrying far fewer records than the source currently holds has its withdrawals held back and the run is reported as partial, on the assumption that the export was truncated. Set this when the reduction is real.")] = None,
         idempotency_key: Annotated[Optional[StrictStr], Field(description="Prevents a retried upload from being processed twice.")] = None,
         file: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="The payload. Mutually exclusive with url.")] = None,
         _request_timeout: Union[
@@ -180,6 +185,8 @@ class ImportsApi:
         :type dry_run: bool
         :param filename: Original filename, recorded on the run so a failure can be traced back to the file that caused it.
         :type filename: str
+        :param confirm_shrink: Allow a full sync that would withdraw a large share of the source's portfolio. Without it, a delivery carrying far fewer records than the source currently holds has its withdrawals held back and the run is reported as partial, on the assumption that the export was truncated. Set this when the reduction is real.
+        :type confirm_shrink: bool
         :param idempotency_key: Prevents a retried upload from being processed twice.
         :type idempotency_key: str
         :param file: The payload. Mutually exclusive with url.
@@ -212,6 +219,7 @@ class ImportsApi:
             source_id=source_id,
             dry_run=dry_run,
             filename=filename,
+            confirm_shrink=confirm_shrink,
             idempotency_key=idempotency_key,
             file=file,
             _request_auth=_request_auth,
@@ -249,6 +257,7 @@ class ImportsApi:
         source_id: Annotated[Optional[StrictStr], Field(description="Import source this transfer belongs to, when it comes from a standing connector rather than a one-off upload.")] = None,
         dry_run: Annotated[Optional[StrictBool], Field(description="Parse and report what would change without writing anything. Worth doing once with a new mapping.")] = None,
         filename: Annotated[Optional[StrictStr], Field(description="Original filename, recorded on the run so a failure can be traced back to the file that caused it.")] = None,
+        confirm_shrink: Annotated[Optional[StrictBool], Field(description="Allow a full sync that would withdraw a large share of the source's portfolio. Without it, a delivery carrying far fewer records than the source currently holds has its withdrawals held back and the run is reported as partial, on the assumption that the export was truncated. Set this when the reduction is real.")] = None,
         idempotency_key: Annotated[Optional[StrictStr], Field(description="Prevents a retried upload from being processed twice.")] = None,
         file: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="The payload. Mutually exclusive with url.")] = None,
         _request_timeout: Union[
@@ -278,6 +287,8 @@ class ImportsApi:
         :type dry_run: bool
         :param filename: Original filename, recorded on the run so a failure can be traced back to the file that caused it.
         :type filename: str
+        :param confirm_shrink: Allow a full sync that would withdraw a large share of the source's portfolio. Without it, a delivery carrying far fewer records than the source currently holds has its withdrawals held back and the run is reported as partial, on the assumption that the export was truncated. Set this when the reduction is real.
+        :type confirm_shrink: bool
         :param idempotency_key: Prevents a retried upload from being processed twice.
         :type idempotency_key: str
         :param file: The payload. Mutually exclusive with url.
@@ -310,6 +321,7 @@ class ImportsApi:
             source_id=source_id,
             dry_run=dry_run,
             filename=filename,
+            confirm_shrink=confirm_shrink,
             idempotency_key=idempotency_key,
             file=file,
             _request_auth=_request_auth,
@@ -342,6 +354,7 @@ class ImportsApi:
         source_id,
         dry_run,
         filename,
+        confirm_shrink,
         idempotency_key,
         file,
         _request_auth,
@@ -385,6 +398,10 @@ class ImportsApi:
         if filename is not None:
             
             _query_params.append(('filename', filename))
+            
+        if confirm_shrink is not None:
+            
+            _query_params.append(('confirm_shrink', confirm_shrink))
             
         # process the header parameters
         if idempotency_key is not None:

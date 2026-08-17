@@ -43,9 +43,11 @@ __all__ = [
     "Building",
     "City",
     "CityList",
+    "ConnectorInput",
     "Delivery",
     "DeliveryInput",
     "DeliveryList",
+    "Descriptions",
     "District",
     "DistrictList",
     "Energy",
@@ -54,11 +56,13 @@ __all__ = [
     "ExportInput",
     "ExportList",
     "ExportResponse",
+    "Features",
     "Generation",
     "GenerationInput",
     "GenerationList",
     "GenerationResponse",
     "Image",
+    "ImageInput",
     "ImageList",
     "ImageResponse",
     "ImportCounts",
@@ -84,6 +88,7 @@ __all__ = [
     "ModelImport",
     "ModelProperty",
     "PageMeta",
+    "Parking",
     "PriceObservation",
     "PriceObservationList",
     "Problem",
@@ -98,9 +103,11 @@ __all__ = [
     "Series",
     "SeriesPoint",
     "SeriesResponse",
+    "ShrinkGuard",
     "Size",
     "SourceDelivery",
     "SourceUpdate",
+    "Translation",
     "Webhook",
     "WebhookInput",
     "WebhookList",
@@ -135,9 +142,11 @@ from skautik.models.bounds import Bounds as Bounds
 from skautik.models.building import Building as Building
 from skautik.models.city import City as City
 from skautik.models.city_list import CityList as CityList
+from skautik.models.connector_input import ConnectorInput as ConnectorInput
 from skautik.models.delivery import Delivery as Delivery
 from skautik.models.delivery_input import DeliveryInput as DeliveryInput
 from skautik.models.delivery_list import DeliveryList as DeliveryList
+from skautik.models.descriptions import Descriptions as Descriptions
 from skautik.models.district import District as District
 from skautik.models.district_list import DistrictList as DistrictList
 from skautik.models.energy import Energy as Energy
@@ -146,11 +155,13 @@ from skautik.models.export import Export as Export
 from skautik.models.export_input import ExportInput as ExportInput
 from skautik.models.export_list import ExportList as ExportList
 from skautik.models.export_response import ExportResponse as ExportResponse
+from skautik.models.features import Features as Features
 from skautik.models.generation import Generation as Generation
 from skautik.models.generation_input import GenerationInput as GenerationInput
 from skautik.models.generation_list import GenerationList as GenerationList
 from skautik.models.generation_response import GenerationResponse as GenerationResponse
 from skautik.models.image import Image as Image
+from skautik.models.image_input import ImageInput as ImageInput
 from skautik.models.image_list import ImageList as ImageList
 from skautik.models.image_response import ImageResponse as ImageResponse
 from skautik.models.import_counts import ImportCounts as ImportCounts
@@ -176,6 +187,7 @@ from skautik.models.market_response import MarketResponse as MarketResponse
 from skautik.models.model_import import ModelImport as ModelImport
 from skautik.models.model_property import ModelProperty as ModelProperty
 from skautik.models.page_meta import PageMeta as PageMeta
+from skautik.models.parking import Parking as Parking
 from skautik.models.price_observation import PriceObservation as PriceObservation
 from skautik.models.price_observation_list import PriceObservationList as PriceObservationList
 from skautik.models.problem import Problem as Problem
@@ -190,9 +202,11 @@ from skautik.models.search_request import SearchRequest as SearchRequest
 from skautik.models.series import Series as Series
 from skautik.models.series_point import SeriesPoint as SeriesPoint
 from skautik.models.series_response import SeriesResponse as SeriesResponse
+from skautik.models.shrink_guard import ShrinkGuard as ShrinkGuard
 from skautik.models.size import Size as Size
 from skautik.models.source_delivery import SourceDelivery as SourceDelivery
 from skautik.models.source_update import SourceUpdate as SourceUpdate
+from skautik.models.translation import Translation as Translation
 from skautik.models.webhook import Webhook as Webhook
 from skautik.models.webhook_input import WebhookInput as WebhookInput
 from skautik.models.webhook_list import WebhookList as WebhookList
